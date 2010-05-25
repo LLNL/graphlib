@@ -2342,6 +2342,7 @@ graphlib_error_t graphlib_deserializeGraphConn(int conn,
       grlibint_copyDataFromBuf( (char *)&nodename,&cur_idx,name_len,
 				ibyte_array,ibyte_array_len );
       strncpy( node_attr.name, nodename, name_len );
+      node_attr.name[name_len-1]=(char)0;
 #endif
                     
       /* width */
@@ -2376,6 +2377,7 @@ graphlib_error_t graphlib_deserializeGraphConn(int conn,
       edge_attr.edgelist=edgelist;
 #else
       strncpy( edge_attr.name, name, name_len );
+      edge_attr.name[name_len-1]=(char)0;
       grlibint_copyDataFromBuf( (char *)&(edgelist[offset]),&cur_idx,name_len,
 				ibyte_array,ibyte_array_len );
 #endif      
@@ -2486,7 +2488,8 @@ graphlib_error_t graphlib_addNode(graphlib_graph_p graph, graphlib_node_t node,
 #ifdef GRL_DYNAMIC_NODE_NAME
       entry->entry.data.attr.name = strdup(attr->name);
 #else
-      strncpy(entry->entry.data.attr.name,attr->name,GRL_MAX_NAME_LENGTH);
+      strncpy(entry->entry.data.attr.name,attr->name,GRL_MAX_NAME_LENGTH-1);
+      entry->entry.data.attr.name[GRL_MAX_NAME_LENGTH-1]=(char)0;
 #endif
       err=GRL_OK;
     }
@@ -2576,7 +2579,8 @@ graphlib_error_t graphlib_addNodeNoCheck(graphlib_graph_p graph, graphlib_node_t
 	  if (attr->height>entry->entry.data.attr.height)
 	    entry->entry.data.attr.height=attr->height;
 	}
-      strncpy(entry->entry.data.attr.name,attr->name,GRL_MAX_NAME_LENGTH);
+      strncpy(entry->entry.data.attr.name,attr->name,GRL_MAX_NAME_LENGTH-1);
+      entry->entry.data.attr.name[GRL_MAX_NAME_LENGTH-1]=(char)0;
       err=GRL_OK;
     }
   else
@@ -3035,7 +3039,8 @@ graphlib_error_t graphlib_mergeGraphsRanked(graphlib_graph_p graph1,
                   rank_set.insert(runedge->edge[i].entry.data.attr.name);
                   rank_set.insert(edgeentry->entry.data.attr.name);
                   strncpy(runedge->edge[i].entry.data.attr.name,
-                           rank_set.c_str(), GRL_MAX_NAME_LENGTH);
+                           rank_set.c_str(), GRL_MAX_NAME_LENGTH-1);
+                  runedge->edge[i].entry.data.attr.name[GRL_MAX_NAME_LENGTH-1]=(char)0;
 #endif			   
 		}
               err=graphlib_addDirectedEdge(graph1,runedge->edge[i].entry.data.node_from,
