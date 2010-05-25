@@ -304,6 +304,17 @@ graphlib_error_t graphlib_newAnnotatedGraph(graphlib_graph_p *newgraph, int numa
 
 graphlib_error_t graphlib_delEdgeAttr(graphlib_edgeattr_t deledgeattr);
 
+/*............................................................*/
+/* get the attributes of a node */
+/* IN: graph handle
+       node ID who's attribute is to be returned
+       pointer to return value */
+/* Added by Bob Munch in support of STAT, Cray */
+
+graphlib_error_t graphlib_getNodeAttr(graphlib_graph_p graph,
+                                      graphlib_node_t node,
+                                      graphlib_nodeattr_t **attr);
+
 /*.......................................................*/
 /* Delete a graph */
 /* IN: graph handle */
@@ -334,6 +345,16 @@ graphlib_error_t graphlib_nodeCount(graphlib_graph_p igraph, int * num_nodes);
        pointer to return value */
 
 graphlib_error_t graphlib_edgeCount(graphlib_graph_p igraph, int * num_edges);
+
+
+/*............................................................*/
+/* find a node by edge rank, starting at inode */
+/* Added by Bob Munch in support of STAT, Cray */
+
+graphlib_error_t graphlib_findNextNodeByEdgeRank(graphlib_graph_p graph,
+                                graphlib_node_t inode,
+                                int rank,
+                                graphlib_node_t *onode);
 
 
 /*-----------------------------------------------------------------*/

@@ -1460,6 +1460,47 @@ graphlib_error_t graphlib_edgeCount( graphlib_graph_p igraph, int * num_edges )
   return GRL_OK;
 }
 
+/*............................................................*/
+/* find a node by edge rank, starting at inode */
+/* Added by Bob Munch in support of STAT, Cray */
+
+graphlib_error_t graphlib_findNextNodeByEdgeRank(graphlib_graph_p graph,
+                                graphlib_node_t inode,
+                                int rank,
+                                graphlib_node_t *onode)
+{
+  int                     i;
+  graphlib_edgefragment_p edgefrag;
+
+  edgefrag=graph->edges;
+  while (edgefrag!=NULL)
+  {
+    for (i=0; i<edgefrag->count; i++)
+    {
+      if (edgefrag->edge[i].full)
+	    {
+	      graphlib_edgedata_p e=&(edgefrag->edge[i].entry.data);
+#ifndef NOSET
+	      if (e->node_from==inode)
+#ifdef STAT_BITVECTOR
+	        if (bitvec_contains(e->attr.edgelist, rank))
+#else
+            rset = new IntegerSet( e->attr.name );
+        if( rset->contains( irank ) )
+#endif	      
+        {
+          *onode=e->node_to;
+          return GRL_OK;
+        }
+#endif
+	    }
+    }
+    edgefrag=edgefrag->next;
+  }
+  
+  return GRL_NONODE;
+}
+
 
 /*-----------------------------------------------------------------*/
 /* I/O routines */
@@ -3187,6 +3228,26 @@ graphlib_error_t graphlib_setDefNodeAttr(graphlib_nodeattr_p attr)
   strcpy(attr->name,"");
 #endif
   attr->fontsize=DEFAULT_FONT_SIZE;
+
+  return GRL_OK;
+}
+
+
+/*............................................................*/
+/* get the attributes of a node */
+/* Added by Bob Munch in support of STAT, Cray */
+
+graphlib_error_t graphlib_getNodeAttr(graphlib_graph_p graph,
+                                      graphlib_node_t node,
+                                      graphlib_nodeattr_t **attr)
+{
+  graphlib_error_t         err;
+  graphlib_nodeentry_p     entry;
+
+  err=grlibint_findNode(graph, node, &entry);
+  if (GRL_IS_NOTOK(err))
+    return err;
+  *attr = &(entry->entry.data.attr);
 
   return GRL_OK;
 }
