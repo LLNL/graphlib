@@ -589,23 +589,23 @@ graphlib_error_t grlibint_write(int fh, char *buf, int len)
 graphlib_error_t grlibint_copyDataToBuf( int * idx, const char * src, int len, 
 					 char ** dest_array, int * dest_array_len )
 {
-////GLL: this should be as large as the max name length macro
-//  static unsigned int alloc_size=GRL_MAX_NAME_LENGTH;
-//  //static unsigned int alloc_size=8192;
-//
-//  /* check if realloc( necessary ) */
-//  while( ( ((*idx) + len) > ( *dest_array_len) ) )
-////GLL: we should loop on this, in the case that we need more than the alloc_size
-////     Note, with the loop, we can fix the alloc_size at 8192 if we want
-////  if( ( ((*idx) + len) > ( *dest_array_len) ) )
-//    {
-//      /* alloc in 4K chunks */
-//      //BUG ALERT: realloc() asserts when tool run w/ more than 144 leaves. no more mem?????
-//      *dest_array = (char*)realloc( *dest_array, (*dest_array_len)+alloc_size );
-//      *dest_array_len += alloc_size;
-//    }
+  /*GLL: this should be as large as the max name length macro
+    static unsigned int alloc_size=GRL_MAX_NAME_LENGTH;
+    static unsigned int alloc_size=8192; */
 
-  //GLL: 2010-03-22 - reimplementing reallocation of dest_array
+  /*check if realloc( necessary ) */
+  /*    while( ( ((*idx) + len) > ( *dest_array_len) ) )
+        GLL: we should loop on this, in the case that we need more than the alloc_size
+        Note, with the loop, we can fix the alloc_size at 8192 if we want
+        if( ( ((*idx) + len) > ( *dest_array_len) ) )
+        {*/
+        /* alloc in 4K chunks */
+  /*BUG ALERT: realloc() asserts when tool run w/ more than 144 leaves. no more mem?????
+      *dest_array = (char*)realloc( *dest_array, (*dest_array_len)+alloc_size );
+      *dest_array_len += alloc_size;
+      } */
+
+  /*GLL: 2010-03-22 - reimplementing reallocation of dest_array*/
   unsigned int alloc_size;
   if( ( ((*idx) + len) > ( *dest_array_len) ) )
     {
@@ -746,12 +746,12 @@ void grlibint_exp_dot_color(graphlib_color_t color, FILE *fh)
 	else if ((color>=GRC_RAINBOW) && (color<GRC_RAINBOW+GRC_RAINBOWCOLORS))
 	  {
 	    unsigned int color_val;
-//GLL comment: added the +.1 b/c when the num_colors was a nice power of 2 (i.e., 2,4,8) the color_vals were all coming out as shades of one color
-//	    float normalized_color_val=1.0-(((float)color-GRC_RAINBOW)/((float)grlibint_num_colors+.1));
-//	    color_val=(unsigned int)(normalized_color_val*((float)0xFFFFFF));
+      /*GLL comment: added the +.1 b/c when the num_colors was a nice power of 2 (i.e., 2,4,8) the color_vals were all coming out as shades of one color
+	    float normalized_color_val=1.0-(((float)color-GRC_RAINBOW)/((float)grlibint_num_colors+.1));
+	    color_val=(unsigned int)(normalized_color_val*((float)0xFFFFFF)); */
 
-        //GLL comment: if there are a small number of colors, use a larger 
-        //normalizing value to get a better color range
+      /*GLL comment: if there are a small number of colors, use a larger 
+        normalizing value to get a better color range*/
         if (grlibint_num_colors < 18)
             color_val = 16777215 - ((color-GRC_RAINBOW)/18.0)*16777215;
         /* Powers of 2 number of colors create red-only colors */
@@ -1078,7 +1078,7 @@ int grlibint_getNodeColor(const void *label)
   
   if( i<GRC_RAINBOWCOLORS )
     {
-      //need to add new node_cluster
+      /*need to add new node_cluster*/
 #ifdef STAT_BITVECTOR
       node_clusters[i] = malloc(grlibint_edgelabelwidth*bv_typesize);
       if (node_clusters[i] == NULL)
@@ -1143,7 +1143,7 @@ graphlib_error_t graphlibint_extractSubGraphByEdgeRank(graphlib_graph_p igraph,
   if (GRL_IS_FATALERROR(err))
     return err;
 
-  //for every edge, if name contains rank, add incident nodes
+  /*for every edge, if name contains rank, add incident nodes*/
   ef=igraph->edges;
   while (ef!=NULL) 
     {
@@ -1793,8 +1793,8 @@ graphlib_error_t graphlib_exportGraph(graphlib_filename_t fn,
 		      /* write one edge */
 		      fprintf(fh,"\t%i -> %i [",edge->node_from,edge->node_to);
 #ifdef STAT_BITVECTOR
-//GLL: Note we can generate a c_str from the Integer Set and let graphlib write it to
-//     the file, but this string gets too large and fails
+          /*GLL: Note we can generate a c_str from the Integer Set and let graphlib write it to
+            the file, but this string gets too large and fails*/
 		      fprintf(fh,"label=\"");
 		      bitvec_c_str_file(fh, edge->attr.edgelist);
 		      fprintf(fh,"\"");
@@ -2024,8 +2024,8 @@ graphlib_error_t graphlib_exportGraph(graphlib_filename_t fn,
 		      if (graph->edgeset)
 			{
 #ifdef STAT_BITVECTOR
-//GLL: Note we can generate a c_str from the Integer Set and let graphlib write it to
-//     the file, but this string gets too large and fails
+        /*GLL: Note we can generate a c_str from the Integer Set and let graphlib write it to
+          the file, but this string gets too large and fails*/
                           fprintf(fh,"\t\t\ttext \"%u:", bitvec_size(edge->attr.edgelist));
 		          bitvec_c_str_file(fh, edge->attr.edgelist);
                           fprintf(fh,"\"\n");
@@ -2041,7 +2041,7 @@ graphlib_error_t graphlib_exportGraph(graphlib_filename_t fn,
 		      else
 			{
 #ifdef STAT_BITVECTOR
-//GLL: this should output the empty list "[]"
+        /*GLL: this should output the empty list "[]"*/
                           fprintf(fh,"\t\t\ttext \"");
                           bitvec_c_str_file(fh, edge->attr.edgelist);
                           fprintf(fh,"\"\n");
@@ -2110,18 +2110,18 @@ graphlib_error_t graphlib_extractAndExportTemporalGraphs(graphlib_filename_t fn_
   graphlib_error_t err;
   graphlib_edgeentry_p edge_entry;
   
-  //get sole outgoing edge of root node
+  /*get sole outgoing edge of root node*/
   err = grlibint_findNodeEdge( graph, 0, &edge_entry );
   assert( GRL_IS_OK( err ) );
   
-  //get total set of ranks based on edge name
+  /*get total set of ranks based on edge name*/
 #ifdef STAT_BITVECTOR  
   unsigned int i;
   for (i=0; i<bitvec_size(edge_entry->entry.data.attr.edgelist); i++)
 #else
   IntegerSet rank_set( edge_entry->entry.data.attr.name );
   
-  //for each rank, extract and export its subgraph
+  /*for each rank, extract and export its subgraph*/
   for( unsigned int i=0; i<rank_set.size(); i++ )
 #endif
     {
@@ -2176,7 +2176,7 @@ graphlib_error_t graphlib_serializeGraph( graphlib_graph_p igraph,
   graphlib_nodedata_p      node;
   graphlib_edgedata_p      edge;
   int                      i;
-  //int node_count=0, edge_count=0;
+  /*int node_count=0, edge_count=0;*/
 
   err = graphlib_nodeCount( igraph, &num_nodes );
   err = graphlib_edgeCount( igraph, &num_edges);
@@ -2930,7 +2930,7 @@ graphlib_error_t graphlib_mergeGraphsWeighted(graphlib_graph_p graph1,
 
               if (err == GRL_OK ) 
 		{
-		  //widths must be combined
+		  /*widths must be combined*/
                   runnode->node[i].entry.data.attr.width += nodeentry->entry.data.attr.width;
 		}
               err=graphlib_addNode(graph1,runnode->node[i].entry.data.id,
@@ -2952,7 +2952,7 @@ graphlib_error_t graphlib_mergeGraphsWeighted(graphlib_graph_p graph1,
                                     runedge->edge[i].entry.data.node_to,&edgeentry);
               if (err==GRL_OK)
 		{
-                  //widths must be combined
+      /*widths must be combined*/
                   runedge->edge[i].entry.data.attr.width += edgeentry->entry.data.attr.width;
 		}
               err=graphlib_addDirectedEdge(graph1,runedge->edge[i].entry.data.node_from,
@@ -3005,7 +3005,7 @@ graphlib_error_t graphlib_mergeGraphsRanked(graphlib_graph_p graph1,
 	      err=grlibint_findNode(graph1,runnode->node[i].entry.data.id, &nodeentry);
               if (err == GRL_OK ) 
 		{
-		  //widths must be combined
+		  /*widths must be combined*/
                   runnode->node[i].entry.data.attr.width += nodeentry->entry.data.attr.width;
 		}
               err=graphlib_addNode(graph1,runnode->node[i].entry.data.id,
@@ -3027,7 +3027,7 @@ graphlib_error_t graphlib_mergeGraphsRanked(graphlib_graph_p graph1,
                                     runedge->edge[i].entry.data.node_to,&edgeentry);
               if (err==GRL_OK)
 		{
-                  //names must be combined
+      /*names must be combined*/
 #ifdef STAT_BITVECTOR
 		  bitvec_merge(runedge->edge[i].entry.data.attr.edgelist, edgeentry->entry.data.attr.edgelist);
 #else
@@ -3086,7 +3086,7 @@ graphlib_error_t graphlib_mergeGraphsEmptyEdges(graphlib_graph_p graph1,
 	      err=grlibint_findNode(graph1,runnode->node[i].entry.data.id, &nodeentry);
               if (err == GRL_OK ) 
 		{
-		  //widths must be combined
+		  /*widths must be combined*/
                   runnode->node[i].entry.data.attr.width += nodeentry->entry.data.attr.width;
 		}
               err=graphlib_addNode(graph1,runnode->node[i].entry.data.id,
@@ -3165,7 +3165,7 @@ graphlib_error_t graphlib_mergeGraphsFillEdges(graphlib_graph_p graph1,
 	      err=grlibint_findNode(graph1,runnode->node[i].entry.data.id, &nodeentry);
               if (err == GRL_OK ) 
 		{
-		  //widths must be combined
+		  /*widths must be combined*/
                   runnode->node[i].entry.data.attr.width += nodeentry->entry.data.attr.width;
 		}
               err=graphlib_addNode(graph1,runnode->node[i].entry.data.id,
@@ -3938,7 +3938,7 @@ graphlib_error_t graphlib_colorGraphByLeadingEdgeLabel(graphlib_graph_p graph)
   graphlib_edgeentry_p  e;
   graphlib_nodedata_p n;
   graphlib_error_t err;
-  //color nodes based on name of incoming edge
+  /*color nodes based on name of incoming edge*/
   grlibint_num_colors=0;
   nf=graph->nodes;
   while (nf!=NULL) 
