@@ -1,0 +1,45 @@
+#...............................................
+# base settings
+#...............................................
+# GNU
+
+ifeq ($(findstring GNU,$(COMP)),GNU)
+
+ARFLAGS = -ru
+
+CFLAGS = -Wall -O2
+CCFLAGS = -Wall -O2
+
+CFLAGS += -D DBGLEVEL=$(DEBUGLEVEL)
+
+ifeq ($(findstring yes,$(DEBUG)),yes)
+CFLAGS  += -g
+CCFLAGS += -g
+endif
+
+LFLAGS = -g
+SFLAGS = -shared -fPIC -lc -g
+
+endif
+
+#...............................................
+# IBM
+
+ifeq ($(findstring IBM,$(COMP)),IBM)
+
+ARFLAGS = -ru
+
+CFLAGS = -O2
+CCFLAGS = -O2
+
+CFLAGS += -D DBGLEVEL=$(DEBUGLEVEL) -D_ALL_SOURCE
+
+ifeq ($(findstring yes,$(DEBUG)),yes)
+CFLAGS  += -g 
+CCFLAGS += -g
+endif
+
+LFLAGS = -lc -g
+SFLAGS = -bM:SRE -G -bexpall -bnoentry
+
+endif

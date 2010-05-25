@@ -1,0 +1,184 @@
+#...............................................
+# Machines
+#...............................................
+
+MACHINENAME = unknown
+
+#...............................................
+# mcr
+
+ifeq ($(findstring mcr,$(HOST)),mcr)
+MACHINENAME = mcr
+OS = Linux
+CPU = IA32
+COMP = GNU
+
+CC    = gcc
+MPICC = mpicc
+MPIPP = mpiCC
+MPIF77 = mpif77
+MPIF90 = mpif90
+F77    = g77
+FLD    = g77
+LD    = gcc
+CPP   = g++
+LDPP  = g++
+
+AR  = ar
+
+endif
+
+#...............................................
+# bigdev
+
+ifeq ($(findstring bigdev,$(HOST)),bigdev)
+MACHINENAME = bigdev
+OS = Linux
+CPU = IA32
+COMP = GNU
+
+CC    = gcc
+MPICC = mpicc
+MPIPP = mpiCC
+MPIF77 = mpif77
+MPIF90 = mpif90
+F77    = g77
+FLD    = g77
+LD    = gcc
+CPP   = g++
+LDPP  = g++
+
+AR  = ar
+
+endif
+
+#...............................................
+# thunder
+
+ifeq ($(findstring thunder,$(HOST)),thunder)
+MACHINENAME = thunder
+OS = Linux
+CPU = IA64
+COMP = GNU
+
+CC    = gcc
+MPICC = mpicc
+MPIPP = mpiCC
+MPIF77 = mpif77
+MPIF90 = mpif90
+F77    = g77
+FLD    = g77
+LD    = gcc
+CPP   = g++
+LDPP  = g++
+
+AR  = ar
+
+endif
+
+#...............................................
+# up
+
+ifeq ($(findstring up,$(HOST)),up)
+MACHINENAME = up
+OS = AIX
+CPU = Power5
+COMP = IBM
+
+CC    = xlc
+MPICC = mpxlc
+MPIPP = mpxlC
+MPIF77 = mpxlf
+MPIF90 = mpxlf90
+F77    = xlf
+FLD    = xlf
+LD    = xlc
+CPP   = xlC
+LDPP  = xlC
+
+AR  = ar
+
+endif
+
+#...............................................
+# berg
+
+ifeq ($(findstring berg,$(HOST)),berg)
+MACHINENAME = berg
+OS = AIX
+CPU = Power4
+COMP = IBM
+
+CC    = xlc
+MPICC = mpxlc
+MPIPP = mpxlC
+MPIF77 = mpxlf
+MPIF90 = mpxlf90
+F77    = xlf
+FLD    = xlf
+LD    = xlc
+CPP   = xlC
+LDPP  = xlC
+
+AR  = ar
+
+endif
+
+#...............................................
+# ubgl
+
+ifeq ($(findstring ubgl,$(HOST)),ubgl)
+MACHINENAME = ubgl
+OS = Linux
+CPU = PowerPC
+COMP = IBM
+
+CC = mpxlc
+LD = mpxlc
+MPICC = mpxlc
+MPIF77 = mpxlf
+MPIF90 = mpxlf90
+F77 = mpxlf
+FLD = mpxlf
+CPP = mpxlC
+LDPP = mpxlC
+MPIPP = mpxlC
+
+#CC    = /opt/ibmcmp/vac/7.0/bin/blrts_xlc
+#MPICC = /opt/ibmcmp/vac/7.0/bin/blrts_xlc
+#MPIPP = /opt/ibmcmp/vacpp/7.0/bin/blrts_xlC
+#LD    = /opt/ibmcmp/vac/7.0/bin/blrts_xlc
+#CPP   = /opt/ibmcmp/vacpp/7.0/bin/blrts_xlC
+#LDPP  = /opt/ibmcmp/vacpp/7.0/bin/blrts_xlC
+
+AR  = ar
+
+endif
+
+#...............................................
+# default
+
+ifeq ($(findstring unknown,$(MACHINENAME)),unknown)
+
+OS = Linux
+CPU = IA32
+COMP = GNU
+
+CC    = gcc
+MPICC = mpicc
+MPIPP = mpiCC
+MPIF77 = mpif77
+MPIF90 = mpif90
+F77    = g77
+FLD    = g77
+LD    = gcc
+CPP   = g++
+LDPP  = g++
+
+AR  = ar
+
+endif
+
+
+
+

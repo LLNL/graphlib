@@ -1,0 +1,57 @@
+# Copyright (c) 2007, Lawrence Livermore National Security, LLC. 
+# Written by Martin Schulz and Dorian Arnold
+# Contact email: schulzm@llnl.gov, LLNL-CODE-231600
+# All rights reserved - please read information in "LICENCSE"
+
+
+GraphLib, Version 1.3
+
+Library to create, manipulate, and export graphs
+
+Martin Schulz, LLNL, 2005-2007
+Additions made by Dorian Arnold (summer 2006)
+
+
+This library is used in several LLNL projects, including STAT
+(a stacktrace analysis tool for scalable debugging) and some
+modules in P^nMPI (a tool MPI tool infrastructure). It can
+also be used standalone for creating and manipulating graphs,
+but its API is primarily tuned to support these other
+projects.
+
+
+A) Compilation
+
+- Untar archive
+- set environment variable PROJECTS to the graphlib directory
+- Adjust common/Makefile.common to match local system
+- Run "make" in graphlib directory
+
+This will create liblnlgraph.a, a demo program called 
+"graphdemo", and small utility called "grmerge". 
+
+Running graphdemo will test the most common routines and 
+create a set of graphs in DOT and GML format that can then 
+be viewed using external tools (e.g., dotty or yed).
+
+grmerge merges an arbitrary number of graphs stored in GraphLib's
+internal format and then either saves the merged graph or exports 
+it as GML or DOT files. For more information run "grmerge" without 
+arguments.
+
+
+B) INSTALLATION (optional)
+
+To install GraphLib into a common directory, set the environment
+variable LOCAL to the intended destination directory (e.g.,
+/usr/local). After that run "make install".
+
+
+C) Usage
+
+- include "graphlib.h" into source code
+- link with -llnlgraph
+
+The API is described in the header file.
+
+

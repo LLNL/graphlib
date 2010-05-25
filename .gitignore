@@ -1,0 +1,12 @@
+*~
+.DS_Store
+*.pyc
+autom4te.cache
+*.a
+*.so
+*.o
+*.bak
+*.dot
+*.gml
+*.grl
+graphdemo
