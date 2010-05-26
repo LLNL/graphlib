@@ -207,25 +207,25 @@ static int *grlibint_connwidths=NULL;
 /* find a node in the node table with indices */
 
 graphlib_error_t grlibint_findNodeIndex(graphlib_graph_p graph, 
-					graphlib_node_t  node,
-					graphlib_nodeentry_p *entry,
-					graphlib_nodefragment_p *nodefrag,
-					int *index)
+                                        graphlib_node_t  node,
+                                        graphlib_nodeentry_p *entry,
+                                        graphlib_nodefragment_p *nodefrag,
+                                        int *index)
 {
   *nodefrag=graph->nodes;
   while ((*nodefrag)!=NULL)
     {
       for ((*index)=0; (*index)<(*nodefrag)->count; (*index)++)
-	{
-	  if ((*nodefrag)->node[*index].full)
-	    {
-	      if ((*nodefrag)->node[*index].entry.data.id==node)
-		{
-		  *entry=&((*nodefrag)->node[(*index)]);
-		  return GRL_OK;
-		}
-	    }
-	}
+        {
+          if ((*nodefrag)->node[*index].full)
+            {
+              if ((*nodefrag)->node[*index].entry.data.id==node)
+                {
+                  *entry=&((*nodefrag)->node[(*index)]);
+                  return GRL_OK;
+                }
+            }
+        }
       (*nodefrag)=(*nodefrag)->next;
     }
   
@@ -237,8 +237,8 @@ graphlib_error_t grlibint_findNodeIndex(graphlib_graph_p graph,
 /* find a node in the node table */
 
 graphlib_error_t grlibint_findNode(graphlib_graph_p graph, 
-				   graphlib_node_t  node,
-				   graphlib_nodeentry_p *entry)
+                                   graphlib_node_t  node,
+                                   graphlib_nodeentry_p *entry)
 {
   int                     i;
   graphlib_nodefragment_p nodefrag;
@@ -251,9 +251,9 @@ graphlib_error_t grlibint_findNode(graphlib_graph_p graph,
 /* find an edge in the edge table */
 
 graphlib_error_t grlibint_findEdge(graphlib_graph_p graph, 
-				   graphlib_node_t  node1,
-				   graphlib_node_t  node2,
-				   graphlib_edgeentry_p *entry)
+                                   graphlib_node_t  node1,
+                                   graphlib_node_t  node2,
+                                   graphlib_edgeentry_p *entry)
 {
   int                     i;
   graphlib_edgefragment_p edgefrag;
@@ -262,17 +262,17 @@ graphlib_error_t grlibint_findEdge(graphlib_graph_p graph,
   while (edgefrag!=NULL)
     {
       for (i=0; i<edgefrag->count; i++)
-	{
-	  if (edgefrag->edge[i].full)
-	    {
-	      if ((edgefrag->edge[i].entry.data.node_from==node1) &&
-		  (edgefrag->edge[i].entry.data.node_to==node2))
-		{
-		  *entry=&(edgefrag->edge[i]);
-		  return GRL_OK;
-		}
-	    }
-	}
+        {
+          if (edgefrag->edge[i].full)
+            {
+              if ((edgefrag->edge[i].entry.data.node_from==node1) &&
+                  (edgefrag->edge[i].entry.data.node_to==node2))
+                {
+                  *entry=&(edgefrag->edge[i]);
+                  return GRL_OK;
+                }
+            }
+        }
       edgefrag=edgefrag->next;
     }
   
@@ -284,9 +284,9 @@ graphlib_error_t grlibint_findEdge(graphlib_graph_p graph,
 /* find an incoming edge of a given color */
 
 graphlib_error_t grlibint_findIncomingEdgeColor(graphlib_graph_p graph,
-						graphlib_node_t node,
-						graphlib_color_t color,
-						graphlib_edgeentry_p *entry)
+                                                graphlib_node_t node,
+                                                graphlib_color_t color,
+                                                graphlib_edgeentry_p *entry)
 {
   int                     i;
   graphlib_edgefragment_p edgefrag;
@@ -295,17 +295,17 @@ graphlib_error_t grlibint_findIncomingEdgeColor(graphlib_graph_p graph,
   while (edgefrag!=NULL)
     {
       for (i=0; i<edgefrag->count; i++)
-	{
-	  if (edgefrag->edge[i].full)
-	    {
-	      if ((edgefrag->edge[i].entry.data.attr.color==color) &&
-		  (edgefrag->edge[i].entry.data.node_to==node))
-		{
-		  *entry=&(edgefrag->edge[i]);
-		  return GRL_OK;
-		}
-	    }
-	}
+        {
+          if (edgefrag->edge[i].full)
+            {
+              if ((edgefrag->edge[i].entry.data.attr.color==color) &&
+                  (edgefrag->edge[i].entry.data.node_to==node))
+                {
+                  *entry=&(edgefrag->edge[i]);
+                  return GRL_OK;
+                }
+            }
+        }
       edgefrag=edgefrag->next;
     }
   
@@ -317,8 +317,8 @@ graphlib_error_t grlibint_findIncomingEdgeColor(graphlib_graph_p graph,
 /* find an incoming edge */
 
 graphlib_error_t grlibint_findIncomingEdge(graphlib_graph_p graph,
-					   graphlib_node_t node,
-					   graphlib_edgeentry_p *entry)
+                                           graphlib_node_t node,
+                                           graphlib_edgeentry_p *entry)
 {
   int                     i;
   graphlib_edgefragment_p edgefrag;
@@ -327,16 +327,16 @@ graphlib_error_t grlibint_findIncomingEdge(graphlib_graph_p graph,
   while (edgefrag!=NULL)
     {
       for (i=0; i<edgefrag->count; i++)
-	{
-	  if (edgefrag->edge[i].full)
-	    {
-	      if (edgefrag->edge[i].entry.data.node_to==node)
-		{
-		  *entry=&(edgefrag->edge[i]);
-		  return GRL_OK;
-		}
-	    }
-	}
+        {
+          if (edgefrag->edge[i].full)
+            {
+              if (edgefrag->edge[i].entry.data.node_to==node)
+                {
+                  *entry=&(edgefrag->edge[i]);
+                  return GRL_OK;
+                }
+            }
+        }
       edgefrag=edgefrag->next;
     }
   
@@ -348,8 +348,8 @@ graphlib_error_t grlibint_findIncomingEdge(graphlib_graph_p graph,
 /* find an outgoing edge */
 
 graphlib_error_t grlibint_findOutgoingEdge(graphlib_graph_p graph,
-					   graphlib_node_t node,
-					   graphlib_edgeentry_p *entry)
+                                           graphlib_node_t node,
+                                           graphlib_edgeentry_p *entry)
 {
   int                     i;
   graphlib_edgefragment_p edgefrag;
@@ -358,16 +358,16 @@ graphlib_error_t grlibint_findOutgoingEdge(graphlib_graph_p graph,
   while (edgefrag!=NULL)
     {
       for (i=0; i<edgefrag->count; i++)
-	{
-	  if (edgefrag->edge[i].full)
-	    {
-	      if (edgefrag->edge[i].entry.data.node_from==node)
-		{
-		  *entry=&(edgefrag->edge[i]);
-		  return GRL_OK;
-		}
-	    }
-	}
+        {
+          if (edgefrag->edge[i].full)
+            {
+              if (edgefrag->edge[i].entry.data.node_from==node)
+                {
+                  *entry=&(edgefrag->edge[i]);
+                  return GRL_OK;
+                }
+            }
+        }
       edgefrag=edgefrag->next;
     }
   
@@ -379,8 +379,8 @@ graphlib_error_t grlibint_findOutgoingEdge(graphlib_graph_p graph,
 /* find an incoming or outgoing edge */
 
 graphlib_error_t grlibint_findNodeEdge(graphlib_graph_p graph,
-				       graphlib_node_t node,
-				       graphlib_edgeentry_p *entry)
+                                       graphlib_node_t node,
+                                       graphlib_edgeentry_p *entry)
 {
   int                     i;
   graphlib_edgefragment_p edgefrag;
@@ -389,17 +389,17 @@ graphlib_error_t grlibint_findNodeEdge(graphlib_graph_p graph,
   while (edgefrag!=NULL)
     {
       for (i=0; i<edgefrag->count; i++)
-	{
-	  if (edgefrag->edge[i].full)
-	    {
-	      if ((edgefrag->edge[i].entry.data.node_from==node) ||
-		  (edgefrag->edge[i].entry.data.node_to==node))
-		{
-		  *entry=&(edgefrag->edge[i]);
-		  return GRL_OK;
-		}
-	    }
-	}
+        {
+          if (edgefrag->edge[i].full)
+            {
+              if ((edgefrag->edge[i].entry.data.node_from==node) ||
+                  (edgefrag->edge[i].entry.data.node_to==node))
+                {
+                  *entry=&(edgefrag->edge[i]);
+                  return GRL_OK;
+                }
+            }
+        }
       edgefrag=edgefrag->next;
     }
   
@@ -410,7 +410,7 @@ graphlib_error_t grlibint_findNodeEdge(graphlib_graph_p graph,
 /* delete a node */
 
 graphlib_error_t grlibint_delNode(graphlib_graph_p graph, 
-				  graphlib_nodeentry_p  node)
+                                  graphlib_nodeentry_p  node)
 {
   if (node->full==0)
     {
@@ -436,7 +436,7 @@ graphlib_error_t grlibint_delNode(graphlib_graph_p graph,
 /* delete an edge */
 
 graphlib_error_t grlibint_delEdge(graphlib_graph_p graph, 
-				  graphlib_edgeentry_p edge)
+                                  graphlib_edgeentry_p edge)
 {
   if (edge->full==0)
     {
@@ -500,16 +500,16 @@ graphlib_error_t grlibint_newNodeFragment(graphlib_nodefragment_p *newnodefrag, 
   else
     {
       (*newnodefrag)->grannot=
-	(graphlib_annotation_t*) malloc(sizeof(graphlib_annotation_t)*NODEFRAGSIZE*numannotation);
+        (graphlib_annotation_t*) malloc(sizeof(graphlib_annotation_t)*NODEFRAGSIZE*numannotation);
       if (*newnodefrag==NULL)
-	{
-	  free(*newnodefrag);
-	  return GRL_NOMEM;
-	}
+        {
+          free(*newnodefrag);
+          return GRL_NOMEM;
+        }
       for (i=0; i<NODEFRAGSIZE*numannotation; i++)
-	{
-	  (*newnodefrag)->grannot[i]=GRAPHLIB_DEFAULT_ANNOTATION;
-	}
+        {
+          (*newnodefrag)->grannot[i]=GRAPHLIB_DEFAULT_ANNOTATION;
+        }
     }
 
   return GRL_OK;
@@ -554,7 +554,7 @@ graphlib_error_t grlibint_read(int fh, char *buf, int len)
     {
       count=read(fh,&(buf[sum]),len-sum);
       if (count<=0)
-	return GRL_FILEERROR;
+        return GRL_FILEERROR;
       sum+=count;
     }
   return GRL_OK;
@@ -573,7 +573,7 @@ graphlib_error_t grlibint_write(int fh, char *buf, int len)
     {
       count=write(fh,&(buf[sum]),len-sum);
       if (count<=0)
-	return GRL_FILEERROR;
+        return GRL_FILEERROR;
       sum+=count;
     }
   return GRL_OK;
@@ -587,7 +587,7 @@ graphlib_error_t grlibint_write(int fh, char *buf, int len)
 */
 
 graphlib_error_t grlibint_copyDataToBuf( int * idx, const char * src, int len, 
-					 char ** dest_array, int * dest_array_len )
+                                         char ** dest_array, int * dest_array_len )
 {
   /*GLL: this should be as large as the max name length macro
     static unsigned int alloc_size=GRL_MAX_NAME_LENGTH;
@@ -625,13 +625,13 @@ graphlib_error_t grlibint_copyDataToBuf( int * idx, const char * src, int len,
   fprintf( stderr, "[%s:%s():%d]: ", __FILE__, __FUNCTION__, __LINE__ );
   if( len == sizeof(int) )
     fprintf( stderr, "\tint: %d (%p) => %d (%p)\n",
-	     *((int*)src), src, *((int*)dst), dst );
+             *((int*)src), src, *((int*)dst), dst );
   else if( len == sizeof(graphlib_width_t) )
     fprintf( stderr, "\tdouble: %.2lf (%p) => %.2lf (%p)\n",
-	     *((double*)src), src, *((double*)dst), dst );
+             *((double*)src), src, *((double*)dst), dst );
   else
     fprintf( stderr, "\tstring: \"%s\" (%p) => \"%s\" (%p)\n",
-	     src, src, dst, dst );
+             src, src, dst, dst );
 #endif
   
   return GRL_OK;
@@ -661,10 +661,10 @@ graphlib_error_t grlibint_copyDataFromBuf( char * dst, int *idx, int len, char *
     fprintf( stderr, "int: %d (%p) <= %d (%p)\n", *((int*)dst), dst, *((int*)src), src );
   else if( len == sizeof(graphlib_width_t) )
     fprintf( stderr, "double: %.2lf (%p) <= %.2lf (%p)\n",
-	     *((double*)dst), dst, *((double*)src), src );
+             *((double*)dst), dst, *((double*)src), src );
   else
     fprintf( stderr, "string: \"%s\" (%p) <= \"%s\" (%p)\n",
-	     dst, dst, src, src );
+             dst, dst, src, src );
 #endif
   return GRL_OK;
 }
@@ -739,31 +739,31 @@ void grlibint_exp_dot_color(graphlib_color_t color, FILE *fh)
       break;
     default:
       {
-	if ((color>=GRC_REDSPEC) && (color<GRC_REDSPEC+GRC_SPECTRUMRANGE))
-	  fprintf(fh,"\"#FF%02x%02x\"",256-(color-GRC_REDSPEC),256-(color-GRC_REDSPEC));
-	else if ((color>=GRC_GREENSPEC) && (color<GRC_GREENSPEC+GRC_SPECTRUMRANGE))
-	  fprintf(fh,"\"#%02xFF%02x\"",256-(color-GRC_GREENSPEC),256-(color-GRC_GREENSPEC));
-	else if ((color>=GRC_RAINBOW) && (color<GRC_RAINBOW+GRC_RAINBOWCOLORS))
-	  {
-	    unsigned int color_val;
+        if ((color>=GRC_REDSPEC) && (color<GRC_REDSPEC+GRC_SPECTRUMRANGE))
+          fprintf(fh,"\"#FF%02x%02x\"",256-(color-GRC_REDSPEC),256-(color-GRC_REDSPEC));
+        else if ((color>=GRC_GREENSPEC) && (color<GRC_GREENSPEC+GRC_SPECTRUMRANGE))
+          fprintf(fh,"\"#%02xFF%02x\"",256-(color-GRC_GREENSPEC),256-(color-GRC_GREENSPEC));
+        else if ((color>=GRC_RAINBOW) && (color<GRC_RAINBOW+GRC_RAINBOWCOLORS))
+          {
+            unsigned int color_val;
       /*GLL comment: added the +.1 b/c when the num_colors was a nice power of 2 (i.e., 2,4,8) the color_vals were all coming out as shades of one color
-	    float normalized_color_val=1.0-(((float)color-GRC_RAINBOW)/((float)grlibint_num_colors+.1));
-	    color_val=(unsigned int)(normalized_color_val*((float)0xFFFFFF)); */
+            float normalized_color_val=1.0-(((float)color-GRC_RAINBOW)/((float)grlibint_num_colors+.1));
+            color_val=(unsigned int)(normalized_color_val*((float)0xFFFFFF)); */
 
-      /*GLL comment: if there are a small number of colors, use a larger 
-        normalizing value to get a better color range*/
-        if (grlibint_num_colors < 18)
-            color_val = 16777215 - ((color-GRC_RAINBOW)/18.0)*16777215;
-        /* Powers of 2 number of colors create red-only colors */
-        else if (grlibint_num_colors % 32 == 0)
-            color_val = 16777215 - ((color-GRC_RAINBOW)/(float)(grlibint_num_colors+1))*16777215;
-        else
-            color_val = 16777215 - ((color-GRC_RAINBOW)/(float)grlibint_num_colors)*16777215;
-	    fprintf(fh,"\"#%06x\"",color_val);
-	  }
- 	else
-	  fprintf(fh,"\"#CCCCFF\"");
-	break;
+            /*GLL comment: if there are a small number of colors, use a larger 
+              normalizing value to get a better color range*/
+            if (grlibint_num_colors < 18)
+              color_val = 16777215 - ((color-GRC_RAINBOW)/18.0)*16777215;
+            /* Powers of 2 number of colors create red-only colors */
+            else if (grlibint_num_colors % 32 == 0)
+              color_val = 16777215 - ((color-GRC_RAINBOW)/(float)(grlibint_num_colors+1))*16777215;
+            else
+              color_val = 16777215 - ((color-GRC_RAINBOW)/(float)grlibint_num_colors)*16777215;
+            fprintf(fh,"\"#%06x\"",color_val);
+          }
+         else
+          fprintf(fh,"\"#CCCCFF\"");
+        break;
       }
     }
 }
@@ -850,13 +850,13 @@ void grlibint_exp_plaindot_color(graphlib_color_t color, FILE *fh)
       break;
     default:
       {
-	if ((color>=GRC_REDSPEC) && (color<GRC_REDSPEC+GRC_SPECTRUMRANGE))
-	  fprintf(fh,"red");
-	else if ((color>=GRC_GREENSPEC) && (color<GRC_GREENSPEC+GRC_SPECTRUMRANGE))
-	  fprintf(fh,"green");
-	else
-	  fprintf(fh,"grey");
-	break;
+        if ((color>=GRC_REDSPEC) && (color<GRC_REDSPEC+GRC_SPECTRUMRANGE))
+          fprintf(fh,"red");
+        else if ((color>=GRC_GREENSPEC) && (color<GRC_GREENSPEC+GRC_SPECTRUMRANGE))
+          fprintf(fh,"green");
+        else
+          fprintf(fh,"grey");
+        break;
       }
     }
 }
@@ -928,33 +928,33 @@ void grlibint_exp_dot_fontcolor(graphlib_color_t color, FILE *fh)
       break;
     default:
       {
-	if ((color>=GRC_REDSPEC) && (color<GRC_REDSPEC+GRC_SPECTRUMRANGE))
-	  {
-	    if ((color-GRC_REDSPEC)<(GRC_SPECTRUMRANGE/2))
-	      fprintf(fh,"\"#000000\"");
-	    else
-	      fprintf(fh,"\"#FFFFFF\"");
-	  }
-	else if ((color>=GRC_GREENSPEC) && (color<GRC_GREENSPEC+GRC_SPECTRUMRANGE))
-	  {
-	    if ((color-GRC_GREENSPEC)<(GRC_SPECTRUMRANGE/2))
-	      fprintf(fh,"\"#000000\"");
-	    else
-	      fprintf(fh,"\"#FFFFFF\"");
-	  }
-	else if ((color>=GRC_RAINBOW) && (color<GRC_RAINBOW+GRC_RAINBOWCOLORS))
-	  {
-	    unsigned int color_val;
-	    float normalized_color_val=1.0-(((float)color-GRC_RAINBOW)/((float)grlibint_num_colors));
-	    color_val=(unsigned int)(normalized_color_val*((float)0xFFFFFF));
-	    if (((color_val & 0xFF0000)+(color_val && 0xFF00)+(color_val && 0xFF))>0xFF)
-	      fprintf(fh,"\"#000000\"");
-	    else
-	      fprintf(fh,"\"#FFFFFF\"");
-	  }
- 	else
-	  fprintf(fh,"\"#FFFFFF\"");
-	break;
+        if ((color>=GRC_REDSPEC) && (color<GRC_REDSPEC+GRC_SPECTRUMRANGE))
+          {
+            if ((color-GRC_REDSPEC)<(GRC_SPECTRUMRANGE/2))
+              fprintf(fh,"\"#000000\"");
+            else
+              fprintf(fh,"\"#FFFFFF\"");
+          }
+        else if ((color>=GRC_GREENSPEC) && (color<GRC_GREENSPEC+GRC_SPECTRUMRANGE))
+          {
+            if ((color-GRC_GREENSPEC)<(GRC_SPECTRUMRANGE/2))
+              fprintf(fh,"\"#000000\"");
+            else
+              fprintf(fh,"\"#FFFFFF\"");
+          }
+        else if ((color>=GRC_RAINBOW) && (color<GRC_RAINBOW+GRC_RAINBOWCOLORS))
+          {
+            unsigned int color_val;
+            float normalized_color_val=1.0-(((float)color-GRC_RAINBOW)/((float)grlibint_num_colors));
+            color_val=(unsigned int)(normalized_color_val*((float)0xFFFFFF));
+            if (((color_val & 0xFF0000)+(color_val && 0xFF00)+(color_val && 0xFF))>0xFF)
+              fprintf(fh,"\"#000000\"");
+            else
+              fprintf(fh,"\"#FFFFFF\"");
+          }
+         else
+          fprintf(fh,"\"#FFFFFF\"");
+        break;
       }
     }
 }
@@ -1041,13 +1041,13 @@ void grlibint_exp_plaindot_fontcolor(graphlib_color_t color, FILE *fh)
       break;
     default:
       {
-	if ((color>=GRC_REDSPEC) && (color<GRC_REDSPEC+GRC_SPECTRUMRANGE))
-	  fprintf(fh,"white");
-	else if ((color>=GRC_GREENSPEC) && (color<GRC_GREENSPEC+GRC_SPECTRUMRANGE))
-	  fprintf(fh,"black");
-	else
-	  fprintf(fh,"black");
-	break;
+        if ((color>=GRC_REDSPEC) && (color<GRC_REDSPEC+GRC_SPECTRUMRANGE))
+          fprintf(fh,"white");
+        else if ((color>=GRC_GREENSPEC) && (color<GRC_GREENSPEC+GRC_SPECTRUMRANGE))
+          fprintf(fh,"black");
+        else
+          fprintf(fh,"black");
+        break;
       }
     }
 }
@@ -1070,9 +1070,9 @@ int grlibint_getNodeColor(const void *label)
       if( bithash( node_clusters[i], grlibint_edgelabelwidth ) == bithash( label, grlibint_edgelabelwidth ) )
 #else
       if( strcmp( node_clusters[i], label ) == 0 )
-#endif	
-	{
-	  return GRC_RAINBOW+i+1;
+#endif        
+        {
+          return GRC_RAINBOW+i+1;
         }
     }
   
@@ -1084,7 +1084,7 @@ int grlibint_getNodeColor(const void *label)
       if (node_clusters[i] == NULL)
         {
           fprintf(stderr, "Failed to malloc new node cluster color\n");
-	  return GRC_RAINBOW;
+          return GRC_RAINBOW;
         }
       memcpy(node_clusters[i], label, grlibint_edgelabelwidth*bv_typesize);
 #else
@@ -1120,8 +1120,8 @@ void grlibint_print_color_assignment()
 /* extract graphs based on nodesets */
 
 graphlib_error_t graphlibint_extractSubGraphByEdgeRank(graphlib_graph_p igraph, 
-						       int irank,graphlib_graph_p * ograph)
-{	
+                                                       int irank,graphlib_graph_p * ograph)
+{        
   graphlib_edgefragment_p  ef;
   graphlib_edgedata_p  e;
   graphlib_nodeentry_p n;
@@ -1149,37 +1149,37 @@ graphlib_error_t graphlibint_extractSubGraphByEdgeRank(graphlib_graph_p igraph,
     {
       int i;
       for (i=0; i<ef->count; i++) 
-	{
-	  if (ef->edge[i].full) 
-	    {
-	      e=&(ef->edge[i].entry.data);
+        {
+          if (ef->edge[i].full) 
+            {
+              e=&(ef->edge[i].entry.data);
 #ifdef STAT_BITVECTOR
-	      if (bitvec_contains(e->attr.edgelist, irank))
+              if (bitvec_contains(e->attr.edgelist, irank))
 #else
-	      rset = new IntegerSet( e->attr.name );
-	      if( rset->contains( irank ) )
-#endif	      
-		{
-		  err=grlibint_findNode(igraph,e->node_from, &n);
-		  assert( GRL_IS_OK(err) );
-		  graphlib_addNode( *ograph, n->entry.data.id,&(n->entry.data.attr) );
-		  
-		  err=grlibint_findNode(igraph,e->node_to, &n);
-		  assert( GRL_IS_OK(err) );
-		  graphlib_addNode( *ograph, n->entry.data.id,&(n->entry.data.attr) );
+              rset = new IntegerSet( e->attr.name );
+              if( rset->contains( irank ) )
+#endif              
+                {
+                  err=grlibint_findNode(igraph,e->node_from, &n);
+                  assert( GRL_IS_OK(err) );
+                  graphlib_addNode( *ograph, n->entry.data.id,&(n->entry.data.attr) );
+                  
+                  err=grlibint_findNode(igraph,e->node_to, &n);
+                  assert( GRL_IS_OK(err) );
+                  graphlib_addNode( *ograph, n->entry.data.id,&(n->entry.data.attr) );
 #ifdef STAT_BITVECTOR
-		  graphlib_addDirectedEdge( *ograph, e->node_from,e->node_to, &(e->attr) );
+                  graphlib_addDirectedEdge( *ograph, e->node_from,e->node_to, &(e->attr) );
 #else
-		  char rank_str[16];
-		  snprintf( rank_str, 16, "[%u]", irank );
-		  strcpy( edge_attr.name, rank_str );
-		  graphlib_addDirectedEdge( *ograph, e->node_from,e->node_to, &edge_attr );
-#endif		  
+                  char rank_str[16];
+                  snprintf( rank_str, 16, "[%u]", irank );
+                  strcpy( edge_attr.name, rank_str );
+                  graphlib_addDirectedEdge( *ograph, e->node_from,e->node_to, &edge_attr );
+#endif                  
                 }
 #ifdef STAT_BITVECTOR
 #else
-	      delete rset;
-#endif	      
+              delete rset;
+#endif              
             }
         }
       ef=ef->next;
@@ -1197,8 +1197,8 @@ graphlib_error_t graphlibint_extractSubGraphByEdgeRank(graphlib_graph_p igraph,
 /* start library */
 
 graphlib_error_t graphlib_InitVarEdgeLabelsConn(int numconn,
-						int *edgelabelwidth,
-						int *finalwidth)
+                                                int *edgelabelwidth,
+                                                int *finalwidth)
 {
 #ifdef STAT_BITVECTOR
   int i;
@@ -1213,6 +1213,8 @@ graphlib_error_t graphlib_InitVarEdgeLabelsConn(int numconn,
 #ifdef STAT_BITVECTOR
   grlibint_edgelabelwidth=0;
   grlibint_connections=numconn;
+  if (grlibint_connwidths != NULL)
+    free(grlibint_connwidths);
   grlibint_connwidths=(int*) malloc(sizeof(int)*numconn);
   if (grlibint_connwidths==NULL)
     return GRL_NOMEM;
@@ -1221,11 +1223,11 @@ graphlib_error_t graphlib_InitVarEdgeLabelsConn(int numconn,
     {
       grlibint_connwidths[i]=edgelabelwidth[i] / (bv_typesize*8);
       if ((edgelabelwidth[i] % (bv_typesize*8))!=0)
-	grlibint_connwidths[i]++;
+        grlibint_connwidths[i]++;
       grlibint_edgelabelwidth += grlibint_connwidths[i];
     }
 
-  if (bit_vec_initialize(bv_typesize,grlibint_edgelabelwidth))
+  if (bitvec_initialize(bv_typesize,grlibint_edgelabelwidth))
     return GRL_NOMEM;
 #endif
 
@@ -1256,6 +1258,25 @@ graphlib_error_t graphlib_Init()
 
 graphlib_error_t graphlib_Finish()
 {
+#ifndef NOSET
+  bitvec_finalize();
+#endif
+#ifdef STAT_BITVECTOR
+  int i;
+  for (i = 0; i < grlibint_num_colors; i++)
+    {
+      if (node_clusters[i] != NULL)
+      {
+        free(node_clusters[i]);
+        node_clusters[i] = NULL;
+      }
+    }
+  if (grlibint_connwidths != NULL)
+    {
+      free(grlibint_connwidths);
+      grlibint_connwidths = NULL;
+    }
+#endif
   return graphlib_delAll();
 }
 
@@ -1334,46 +1355,72 @@ graphlib_error_t graphlib_delEdgeAttr(graphlib_edgeattr_t deledgeattr)
 
 graphlib_error_t graphlib_delGraph(graphlib_graph_p delgraph)
 {
+  int i;
   graphlib_edgefragment_p deledge;
   graphlib_nodefragment_p delnode;
   graphlib_graphlist_p    graphs,oldgraphs;
+  graphlib_nodefragment_p  nodefrag;
+  graphlib_edgefragment_p  edgefrag;
+
+#ifdef GRL_DYNAMIC_NODE_NAME
+  nodefrag = delgraph->nodes;
+  while (nodefrag!=NULL) 
+    {
+      for (i=0; i<nodefrag->count; i++) 
+        {
+          if (nodefrag->node[i].full) 
+            {
+              if (nodefrag->node[i].entry.data.attr.name != NULL)
+                free(nodefrag->node[i].entry.data.attr.name);
+            }
+        }
+      nodefrag=nodefrag->next;
+    }
+#endif
+#ifdef STAT_BITVECTOR
+  edgefrag = delgraph->edges;
+  while (edgefrag!=NULL) 
+    {
+      for (i=0; i<edgefrag->count; i++) 
+        {
+          if (edgefrag->edge[i].full) 
+            {
+              if (edgefrag->edge[i].entry.data.attr.edgelist != NULL);
+                bitvec_delete(&(edgefrag->edge[i].entry.data.attr.edgelist));
+            }
+        }
+      edgefrag=edgefrag->next;
+    }
+#endif
 
   graphs=allgraphs;
   oldgraphs=NULL;
   while (graphs!=NULL)
     {
       if (graphs->graph==delgraph)
-	{
-	  if (oldgraphs==NULL)
-	    {
-	      allgraphs=graphs->next;
-	      free(graphs);
-	      graphs=NULL;
-	    }
-	  else
-	    {
-	      oldgraphs->next=graphs->next;
-	      free(graphs);
-	      graphs=NULL;
-	    }
-	}
+        {
+          if (oldgraphs==NULL)
+            {
+              allgraphs=graphs->next;
+              free(graphs);
+              graphs=NULL;
+            }
+          else
+            {
+              oldgraphs->next=graphs->next;
+              free(graphs);
+              graphs=NULL;
+            }
+        }
       if (graphs!=NULL)
-	{
-	  oldgraphs=graphs;
-	  graphs=graphs->next;
-	}
+        {
+          oldgraphs=graphs;
+          graphs=graphs->next;
+        }
     }
 
   while ((delgraph->edges)!=NULL)
     {
-#ifdef STAT_BITVECTOR
-      int i;
-      for (i=0; i < delgraph->edges->count; i++)
-        {
-          if (delgraph->edges->edge[i].entry.data.attr.edgelist != NULL)
-            bitvec_delete(&(delgraph->edges->edge[i].entry.data.attr.edgelist));
-        }
-#endif
       deledge=(delgraph->edges)->next;
       free(delgraph->edges);
       delgraph->edges=deledge;
@@ -1383,7 +1430,7 @@ graphlib_error_t graphlib_delGraph(graphlib_graph_p delgraph)
     {
       delnode=(delgraph->nodes)->next;
       if (delgraph->nodes->grannot!=NULL)
-	free(delgraph->nodes->grannot);
+        free(delgraph->nodes->grannot);
       free(delgraph->nodes);
       delgraph->nodes=delnode;
     }
@@ -1419,18 +1466,21 @@ graphlib_error_t graphlib_delAll()
 
 graphlib_error_t graphlib_nodeCount( graphlib_graph_p igraph, int * num_nodes )
 {
-	graphlib_nodefragment_p nodefrag=igraph->nodes;
+    graphlib_nodefragment_p nodefrag=igraph->nodes;
     int i=0;
     *num_nodes=0;
 
-	while (nodefrag!=NULL) {
-	    for (i=0; i<nodefrag->count; i++) {
-            if (nodefrag->node[i].full) {
+    while (nodefrag!=NULL) 
+      {
+        for (i=0; i<nodefrag->count; i++) 
+          {
+            if (nodefrag->node[i].full) 
+              {
                 (*num_nodes)++;
-            }
-        }
+              }
+          }
         nodefrag = nodefrag->next;
-    }
+      }
 
     return GRL_OK;
 }
@@ -1448,10 +1498,10 @@ graphlib_error_t graphlib_edgeCount( graphlib_graph_p igraph, int * num_edges )
   while (edgefrag!=NULL) 
     {
       for (i=0; i<edgefrag->count; i++) 
-	{
-	  if (edgefrag->edge[i].full) 
-	    {
-	      (*num_edges)++;
+        {
+          if (edgefrag->edge[i].full) 
+            {
+              (*num_edges)++;
             }
         }
       edgefrag = edgefrag->next;
@@ -1474,29 +1524,29 @@ graphlib_error_t graphlib_findNextNodeByEdgeRank(graphlib_graph_p graph,
 
   edgefrag=graph->edges;
   while (edgefrag!=NULL)
-  {
-    for (i=0; i<edgefrag->count; i++)
     {
-      if (edgefrag->edge[i].full)
-	    {
-	      graphlib_edgedata_p e=&(edgefrag->edge[i].entry.data);
-#ifndef NOSET
-	      if (e->node_from==inode)
-#ifdef STAT_BITVECTOR
-	        if (bitvec_contains(e->attr.edgelist, rank))
-#else
-            rset = new IntegerSet( e->attr.name );
-        if( rset->contains( irank ) )
-#endif	      
+      for (i=0; i<edgefrag->count; i++)
         {
-          *onode=e->node_to;
-          return GRL_OK;
-        }
+          if (edgefrag->edge[i].full)
+            {
+              graphlib_edgedata_p e=&(edgefrag->edge[i].entry.data);
+#ifndef NOSET
+              if (e->node_from==inode)
+#ifdef STAT_BITVECTOR
+              if (bitvec_contains(e->attr.edgelist, rank))
+#else
+              rset = new IntegerSet( e->attr.name );
+              if( rset->contains( irank ) )
+#endif              
+                {
+                  *onode=e->node_to;
+                  return GRL_OK;
+                }
 #endif
-	    }
+            }
+        }
+      edgefrag=edgefrag->next;
     }
-    edgefrag=edgefrag->next;
-  }
   
   return GRL_NONODE;
 }
@@ -1535,22 +1585,22 @@ graphlib_error_t graphlib_loadGraph(graphlib_filename_t fn, graphlib_graph_p *ne
     {
       err=grlibint_newNodeFragment(&newnode,(*newgraph)->numannotation);
       if (GRL_IS_FATALERROR(err))
-	return err;
+        return err;
       saveattrptr=newnode->grannot;
       err=grlibint_read(fh,(char*) newnode,sizeof(graphlib_nodefragment_t)-NODEFRAGSIZE*sizeof(graphlib_nodeentry_t));
       if (GRL_IS_FATALERROR(err))
-	return err;
+        return err;
       err=grlibint_read(fh,(char*) (newnode->node),newnode->count*sizeof(graphlib_nodeentry_t));
       if (GRL_IS_FATALERROR(err))
-	return err;
+        return err;
       newnode->grannot=saveattrptr;
       if ((*newgraph)->numannotation>0)
-	{
-	  err=grlibint_read(fh,(char*) (newnode->grannot),sizeof(graphlib_annotation_t)*
-			    (*newgraph)->numannotation*(newnode->count));
-	  if (GRL_IS_FATALERROR(err))
-	    return err;
-	}
+        {
+          err=grlibint_read(fh,(char*) (newnode->grannot),sizeof(graphlib_annotation_t)*
+                            (*newgraph)->numannotation*(newnode->count));
+          if (GRL_IS_FATALERROR(err))
+            return err;
+        }
       *runnode=newnode;
       runnode=&(newnode->next);
     }
@@ -1559,28 +1609,28 @@ graphlib_error_t graphlib_loadGraph(graphlib_filename_t fn, graphlib_graph_p *ne
     {
       err=grlibint_newEdgeFragment(&newedge);
       if (GRL_IS_FATALERROR(err))
-	return err;
+        return err;
       err=grlibint_read(fh,(char*) newedge,sizeof(graphlib_edgefragment_t)-EDGEFRAGSIZE*sizeof(graphlib_edgeentry_t));
       if (GRL_IS_FATALERROR(err))
-	return err;
+        return err;
       err=grlibint_read(fh,(char*) (newedge->edge),(newedge->count)*sizeof(graphlib_edgeentry_t));
       if (GRL_IS_FATALERROR(err))
-	return err;
+        return err;
       *runedge=newedge;
       runedge=&(newedge->next);
 #ifdef STAT_BITVECTOR
       for (i=0; i<newedge->count; i++)
-	{
-	  if (newedge->edge[i].entry.data.attr.edgelist)
-	    {
-	      newedge->edge[i].entry.data.attr.edgelist=bitvec_allocate();
-	      if (newedge->edge[i].entry.data.attr.edgelist==NULL)
-	        return GRL_NOMEM;
-	      err=grlibint_read(fh,(char*) (newedge->edge[i].entry.data.attr.edgelist),grlibint_edgelabelwidth*bv_typesize);
-	      if (GRL_IS_FATALERROR(err))
-		return err;
-	    }
-	}
+        {
+          if (newedge->edge[i].entry.data.attr.edgelist)
+            {
+              newedge->edge[i].entry.data.attr.edgelist=bitvec_allocate();
+              if (newedge->edge[i].entry.data.attr.edgelist==NULL)
+                return GRL_NOMEM;
+              err=grlibint_read(fh,(char*) (newedge->edge[i].entry.data.attr.edgelist),grlibint_edgelabelwidth*bv_typesize);
+              if (GRL_IS_FATALERROR(err))
+                return err;
+            }
+        }
 #endif
     }
 
@@ -1590,19 +1640,19 @@ graphlib_error_t graphlib_loadGraph(graphlib_filename_t fn, graphlib_graph_p *ne
   while (newedge!=NULL)
     {
       for (i=0; i<newedge->count; i++)
-	{
-	  if (newedge->edge[i].full)
-	    {
-	      err=grlibint_findNode(*newgraph,newedge->edge[i].entry.data.node_from,
-				    &(newedge->edge[i].entry.data.ref_from));
-	      if (GRL_IS_NOTOK(err))
-		return err;
-	      err=grlibint_findNode(*newgraph,newedge->edge[i].entry.data.node_to,
-				    &(newedge->edge[i].entry.data.ref_to));
-	      if (GRL_IS_NOTOK(err))
-		return err;
-	    }
-	} 
+        {
+          if (newedge->edge[i].full)
+            {
+              err=grlibint_findNode(*newgraph,newedge->edge[i].entry.data.node_from,
+                                    &(newedge->edge[i].entry.data.ref_from));
+              if (GRL_IS_NOTOK(err))
+                return err;
+              err=grlibint_findNode(*newgraph,newedge->edge[i].entry.data.node_to,
+                                    &(newedge->edge[i].entry.data.ref_to));
+              if (GRL_IS_NOTOK(err))
+                return err;
+            }
+        } 
       newedge=newedge->next;
    }
 
@@ -1614,13 +1664,13 @@ graphlib_error_t graphlib_loadGraph(graphlib_filename_t fn, graphlib_graph_p *ne
   while (newnode!=NULL)
     {
       for (i=0; i<newnode->count; i++)
-	{
-	  if (newnode->node[i].full==0)
-	    {
-	      newnode->node[i].entry.freeptr=(*newgraph)->freenodes;
-	      (*newgraph)->freenodes=&(newnode->node[i]);
-	    }
-	}
+        {
+          if (newnode->node[i].full==0)
+            {
+              newnode->node[i].entry.freeptr=(*newgraph)->freenodes;
+              (*newgraph)->freenodes=&(newnode->node[i]);
+            }
+        }
       newnode=newnode->next;
     }
 
@@ -1630,17 +1680,17 @@ graphlib_error_t graphlib_loadGraph(graphlib_filename_t fn, graphlib_graph_p *ne
   while (newedge!=NULL)
     {
       for (i=0; i<newedge->count; i++)
-	{
-	  if (newedge->edge[i].full==0)
-	    {
-	      newedge->edge[i].entry.freeptr=(*newgraph)->freeedges;
+        {
+          if (newedge->edge[i].full==0)
+            {
+              newedge->edge[i].entry.freeptr=(*newgraph)->freeedges;
 #ifdef STAT_BITVECTOR
-          if (newedge->edge[i].entry.data.attr.edgelist != NULL)
-            bitvec_delete(&(newedge->edge[i].entry.data.attr.edgelist));
+              if (newedge->edge[i].entry.data.attr.edgelist != NULL)
+                bitvec_delete(&(newedge->edge[i].entry.data.attr.edgelist));
 #endif
-	      (*newgraph)->freeedges=&(newedge->edge[i]);
-	    }
-	}
+              (*newgraph)->freeedges=&(newedge->edge[i]);
+            }
+        }
       newedge=newedge->next;
     }
 
@@ -1672,19 +1722,19 @@ graphlib_error_t graphlib_saveGraph(graphlib_filename_t fn, graphlib_graph_p gra
     {
       err=grlibint_write(fh,(char*) runnode,sizeof(graphlib_nodefragment_t)-NODEFRAGSIZE*sizeof(graphlib_nodeentry_t));
       if (GRL_IS_FATALERROR(err))
-	return err;
-	
+        return err;
+        
       err=grlibint_write(fh,(char*) (runnode->node),(runnode->count)*sizeof(graphlib_nodeentry_t));
       if (GRL_IS_FATALERROR(err))
-	return err;
-	
+        return err;
+        
       if (graph->numannotation>0)
-	{
-	  err=grlibint_write(fh,(char*) (runnode->grannot),sizeof(graphlib_annotation_t)*
-			    (graph)->numannotation*(runnode->count));
-	  if (GRL_IS_FATALERROR(err))
-	    return err;
-	}
+        {
+          err=grlibint_write(fh,(char*) (runnode->grannot),sizeof(graphlib_annotation_t)*
+                            (graph)->numannotation*(runnode->count));
+          if (GRL_IS_FATALERROR(err))
+            return err;
+        }
       runnode=runnode->next;
     }
 
@@ -1692,18 +1742,18 @@ graphlib_error_t graphlib_saveGraph(graphlib_filename_t fn, graphlib_graph_p gra
     {
       err=grlibint_write(fh,(char*) runedge,sizeof(graphlib_edgefragment_t)-EDGEFRAGSIZE*sizeof(graphlib_edgeentry_t));
       if (GRL_IS_FATALERROR(err))
-	return err;
+        return err;
       err=grlibint_write(fh,(char*) (runedge->edge),(runedge->count)*sizeof(graphlib_edgeentry_t));
       if (GRL_IS_FATALERROR(err))
-	return err;
+        return err;
 #ifdef STAT_BITVECTOR
       for (i=0; i<runedge->count; i++)
-	{
-	  if (runedge->edge[i].entry.data.attr.edgelist)
-	    err=grlibint_write(fh,(char*) (runedge->edge[i].entry.data.attr.edgelist),grlibint_edgelabelwidth*bv_typesize);
-	  if (GRL_IS_FATALERROR(err))
-	    return err;
-	}
+        {
+          if (runedge->edge[i].entry.data.attr.edgelist)
+            err=grlibint_write(fh,(char*) (runedge->edge[i].entry.data.attr.edgelist),grlibint_edgelabelwidth*bv_typesize);
+          if (GRL_IS_FATALERROR(err))
+            return err;
+        }
 #endif
       runedge=runedge->next;
     }
@@ -1727,371 +1777,371 @@ graphlib_error_t graphlib_exportGraph(graphlib_filename_t fn,
     case GRF_DOT:
     case GRF_PLAINDOT:
       {
-	FILE                    *fh;
-	graphlib_nodefragment_p  nodefrag;
-	graphlib_edgefragment_p  edgefrag;
-	graphlib_nodedata_p      node;
-	graphlib_edgedata_p      edge;
-	int                      i;
+        FILE                    *fh;
+        graphlib_nodefragment_p  nodefrag;
+        graphlib_edgefragment_p  edgefrag;
+        graphlib_nodedata_p      node;
+        graphlib_edgedata_p      edge;
+        int                      i;
 
-	/* open file */
+        /* open file */
 
-	fh=fopen(fn,"w");
-	if (fh==NULL)
-	  return GRL_FILEERROR;
+        fh=fopen(fn,"w");
+        if (fh==NULL)
+          return GRL_FILEERROR;
 
-	/* write header */
+        /* write header */
 
-	fprintf(fh,"digraph G {\n");
-	fprintf(fh,"\tnode [shape=record,style=filled,labeljust=c,height=0.2];\n");
+        fprintf(fh,"digraph G {\n");
+        fprintf(fh,"\tnode [shape=record,style=filled,labeljust=c,height=0.2];\n");
 
-	/* write nodes */
-	
-	nodefrag=graph->nodes;
-	while (nodefrag!=NULL)
-	  {
-	    for (i=0; i<nodefrag->count; i++)
-	      {
-		if (nodefrag->node[i].full)
-		  {
-		    node=&(nodefrag->node[i].entry.data);
-		    {
-		      /* write one node */
-		      
-		      fprintf(fh,"\t%i [",node->id);
-		      
-		      fprintf(fh,"pos=\"%i,%i\", ",node->attr.x,node->attr.y);
-		      fprintf(fh,"label=\"%s\", ",node->attr.name);
-		      fprintf(fh,"fillcolor=");
-		      if (format==GRF_PLAINDOT)
-			grlibint_exp_plaindot_color(node->attr.color,fh);
-		      else
-			grlibint_exp_dot_color(node->attr.color,fh);
-		      fprintf(fh,",fontcolor=");
-		      if (format==GRF_PLAINDOT)
-			grlibint_exp_plaindot_fontcolor(node->attr.color,fh);
-		      else
-			grlibint_exp_dot_fontcolor(node->attr.color,fh);
-		      fprintf(fh,"];\n");		  
-		    }
-		}
-	      }
-	    nodefrag=nodefrag->next;
-	  }
+        /* write nodes */
+        
+        nodefrag=graph->nodes;
+        while (nodefrag!=NULL)
+          {
+            for (i=0; i<nodefrag->count; i++)
+              {
+                if (nodefrag->node[i].full)
+                  {
+                    node=&(nodefrag->node[i].entry.data);
+                    {
+                      /* write one node */
+                      
+                      fprintf(fh,"\t%i [",node->id);
+                      
+                      fprintf(fh,"pos=\"%i,%i\", ",node->attr.x,node->attr.y);
+                      fprintf(fh,"label=\"%s\", ",node->attr.name);
+                      fprintf(fh,"fillcolor=");
+                      if (format==GRF_PLAINDOT)
+                        grlibint_exp_plaindot_color(node->attr.color,fh);
+                      else
+                        grlibint_exp_dot_color(node->attr.color,fh);
+                      fprintf(fh,",fontcolor=");
+                      if (format==GRF_PLAINDOT)
+                        grlibint_exp_plaindot_fontcolor(node->attr.color,fh);
+                      else
+                        grlibint_exp_dot_fontcolor(node->attr.color,fh);
+                      fprintf(fh,"];\n");                  
+                    }
+                }
+              }
+            nodefrag=nodefrag->next;
+          }
 
-	/* write edges */
+        /* write edges */
 
-	edgefrag=graph->edges;
-	while (edgefrag!=NULL)
-	  {
-	    for (i=0; i<edgefrag->count; i++)
-	      {
-		if (edgefrag->edge[i].full)
-		  {
-		    edge=&(edgefrag->edge[i].entry.data);
-		    {
-		      /* write one edge */
-		      fprintf(fh,"\t%i -> %i [",edge->node_from,edge->node_to);
+        edgefrag=graph->edges;
+        while (edgefrag!=NULL)
+          {
+            for (i=0; i<edgefrag->count; i++)
+              {
+                if (edgefrag->edge[i].full)
+                  {
+                    edge=&(edgefrag->edge[i].entry.data);
+                    {
+                      /* write one edge */
+                      fprintf(fh,"\t%i -> %i [",edge->node_from,edge->node_to);
 #ifdef STAT_BITVECTOR
           /*GLL: Note we can generate a c_str from the Integer Set and let graphlib write it to
             the file, but this string gets too large and fails*/
-		      fprintf(fh,"label=\"");
-		      bitvec_c_str_file(fh, edge->attr.edgelist);
-		      fprintf(fh,"\"");
+                      fprintf(fh,"label=\"");
+                      bitvec_c_str_file(fh, edge->attr.edgelist);
+                      fprintf(fh,"\"");
 #else
-		      fprintf(fh,"label=\"%s\"", edge->attr.name);
-#endif		      
-		      fprintf(fh,"]\n");		  
-		    }
-		  }
-	      }
-	    edgefrag=edgefrag->next;
-	  }
-	
-	/* write footer */
-	
-	fprintf(fh,"}\n");
+                      fprintf(fh,"label=\"%s\"", edge->attr.name);
+#endif                      
+                      fprintf(fh,"]\n");                  
+                    }
+                  }
+              }
+            edgefrag=edgefrag->next;
+          }
+        
+        /* write footer */
+        
+        fprintf(fh,"}\n");
 
-	/* done */
+        /* done */
 
-	fclose(fh);
+        fclose(fh);
 
-	break;
+        break;
       }
 
     /*=====================================================*/
 
     case GRF_GML:
       {
-	FILE                    *fh;
-	graphlib_nodefragment_p  nodefrag;
-	graphlib_edgefragment_p  edgefrag;
-	graphlib_nodedata_p      node;
-	graphlib_edgedata_p      edge;
-	int                      i,j;
-	double                   edgescale,maxw;
+        FILE                    *fh;
+        graphlib_nodefragment_p  nodefrag;
+        graphlib_edgefragment_p  edgefrag;
+        graphlib_nodedata_p      node;
+        graphlib_edgedata_p      edge;
+        int                      i,j;
+        double                   edgescale,maxw;
 
 
-	/* open file */
+        /* open file */
 
-	fh=fopen(fn,"w");
-	if (fh==NULL)
-	  return GRL_FILEERROR;
+        fh=fopen(fn,"w");
+        if (fh==NULL)
+          return GRL_FILEERROR;
 
-	/* write header */
+        /* write header */
 
-	fprintf(fh,"Creator \"LLNL-graphlib\"\n");
-	fprintf(fh,"Version 2.2\n");
-	
-	fprintf(fh,"graph\n");
-	fprintf(fh,"[\n");
+        fprintf(fh,"Creator \"LLNL-graphlib\"\n");
+        fprintf(fh,"Version 2.2\n");
+        
+        fprintf(fh,"graph\n");
+        fprintf(fh,"[\n");
 
-	/* graph attributes */
+        /* graph attributes */
 
-	fprintf(fh,"\tdirected %i\n",graph->directed);
+        fprintf(fh,"\tdirected %i\n",graph->directed);
 
-	/* write nodes */
-	
-	nodefrag=graph->nodes;
-	while (nodefrag!=NULL)
-	  {
-	    for (i=0; i<nodefrag->count; i++)
-	      {
-		if (nodefrag->node[i].full)
-		  {
-		    node=&(nodefrag->node[i].entry.data);
-		    {
-		      /* write one node */
-		      
-		      fprintf(fh,"\tnode\n");
-		      fprintf(fh,"\t[\n");
-		      fprintf(fh,"\t\tid %i\n",node->id);
-		      if (node->attr.name[0]==(char)0)
-			{
-			  if (node->attr.width!=0.0)
-			    fprintf(fh,"\t\tlabel \"%.2f\"\n",node->attr.width*1000.0);
-			  else
-			    fprintf(fh,"\t\tlabel \"\"\n");
-			}
-		      else
-			fprintf(fh,"\t\tlabel \"%s\"\n",node->attr.name);			
+        /* write nodes */
+        
+        nodefrag=graph->nodes;
+        while (nodefrag!=NULL)
+          {
+            for (i=0; i<nodefrag->count; i++)
+              {
+                if (nodefrag->node[i].full)
+                  {
+                    node=&(nodefrag->node[i].entry.data);
+                    {
+                      /* write one node */
+                      
+                      fprintf(fh,"\tnode\n");
+                      fprintf(fh,"\t[\n");
+                      fprintf(fh,"\t\tid %i\n",node->id);
+                      if (node->attr.name[0]==(char)0)
+                        {
+                          if (node->attr.width!=0.0)
+                            fprintf(fh,"\t\tlabel \"%.2f\"\n",node->attr.width*1000.0);
+                          else
+                            fprintf(fh,"\t\tlabel \"\"\n");
+                        }
+                      else
+                        fprintf(fh,"\t\tlabel \"%s\"\n",node->attr.name);                        
 
-		      for (j=0; j<graph->numannotation; j++)
-			{
-			  if (graph->annotations[j]!=NULL)
-			    {
-			      fprintf(fh,"\t\t%s \"%f\"\n",graph->annotations[j],
-				      nodefrag->grannot[i*graph->numannotation+j]);
-			    }
-			}
+                      for (j=0; j<graph->numannotation; j++)
+                        {
+                          if (graph->annotations[j]!=NULL)
+                            {
+                              fprintf(fh,"\t\t%s \"%f\"\n",graph->annotations[j],
+                                      nodefrag->grannot[i*graph->numannotation+j]);
+                            }
+                        }
 
-		      fprintf(fh,"\t\tgraphics\n");
-		      fprintf(fh,"\t\t[\n");
-		      fprintf(fh,"\t\t\ttype \"rectangle\"\n");
-		      fprintf(fh,"\t\t\tfill ");
-		      grlibint_exp_gml_color(node->attr.color,fh);
-		      fprintf(fh,"\t\t\toutline \"#000000\"\n");
-		      fprintf(fh,"\t\t\tx %i\n",node->attr.x);
-		      fprintf(fh,"\t\t\ty %i\n",node->attr.y);
-		      fprintf(fh,"\t\t\tw %f\n",node->attr.w);
-		      if (node->attr.height==0)
-			{
-			  if (node->attr.width!=0.0)
-			    fprintf(fh,"\t\t\th %f\n",20.0);
-			  else
-			    fprintf(fh,"\t\t\th %f\n",10.0);
-			}
-		      else
-			fprintf(fh,"\t\t\th %f\n",node->attr.height);
+                      fprintf(fh,"\t\tgraphics\n");
+                      fprintf(fh,"\t\t[\n");
+                      fprintf(fh,"\t\t\ttype \"rectangle\"\n");
+                      fprintf(fh,"\t\t\tfill ");
+                      grlibint_exp_gml_color(node->attr.color,fh);
+                      fprintf(fh,"\t\t\toutline \"#000000\"\n");
+                      fprintf(fh,"\t\t\tx %i\n",node->attr.x);
+                      fprintf(fh,"\t\t\ty %i\n",node->attr.y);
+                      fprintf(fh,"\t\t\tw %f\n",node->attr.w);
+                      if (node->attr.height==0)
+                        {
+                          if (node->attr.width!=0.0)
+                            fprintf(fh,"\t\t\th %f\n",20.0);
+                          else
+                            fprintf(fh,"\t\t\th %f\n",10.0);
+                        }
+                      else
+                        fprintf(fh,"\t\t\th %f\n",node->attr.height);
 
-		      fprintf(fh,"\t\t]\n");
-		      
-		      if ((node->attr.color==GRC_BLACK) ||
-			  (node->attr.fontsize!=DEFAULT_FONT_SIZE))
-			{
-			  fprintf(fh,"\t\tLabelGraphics\n");
-			  fprintf(fh,"\t\t[\n");
-			  if (node->attr.name[0]==(char)0)
-			    {
-			      if (node->attr.width!=0.0)
-				fprintf(fh,"\t\t\ttext \"%.2f\"\n",node->attr.width*1000.0);
-			      else
-				fprintf(fh,"\t\t\ttext \"\"\n");
-			    }
-			  else
-			    fprintf(fh,"\t\t\ttext \"%s\"\n",node->attr.name);
+                      fprintf(fh,"\t\t]\n");
+                      
+                      if ((node->attr.color==GRC_BLACK) ||
+                          (node->attr.fontsize!=DEFAULT_FONT_SIZE))
+                        {
+                          fprintf(fh,"\t\tLabelGraphics\n");
+                          fprintf(fh,"\t\t[\n");
+                          if (node->attr.name[0]==(char)0)
+                            {
+                              if (node->attr.width!=0.0)
+                                fprintf(fh,"\t\t\ttext \"%.2f\"\n",node->attr.width*1000.0);
+                              else
+                                fprintf(fh,"\t\t\ttext \"\"\n");
+                            }
+                          else
+                            fprintf(fh,"\t\t\ttext \"%s\"\n",node->attr.name);
 
-			  fprintf(fh,"\t\t\tcolor ");
-			  grlibint_exp_gml_fontcolor(node->attr.color,fh);
-			  
-			  if (node->attr.fontsize!=DEFAULT_FONT_SIZE)
-			    {
-			      fprintf(fh,"\t\t\tfontSize %i\n",node->attr.fontsize);
-			    }
-			  fprintf(fh,"\t\t]\n");
-			}
-		      
-		      fprintf(fh,"\t]\n");		  
-		    }
-		}
-	      }
-	    nodefrag=nodefrag->next;
-	  }
+                          fprintf(fh,"\t\t\tcolor ");
+                          grlibint_exp_gml_fontcolor(node->attr.color,fh);
+                          
+                          if (node->attr.fontsize!=DEFAULT_FONT_SIZE)
+                            {
+                              fprintf(fh,"\t\t\tfontSize %i\n",node->attr.fontsize);
+                            }
+                          fprintf(fh,"\t\t]\n");
+                        }
+                      
+                      fprintf(fh,"\t]\n");                  
+                    }
+                }
+              }
+            nodefrag=nodefrag->next;
+          }
 
-	/* write edges */
+        /* write edges */
 
-	maxw=1;
-	edgefrag=graph->edges;
-	while (edgefrag!=NULL)
-	  {
-	    for (i=0; i<edgefrag->count; i++)
-	      {
-		if (edgefrag->edge[i].full)
-		  {
-		    edge=&(edgefrag->edge[i].entry.data);
-		    if (edge->attr.width>maxw)
-		      maxw=edge->attr.width;
-		  }	    
-	      }
-	    edgefrag=edgefrag->next;
-	  }
-	/* just fro QBox paper to get uniform graphs */
-	/*   maxw=76; */
+        maxw=1;
+        edgefrag=graph->edges;
+        while (edgefrag!=NULL)
+          {
+            for (i=0; i<edgefrag->count; i++)
+              {
+                if (edgefrag->edge[i].full)
+                  {
+                    edge=&(edgefrag->edge[i].entry.data);
+                    if (edge->attr.width>maxw)
+                      maxw=edge->attr.width;
+                  }            
+              }
+            edgefrag=edgefrag->next;
+          }
+        /* just fro QBox paper to get uniform graphs */
+        /*   maxw=76; */
 
-	edgescale=MAXEDGE_GML/maxw;
+        edgescale=MAXEDGE_GML/maxw;
 
-	edgefrag=graph->edges;
-	while (edgefrag!=NULL)
-	  {
-	    for (i=0; i<edgefrag->count; i++)
-	      {
-		if (edgefrag->edge[i].full)
-		  {
-		    edge=&(edgefrag->edge[i].entry.data);
-		    {
-		      /* write one edge */
-		      
-		      fprintf(fh,"\tedge\n");
-		      fprintf(fh,"\t[\n");
-		      fprintf(fh,"\t\tsource %i\n",edge->node_from);
-		      fprintf(fh,"\t\ttarget %i\n",edge->node_to);
-		      if (edge->attr.width>0)
-			fprintf(fh,"\t\tlabel \"%d\"\n", (int)edge->attr.width);
-		      fprintf(fh,"\t\tgraphics\n");
-		      fprintf(fh,"\t\t[\n");
-		      switch (edge->attr.arcstyle)
-			{
-			case GRA_ARC:
-			  {
-			    fprintf(fh,"\t\t\ttype \"arc\"\n");
-			    break;
-			  }
-			case GRA_SPLINE:
-			  {
-			    fprintf(fh,"\t\t\ttype \"spline\"\n");
-			    break;
-			  }
-			}
-		      if (edge->attr.width>0)
-			fprintf(fh,"\t\t\twidth %f\n",edge->attr.width*edgescale);
-		      else
-			fprintf(fh,"\t\t\twidth 1.0\n");
-		      fprintf(fh,"\t\t\ttargetArrow \"standard\"\n");
-		      fprintf(fh,"\t\t\tfill ");
-		      /* This came from Dorian's code, but I think it's no longer used */
-		      /* grlibint_exp_gml_color(grlibint_num_colors,fh); */
-		      grlibint_exp_gml_color(edge->attr.color,fh);
-		      switch (edge->attr.arcstyle)
-			{
-			case GRA_ARC:
-			  {
-			    fprintf(fh,"\t\t\tarcType	\"fixedRatio\"\n");
-			    fprintf(fh,"\t\t\tarcRatio	1.0\n");
-			    break;
-			  }
-			case GRA_SPLINE:
-			  {
-			    fprintf(fh,"\t\t\tarcType	\"fixedRatio\"\n");
-			    fprintf(fh,"\t\t\tarcRatio	1.0\n");
-			    break;
-			  }
-			}
-		      fprintf(fh,"\t\t]\n");
+        edgefrag=graph->edges;
+        while (edgefrag!=NULL)
+          {
+            for (i=0; i<edgefrag->count; i++)
+              {
+                if (edgefrag->edge[i].full)
+                  {
+                    edge=&(edgefrag->edge[i].entry.data);
+                    {
+                      /* write one edge */
+                      
+                      fprintf(fh,"\tedge\n");
+                      fprintf(fh,"\t[\n");
+                      fprintf(fh,"\t\tsource %i\n",edge->node_from);
+                      fprintf(fh,"\t\ttarget %i\n",edge->node_to);
+                      if (edge->attr.width>0)
+                        fprintf(fh,"\t\tlabel \"%d\"\n", (int)edge->attr.width);
+                      fprintf(fh,"\t\tgraphics\n");
+                      fprintf(fh,"\t\t[\n");
+                      switch (edge->attr.arcstyle)
+                        {
+                        case GRA_ARC:
+                          {
+                            fprintf(fh,"\t\t\ttype \"arc\"\n");
+                            break;
+                          }
+                        case GRA_SPLINE:
+                          {
+                            fprintf(fh,"\t\t\ttype \"spline\"\n");
+                            break;
+                          }
+                        }
+                      if (edge->attr.width>0)
+                        fprintf(fh,"\t\t\twidth %f\n",edge->attr.width*edgescale);
+                      else
+                        fprintf(fh,"\t\t\twidth 1.0\n");
+                      fprintf(fh,"\t\t\ttargetArrow \"standard\"\n");
+                      fprintf(fh,"\t\t\tfill ");
+                      /* This came from Dorian's code, but I think it's no longer used */
+                      /* grlibint_exp_gml_color(grlibint_num_colors,fh); */
+                      grlibint_exp_gml_color(edge->attr.color,fh);
+                      switch (edge->attr.arcstyle)
+                        {
+                        case GRA_ARC:
+                          {
+                            fprintf(fh,"\t\t\tarcType        \"fixedRatio\"\n");
+                            fprintf(fh,"\t\t\tarcRatio        1.0\n");
+                            break;
+                          }
+                        case GRA_SPLINE:
+                          {
+                            fprintf(fh,"\t\t\tarcType        \"fixedRatio\"\n");
+                            fprintf(fh,"\t\t\tarcRatio        1.0\n");
+                            break;
+                          }
+                        }
+                      fprintf(fh,"\t\t]\n");
 
-		      fprintf(fh,"\t\tLabelGraphics\n");
-		      fprintf(fh,"\t\t[\n");
+                      fprintf(fh,"\t\tLabelGraphics\n");
+                      fprintf(fh,"\t\t[\n");
 
-		      if (graph->edgeset)
-			{
+                      if (graph->edgeset)
+                        {
 #ifdef STAT_BITVECTOR
         /*GLL: Note we can generate a c_str from the Integer Set and let graphlib write it to
           the file, but this string gets too large and fails*/
                           fprintf(fh,"\t\t\ttext \"%u:", bitvec_size(edge->attr.edgelist));
-		          bitvec_c_str_file(fh, edge->attr.edgelist);
+                          bitvec_c_str_file(fh, edge->attr.edgelist);
                           fprintf(fh,"\"\n");
 #else
 #ifdef NOSET
-			  fprintf(fh,"\t\t\ttext \"%s\"\n",edge->attr.name);
+                          fprintf(fh,"\t\t\ttext \"%s\"\n",edge->attr.name);
 #else
-			  IntegerSet rset( edge->attr.name );
-			  fprintf(fh,"\t\t\ttext \"%u:%s\"\n",rset.size(), edge->attr.name);
+                          IntegerSet rset( edge->attr.name );
+                          fprintf(fh,"\t\t\ttext \"%u:%s\"\n",rset.size(), edge->attr.name);
 #endif
-#endif			  
-			}
-		      else
-			{
+#endif                          
+                        }
+                      else
+                        {
 #ifdef STAT_BITVECTOR
         /*GLL: this should output the empty list "[]"*/
                           fprintf(fh,"\t\t\ttext \"");
                           bitvec_c_str_file(fh, edge->attr.edgelist);
                           fprintf(fh,"\"\n");
 #else
-			  if (edge->attr.name[0]!=(char)0)
-			    fprintf(fh,"\t\t\ttext \"%s\"\n",edge->attr.name);			
-#endif			    
-			}
+                          if (edge->attr.name[0]!=(char)0)
+                            fprintf(fh,"\t\t\ttext \"%s\"\n",edge->attr.name);                        
+#endif                            
+                        }
 
-		      fprintf(fh,"\t\t\tmodel   \"centered\"\n");
-		      fprintf(fh,"\t\t\tposition        \"center\"\n");
-		      if (edge->attr.fontsize>0)
-			fprintf(fh,"\t\t\tfontSize %i\n",edge->attr.fontsize);
-		      if ((edge->attr.block==GRB_BLOCK) || (edge->attr.block==GRB_FULL))
-			{
-			  fprintf(fh,"\t\t\toutline ");
-			  grlibint_exp_gml_color(edge->attr.color,fh);
-			}
-		      if (edge->attr.block==GRB_FULL)
-			{
-			  fprintf(fh,"\t\t\tfill ");
-			  grlibint_exp_gml_color(edge->attr.color,fh);
-			}
+                      fprintf(fh,"\t\t\tmodel   \"centered\"\n");
+                      fprintf(fh,"\t\t\tposition        \"center\"\n");
+                      if (edge->attr.fontsize>0)
+                        fprintf(fh,"\t\t\tfontSize %i\n",edge->attr.fontsize);
+                      if ((edge->attr.block==GRB_BLOCK) || (edge->attr.block==GRB_FULL))
+                        {
+                          fprintf(fh,"\t\t\toutline ");
+                          grlibint_exp_gml_color(edge->attr.color,fh);
+                        }
+                      if (edge->attr.block==GRB_FULL)
+                        {
+                          fprintf(fh,"\t\t\tfill ");
+                          grlibint_exp_gml_color(edge->attr.color,fh);
+                        }
 
-		      fprintf(fh,"\t\t]\n");
+                      fprintf(fh,"\t\t]\n");
 
-		      fprintf(fh,"\t]\n");		
-		    }  
-		  }
-	      }
-	    edgefrag=edgefrag->next;
-	  }
-	
-	/* write footer */
-	
-	fprintf(fh,"]\n");
+                      fprintf(fh,"\t]\n");                
+                    }  
+                  }
+              }
+            edgefrag=edgefrag->next;
+          }
+        
+        /* write footer */
+        
+        fprintf(fh,"]\n");
 
-	/* done */
+        /* done */
 
-	fclose(fh);
+        fclose(fh);
 
-	break;
+        break;
       }
 
     /*=====================================================*/
 
     default:
       {
-	return GRL_UNKNOWNFORMAT;
-	break;
+        return GRL_UNKNOWNFORMAT;
+        break;
       }
     }
       
@@ -2105,7 +2155,7 @@ graphlib_error_t graphlib_exportGraph(graphlib_filename_t fn,
 #ifndef NOSET
 
 graphlib_error_t graphlib_extractAndExportTemporalGraphs(graphlib_filename_t fn_prefix, 
-							 graphlib_format_t format,graphlib_graph_p graph)
+                                                         graphlib_format_t format,graphlib_graph_p graph)
 {
   graphlib_error_t err;
   graphlib_edgeentry_p edge_entry;
@@ -2193,33 +2243,33 @@ graphlib_error_t graphlib_serializeGraph( graphlib_graph_p igraph,
   while (nodefrag!=NULL) 
     {
       for (i=0; i<nodefrag->count; i++) 
-	{
-	  if (nodefrag->node[i].full) 
-	    {
-	      /* write one node */
-	      node = &(nodefrag->node[i].entry.data);
-	      
-	      /* id */
-	      grlibint_copyDataToBuf( &cur_idx,(const char *)&(node->id),sizeof(graphlib_node_t),
+        {
+          if (nodefrag->node[i].full) 
+            {
+              /* write one node */
+              node = &(nodefrag->node[i].entry.data);
+              
+              /* id */
+              grlibint_copyDataToBuf( &cur_idx,(const char *)&(node->id),sizeof(graphlib_node_t),
                                    &temp_array,&temp_array_len );
                     
-	      /* name */
-	      name_len = strlen( node->attr.name );
-	      name_len++; /* for null terminator */
-	      grlibint_copyDataToBuf( &cur_idx,(const char *)&(name_len),sizeof(int),
-				      &temp_array,&temp_array_len );
+              /* name */
+              name_len = strlen( node->attr.name );
+              name_len++; /* for null terminator */
+              grlibint_copyDataToBuf( &cur_idx,(const char *)&(name_len),sizeof(int),
+                                      &temp_array,&temp_array_len );
 
 #ifdef GRL_DYNAMIC_NODE_NAME
-	      grlibint_copyDataToBuf( &cur_idx,(const char *)(node->attr.name),name_len,
-				      &temp_array,&temp_array_len );
+              grlibint_copyDataToBuf( &cur_idx,(const char *)(node->attr.name),name_len,
+                                      &temp_array,&temp_array_len );
 #else
-	      grlibint_copyDataToBuf( &cur_idx,(const char *)&(node->attr.name),name_len,
-				      &temp_array,&temp_array_len );
+              grlibint_copyDataToBuf( &cur_idx,(const char *)&(node->attr.name),name_len,
+                                      &temp_array,&temp_array_len );
 #endif
-	      
-	      /* width */
-	      grlibint_copyDataToBuf( &cur_idx,(const char *)&(node->attr.width),sizeof(graphlib_width_t),
-				      &temp_array,&temp_array_len );
+              
+              /* width */
+              grlibint_copyDataToBuf( &cur_idx,(const char *)&(node->attr.width),sizeof(graphlib_width_t),
+                                      &temp_array,&temp_array_len );
             }
         }
       nodefrag=nodefrag->next;
@@ -2230,39 +2280,39 @@ graphlib_error_t graphlib_serializeGraph( graphlib_graph_p igraph,
   while (edgefrag!=NULL) 
     {
       for (i=0; i<edgefrag->count; i++) 
-	{
-	  if (edgefrag->edge[i].full) 
-	    {
-	      /* write one edge */
-	      edge=&(edgefrag->edge[i].entry.data);
-	      
-	      /* from_id */
-	      grlibint_copyDataToBuf( &cur_idx,(const char *)&(edge->node_from),sizeof(graphlib_node_t),
+        {
+          if (edgefrag->edge[i].full) 
+            {
+              /* write one edge */
+              edge=&(edgefrag->edge[i].entry.data);
+              
+              /* from_id */
+              grlibint_copyDataToBuf( &cur_idx,(const char *)&(edge->node_from),sizeof(graphlib_node_t),
                                    &temp_array,&temp_array_len );
                
-	      /* to_id */
-	      grlibint_copyDataToBuf( &cur_idx,(const char *)&(edge->node_to),sizeof(graphlib_node_t),
-				      &temp_array,&temp_array_len );
+              /* to_id */
+              grlibint_copyDataToBuf( &cur_idx,(const char *)&(edge->node_to),sizeof(graphlib_node_t),
+                                      &temp_array,&temp_array_len );
 
-	      /* name */
+              /* name */
 #ifdef STAT_BITVECTOR
               name_len = grlibint_edgelabelwidth*bv_typesize;
 #else
-	      name_len = strlen( edge->attr.name );
-	      name_len++; /* for null terminator */
-#endif	      
-	      grlibint_copyDataToBuf( &cur_idx,(const char *)&(name_len),sizeof(int),
-				      &temp_array,&temp_array_len );
+              name_len = strlen( edge->attr.name );
+              name_len++; /* for null terminator */
+#endif              
+              grlibint_copyDataToBuf( &cur_idx,(const char *)&(name_len),sizeof(int),
+                                      &temp_array,&temp_array_len );
 
 #ifdef STAT_BITVECTOR
-	      grlibint_copyDataToBuf( &cur_idx,(const char *)(edge->attr.edgelist),name_len,
-				      &temp_array,&temp_array_len );
+              grlibint_copyDataToBuf( &cur_idx,(const char *)(edge->attr.edgelist),name_len,
+                                      &temp_array,&temp_array_len );
 #endif
 
-	      /* width */
-	      grlibint_copyDataToBuf( &cur_idx,(const char *)&(edge->attr.width),sizeof(graphlib_width_t),
-				      &temp_array,&temp_array_len );
-	    }
+              /* width */
+              grlibint_copyDataToBuf( &cur_idx,(const char *)&(edge->attr.width),sizeof(graphlib_width_t),
+                                      &temp_array,&temp_array_len );
+            }
         }
       edgefrag=edgefrag->next;
     }
@@ -2280,9 +2330,9 @@ graphlib_error_t graphlib_serializeGraph( graphlib_graph_p igraph,
 #ifndef NOSET
 
 graphlib_error_t graphlib_deserializeGraphConn(int conn, 
-					       graphlib_graph_p * ograph,
-					       char * ibyte_array,
-					       unsigned int ibyte_array_len )
+                                               graphlib_graph_p * ograph,
+                                               char * ibyte_array,
+                                               unsigned int ibyte_array_len )
 {
   graphlib_error_t err;
   graphlib_nodeattr_t node_attr = {0,0,0,0,0,0,"",14};
@@ -2324,23 +2374,25 @@ graphlib_error_t graphlib_deserializeGraphConn(int conn,
     {
       /* id */
       grlibint_copyDataFromBuf( (char *)&id, &cur_idx,sizeof(graphlib_node_t),
-				ibyte_array, ibyte_array_len );
+                                ibyte_array, ibyte_array_len );
       
       /* name */
       grlibint_copyDataFromBuf( (char *)&name_len,&cur_idx,sizeof(int),
-				ibyte_array,ibyte_array_len );
+                                ibyte_array,ibyte_array_len );
 
 #ifdef GRL_DYNAMIC_NODE_NAME
       nodename = (char *)malloc(name_len);
+      if (nodename==NULL)
+        return GRL_NOMEM;
 #endif
                     
 #ifdef GRL_DYNAMIC_NODE_NAME
       grlibint_copyDataFromBuf( (char *)nodename,&cur_idx,name_len,
-				ibyte_array,ibyte_array_len );
+                                ibyte_array,ibyte_array_len );
       node_attr.name = nodename;
 #else
       grlibint_copyDataFromBuf( (char *)&nodename,&cur_idx,name_len,
-				ibyte_array,ibyte_array_len );
+                                ibyte_array,ibyte_array_len );
       strncpy( node_attr.name, nodename, name_len );
       node_attr.name[name_len-1]=(char)0;
 #endif
@@ -2351,6 +2403,7 @@ graphlib_error_t graphlib_deserializeGraphConn(int conn,
       node_attr.width = width;
       
       graphlib_addNode( *ograph, id, &node_attr );
+      free(nodename);
     }
 
   /* read edges */
@@ -2358,7 +2411,7 @@ graphlib_error_t graphlib_deserializeGraphConn(int conn,
     {
       /* from_id */
       grlibint_copyDataFromBuf( (char *)&from_id,&cur_idx,sizeof(graphlib_node_t),
-				ibyte_array,ibyte_array_len );
+                                ibyte_array,ibyte_array_len );
       
       /* to_id */
       grlibint_copyDataFromBuf( (char *)&to_id,&cur_idx,sizeof(graphlib_node_t),
@@ -2366,20 +2419,20 @@ graphlib_error_t graphlib_deserializeGraphConn(int conn,
       
       /* name */
       grlibint_copyDataFromBuf( (char *)&name_len,&cur_idx,sizeof(int),
-				ibyte_array,ibyte_array_len );
+                                ibyte_array,ibyte_array_len );
                     
 #ifdef STAT_BITVECTOR
       edgelist=bitvec_allocate();
       if (edgelist==NULL)
         return GRL_NOMEM;
       grlibint_copyDataFromBuf( (char *)&(((bv_type *)edgelist)[offset]),&cur_idx,name_len,
-				ibyte_array,ibyte_array_len );
+                                ibyte_array,ibyte_array_len );
       edge_attr.edgelist=edgelist;
 #else
       strncpy( edge_attr.name, name, name_len );
       edge_attr.name[name_len-1]=(char)0;
       grlibint_copyDataFromBuf( (char *)&(edgelist[offset]),&cur_idx,name_len,
-				ibyte_array,ibyte_array_len );
+                                ibyte_array,ibyte_array_len );
 #endif      
       
       /* width */
@@ -2388,6 +2441,7 @@ graphlib_error_t graphlib_deserializeGraphConn(int conn,
       
       edge_attr.width = width;
       graphlib_addDirectedEdge( *ograph, from_id, to_id, &edge_attr );
+      bitvec_delete(&edgelist);
     }
 
     return GRL_OK;
@@ -2395,8 +2449,8 @@ graphlib_error_t graphlib_deserializeGraphConn(int conn,
 
 
 graphlib_error_t graphlib_deserializeGraph(graphlib_graph_p * ograph,
-					   char * ibyte_array,
-					   unsigned int ibyte_array_len )
+                                           char * ibyte_array,
+                                           unsigned int ibyte_array_len )
 {
   return graphlib_deserializeGraphConn(0,ograph,ibyte_array,ibyte_array_len);
 }
@@ -2423,35 +2477,35 @@ graphlib_error_t graphlib_addNode(graphlib_graph_p graph, graphlib_node_t node,
   if (err==GRL_NONODE)
     {
       if (graph->freenodes!=NULL)
-	{
-	  /* reuse one node from freelist */
-	  
-	  entry=graph->freenodes;
-	  graph->freenodes=entry->entry.freeptr;
-	}
+        {
+          /* reuse one node from freelist */
+          
+          entry=graph->freenodes;
+          graph->freenodes=entry->entry.freeptr;
+        }
       else
-	{
-	  /* allocate new node */
+        {
+          /* allocate new node */
       
-	  if (graph->nodes==NULL)
-	    {
-	      err=grlibint_newNodeFragment(&(graph->nodes),graph->numannotation);
-	      if (GRL_IS_FATALERROR(err))
-		return err;
-	    }
-	  
-	  if ((graph->nodes)->count==NODEFRAGSIZE)
-	    {
-	      err=grlibint_newNodeFragment(&newfrag,graph->numannotation);
-	      if (GRL_IS_FATALERROR(err))
-		return err;
-	      newfrag->next=graph->nodes;
-	      graph->nodes=newfrag;
-	    }
+          if (graph->nodes==NULL)
+            {
+              err=grlibint_newNodeFragment(&(graph->nodes),graph->numannotation);
+              if (GRL_IS_FATALERROR(err))
+                return err;
+            }
+          
+          if ((graph->nodes)->count==NODEFRAGSIZE)
+            {
+              err=grlibint_newNodeFragment(&newfrag,graph->numannotation);
+              if (GRL_IS_FATALERROR(err))
+                return err;
+              newfrag->next=graph->nodes;
+              graph->nodes=newfrag;
+            }
 
-	  entry=&((graph->nodes)->node[(graph->nodes)->count]);
-	  (graph->nodes)->count += 1;
-	}
+          entry=&((graph->nodes)->node[(graph->nodes)->count]);
+          (graph->nodes)->count += 1;
+        }
 
       entry->entry.data.id=node;
       entry->full=1;
@@ -2460,31 +2514,31 @@ graphlib_error_t graphlib_addNode(graphlib_graph_p graph, graphlib_node_t node,
   else
     {
       if (GRL_IS_FATALERROR(err))
-	return err;
+        return err;
       newnode=0;
     }
 
   if (attr!=NULL)
     {
       if (newnode)
-	{
-	  entry->entry.data.attr=*attr;
-	  entry->entry.data.attr.width=attr->width;
-	  entry->entry.data.attr.w=attr->width;
-	  entry->entry.data.attr.height=attr->height;
-	}
+        {
+          entry->entry.data.attr=*attr;
+          entry->entry.data.attr.width=attr->width;
+          entry->entry.data.attr.w=attr->width;
+          entry->entry.data.attr.height=attr->height;
+        }
       else
-	{
-	  entry->entry.data.attr.color=attr->color;
-	  entry->entry.data.attr.x=attr->x;
-	  entry->entry.data.attr.y=attr->y;
-	  if (attr->w>entry->entry.data.attr.w)
-	    entry->entry.data.attr.w=attr->w;
-	  if (attr->width>entry->entry.data.attr.width)
-	    entry->entry.data.attr.width=attr->width;
-	  if (attr->height>entry->entry.data.attr.height)
-	    entry->entry.data.attr.height=attr->height;
-	}
+        {
+          entry->entry.data.attr.color=attr->color;
+          entry->entry.data.attr.x=attr->x;
+          entry->entry.data.attr.y=attr->y;
+          if (attr->w>entry->entry.data.attr.w)
+            entry->entry.data.attr.w=attr->w;
+          if (attr->width>entry->entry.data.attr.width)
+            entry->entry.data.attr.width=attr->width;
+          if (attr->height>entry->entry.data.attr.height)
+            entry->entry.data.attr.height=attr->height;
+        }
 #ifdef GRL_DYNAMIC_NODE_NAME
       entry->entry.data.attr.name = strdup(attr->name);
 #else
@@ -2517,35 +2571,35 @@ graphlib_error_t graphlib_addNodeNoCheck(graphlib_graph_p graph, graphlib_node_t
   if (err==GRL_NONODE)
     {
       if (graph->freenodes!=NULL)
-	{
-	  /* reuse one node from freelist */
-	  
-	  entry=graph->freenodes;
-	  graph->freenodes=entry->entry.freeptr;
-	}
+        {
+          /* reuse one node from freelist */
+          
+          entry=graph->freenodes;
+          graph->freenodes=entry->entry.freeptr;
+        }
       else
-	{
-	  /* allocate new node */
+        {
+          /* allocate new node */
       
-	  if (graph->nodes==NULL)
-	    {
-	      err=grlibint_newNodeFragment(&(graph->nodes),graph->numannotation);
-	      if (GRL_IS_FATALERROR(err))
-		return err;
-	    }
-	  
-	  if ((graph->nodes)->count==NODEFRAGSIZE)
-	    {
-	      err=grlibint_newNodeFragment(&newfrag,graph->numannotation);
-	      if (GRL_IS_FATALERROR(err))
-		return err;
-	      newfrag->next=graph->nodes;
-	      graph->nodes=newfrag;
-	    }
+          if (graph->nodes==NULL)
+            {
+              err=grlibint_newNodeFragment(&(graph->nodes),graph->numannotation);
+              if (GRL_IS_FATALERROR(err))
+                return err;
+            }
+          
+          if ((graph->nodes)->count==NODEFRAGSIZE)
+            {
+              err=grlibint_newNodeFragment(&newfrag,graph->numannotation);
+              if (GRL_IS_FATALERROR(err))
+                return err;
+              newfrag->next=graph->nodes;
+              graph->nodes=newfrag;
+            }
 
-	  entry=&((graph->nodes)->node[(graph->nodes)->count]);
-	  (graph->nodes)->count += 1;
-	}
+          entry=&((graph->nodes)->node[(graph->nodes)->count]);
+          (graph->nodes)->count += 1;
+        }
 
       entry->entry.data.id=node;
       entry->full=1;
@@ -2554,31 +2608,31 @@ graphlib_error_t graphlib_addNodeNoCheck(graphlib_graph_p graph, graphlib_node_t
   else
     {
       if (GRL_IS_FATALERROR(err))
-	return err;
+        return err;
       newnode=0;
     }
 
   if (attr!=NULL)
     {
       if (newnode)
-	{
-	  entry->entry.data.attr=*attr;
-	  entry->entry.data.attr.width=attr->width;
-	  entry->entry.data.attr.w=attr->width;
-	  entry->entry.data.attr.height=attr->height;
-	}
+        {
+          entry->entry.data.attr=*attr;
+          entry->entry.data.attr.width=attr->width;
+          entry->entry.data.attr.w=attr->width;
+          entry->entry.data.attr.height=attr->height;
+        }
       else
-	{
-	  entry->entry.data.attr.color=attr->color;
-	  entry->entry.data.attr.x=attr->x;
-	  entry->entry.data.attr.y=attr->y;
-	  if (attr->w>entry->entry.data.attr.w)
-	    entry->entry.data.attr.w=attr->w;
-	  if (attr->width>entry->entry.data.attr.width)
-	    entry->entry.data.attr.width=attr->width;
-	  if (attr->height>entry->entry.data.attr.height)
-	    entry->entry.data.attr.height=attr->height;
-	}
+        {
+          entry->entry.data.attr.color=attr->color;
+          entry->entry.data.attr.x=attr->x;
+          entry->entry.data.attr.y=attr->y;
+          if (attr->w>entry->entry.data.attr.w)
+            entry->entry.data.attr.w=attr->w;
+          if (attr->width>entry->entry.data.attr.width)
+            entry->entry.data.attr.width=attr->width;
+          if (attr->height>entry->entry.data.attr.height)
+            entry->entry.data.attr.height=attr->height;
+        }
       strncpy(entry->entry.data.attr.name,attr->name,GRL_MAX_NAME_LENGTH-1);
       entry->entry.data.attr.name[GRL_MAX_NAME_LENGTH-1]=(char)0;
       err=GRL_OK;
@@ -2595,9 +2649,9 @@ graphlib_error_t graphlib_addNodeNoCheck(graphlib_graph_p graph, graphlib_node_t
 /*............................................................*/
 
 graphlib_error_t graphlib_addUndirectedEdge(graphlib_graph_p graph, 
-					    graphlib_node_t node1, 
-					    graphlib_node_t node2,
-					    graphlib_edgeattr_p attr)
+                                            graphlib_node_t node1, 
+                                            graphlib_node_t node2,
+                                            graphlib_edgeattr_p attr)
 {
   graphlib_error_t err;
   int              directed;
@@ -2615,9 +2669,9 @@ graphlib_error_t graphlib_addUndirectedEdge(graphlib_graph_p graph,
 /*............................................................*/
 
 graphlib_error_t graphlib_addUndirectedEdgeNoCheck(graphlib_graph_p graph, 
-						   graphlib_node_t node1, 
-						   graphlib_node_t node2,
-						   graphlib_edgeattr_p attr)
+                                                   graphlib_node_t node1, 
+                                                   graphlib_node_t node2,
+                                                   graphlib_edgeattr_p attr)
 {
   graphlib_error_t err;
   int              directed;
@@ -2635,9 +2689,9 @@ graphlib_error_t graphlib_addUndirectedEdgeNoCheck(graphlib_graph_p graph,
 /*............................................................*/
 
 graphlib_error_t graphlib_addDirectedEdge(graphlib_graph_p graph, 
-					  graphlib_node_t node1, 
-					  graphlib_node_t node2,
-					  graphlib_edgeattr_p attr)
+                                          graphlib_node_t node1, 
+                                          graphlib_node_t node2,
+                                          graphlib_edgeattr_p attr)
 {
   graphlib_edgefragment_p  newfrag;
   graphlib_edgeentry_p     entry;
@@ -2657,43 +2711,43 @@ graphlib_error_t graphlib_addDirectedEdge(graphlib_graph_p graph,
       #else
       err=grlibint_findNode(graph,node1,&noderef1);
       if ((GRL_IS_FATALERROR(err))||(err==GRL_NONODE))
-	return err;
+        return err;
 
       err=grlibint_findNode(graph,node2,&noderef2);
       if ((GRL_IS_FATALERROR(err))||(err==GRL_NONODE))
-	return err;
+        return err;
       #endif
 
       if (graph->freeedges!=NULL)
-	{
-	  /* reuse edge from free list */
+        {
+          /* reuse edge from free list */
 
-	  entry=graph->freeedges;
-	  graph->freeedges=entry->entry.freeptr;
-	}
+          entry=graph->freeedges;
+          graph->freeedges=entry->entry.freeptr;
+        }
       else
-	{
-	  /* allocate new entry */
-	    
-	  if (graph->edges==NULL)
-	    {
-	      err=grlibint_newEdgeFragment(&(graph->edges));
-	      if (GRL_IS_FATALERROR(err))
-		return err;
-	    }
-	  
-	  if ((graph->edges)->count==EDGEFRAGSIZE)
-	    {
-	      err=grlibint_newEdgeFragment(&newfrag);
-	      if (GRL_IS_FATALERROR(err))
-		return err;
-	      newfrag->next=graph->edges;
-	      graph->edges=newfrag;
-	    }
+        {
+          /* allocate new entry */
+            
+          if (graph->edges==NULL)
+            {
+              err=grlibint_newEdgeFragment(&(graph->edges));
+              if (GRL_IS_FATALERROR(err))
+                return err;
+            }
+          
+          if ((graph->edges)->count==EDGEFRAGSIZE)
+            {
+              err=grlibint_newEdgeFragment(&newfrag);
+              if (GRL_IS_FATALERROR(err))
+                return err;
+              newfrag->next=graph->edges;
+              graph->edges=newfrag;
+            }
       
-	  entry=&((graph->edges)->edge[(graph->edges)->count]);
-	  (graph->edges)->count += 1;
-	}
+          entry=&((graph->edges)->edge[(graph->edges)->count]);
+          (graph->edges)->count += 1;
+        }
 
       entry->entry.data.node_from=node1;
       entry->entry.data.node_to=node2;
@@ -2704,7 +2758,7 @@ graphlib_error_t graphlib_addDirectedEdge(graphlib_graph_p graph,
   else
     {
       if (GRL_IS_FATALERROR(err))
-	return err;
+        return err;
     }
 
   if (attr!=NULL)
@@ -2736,9 +2790,9 @@ graphlib_error_t graphlib_addDirectedEdge(graphlib_graph_p graph,
 /*............................................................*/
 
 graphlib_error_t graphlib_addDirectedEdgeNoCheck(graphlib_graph_p graph, 
-						 graphlib_node_t node1, 
-						 graphlib_node_t node2,
-						 graphlib_edgeattr_p attr)
+                                                 graphlib_node_t node1, 
+                                                 graphlib_node_t node2,
+                                                 graphlib_edgeattr_p attr)
 {
   graphlib_edgefragment_p  newfrag;
   graphlib_edgeentry_p     entry;
@@ -2752,35 +2806,35 @@ graphlib_error_t graphlib_addDirectedEdgeNoCheck(graphlib_graph_p graph,
       err=GRL_OK;
 
       if (graph->freeedges!=NULL)
-	{
-	  /* reuse edge from free list */
+        {
+          /* reuse edge from free list */
 
-	  entry=graph->freeedges;
-	  graph->freeedges=entry->entry.freeptr;
-	}
+          entry=graph->freeedges;
+          graph->freeedges=entry->entry.freeptr;
+        }
       else
-	{
-	  /* allocate new entry */
-	    
-	  if (graph->edges==NULL)
-	    {
-	      err=grlibint_newEdgeFragment(&(graph->edges));
-	      if (GRL_IS_FATALERROR(err))
-		return err;
-	    }
-	  
-	  if ((graph->edges)->count==EDGEFRAGSIZE)
-	    {
-	      err=grlibint_newEdgeFragment(&newfrag);
-	      if (GRL_IS_FATALERROR(err))
-		return err;
-	      newfrag->next=graph->edges;
-	      graph->edges=newfrag;
-	    }
+        {
+          /* allocate new entry */
+            
+          if (graph->edges==NULL)
+            {
+              err=grlibint_newEdgeFragment(&(graph->edges));
+              if (GRL_IS_FATALERROR(err))
+                return err;
+            }
+          
+          if ((graph->edges)->count==EDGEFRAGSIZE)
+            {
+              err=grlibint_newEdgeFragment(&newfrag);
+              if (GRL_IS_FATALERROR(err))
+                return err;
+              newfrag->next=graph->edges;
+              graph->edges=newfrag;
+            }
       
-	  entry=&((graph->edges)->edge[(graph->edges)->count]);
-	  (graph->edges)->count += 1;
-	}
+          entry=&((graph->edges)->edge[(graph->edges)->count]);
+          (graph->edges)->count += 1;
+        }
 
       entry->entry.data.node_from=node1;
       entry->entry.data.node_to=node2;
@@ -2791,7 +2845,7 @@ graphlib_error_t graphlib_addDirectedEdgeNoCheck(graphlib_graph_p graph,
   else
     {
       if (GRL_IS_FATALERROR(err))
-	return err;
+        return err;
     }
 
   if (attr!=NULL)
@@ -2820,7 +2874,7 @@ graphlib_error_t graphlib_addDirectedEdgeNoCheck(graphlib_graph_p graph,
 /* delete a node and all its connections */
 
 graphlib_error_t graphlib_deleteConnectedNode(graphlib_graph_p graph, 
-					      graphlib_node_t node)
+                                              graphlib_node_t node)
 {
   graphlib_error_t     err;
   graphlib_nodeentry_p nodedel;
@@ -2834,7 +2888,7 @@ graphlib_error_t graphlib_deleteConnectedNode(graphlib_graph_p graph,
     {
       err=grlibint_findNodeEdge(graph,node,&edgedel);
       if (err==GRL_OK)
-	err=grlibint_delEdge(graph,edgedel);
+        err=grlibint_delEdge(graph,edgedel);
     }
   while (err==GRL_OK);
 
@@ -2869,31 +2923,31 @@ graphlib_error_t graphlib_mergeGraphs(graphlib_graph_p graph1,
   while (runnode!=NULL)
     {
       for (i=0; i<runnode->count; i++)
-	{
-	  if (runnode->node[i].full)
-	    {
-	      err=graphlib_addNode(graph1,runnode->node[i].entry.data.id,
-				   &((runnode->node[i]).entry.data.attr));
-	      if (GRL_IS_FATALERROR(err))
-		return err;
-	    }
-	}
+        {
+          if (runnode->node[i].full)
+            {
+              err=graphlib_addNode(graph1,runnode->node[i].entry.data.id,
+                                   &((runnode->node[i]).entry.data.attr));
+              if (GRL_IS_FATALERROR(err))
+                return err;
+            }
+        }
       runnode=runnode->next;
     }
 
   while (runedge!=NULL)
     {
       for (i=0; i<runedge->count; i++)
-	{
-	  if (runedge->edge[i].full)
-	    {
-	      err=graphlib_addDirectedEdge(graph1,runedge->edge[i].entry.data.node_from,
-					   runedge->edge[i].entry.data.node_to,
-					   &((runedge->edge[i]).entry.data.attr));
-	      if (GRL_IS_FATALERROR(err))
-		return err;
-	    }
-	}
+        {
+          if (runedge->edge[i].full)
+            {
+              err=graphlib_addDirectedEdge(graph1,runedge->edge[i].entry.data.node_from,
+                                           runedge->edge[i].entry.data.node_to,
+                                           &((runedge->edge[i]).entry.data.attr));
+              if (GRL_IS_FATALERROR(err))
+                return err;
+            }
+        }
       runedge=runedge->next;
     }  
 
@@ -2907,7 +2961,7 @@ graphlib_error_t graphlib_mergeGraphs(graphlib_graph_p graph1,
 /* graph merge by adding widths */
 
 graphlib_error_t graphlib_mergeGraphsWeighted(graphlib_graph_p graph1, 
-					      graphlib_graph_p graph2)
+                                              graphlib_graph_p graph2)
 {
   int  err,i,directed;
   graphlib_nodefragment_p runnode;
@@ -2927,45 +2981,45 @@ graphlib_error_t graphlib_mergeGraphsWeighted(graphlib_graph_p graph1,
   while (runnode!=NULL) 
     {
       for (i=0; i<runnode->count; i++) 
-	{
+        {
           if (runnode->node[i].full) 
-	    {
+            {
               err=grlibint_findNode(graph1,runnode->node[i].entry.data.id, &nodeentry);
 
               if (err == GRL_OK ) 
-		{
-		  /*widths must be combined*/
+                {
+                  /*widths must be combined*/
                   runnode->node[i].entry.data.attr.width += nodeentry->entry.data.attr.width;
-		}
+                }
               err=graphlib_addNode(graph1,runnode->node[i].entry.data.id,
                                    &((runnode->node[i]).entry.data.attr));
               if (GRL_IS_FATALERROR(err))
-		return err;
-	    }
-	}
+                return err;
+            }
+        }
       runnode=runnode->next;
     }
   
   while (runedge!=NULL) 
     {
       for (i=0; i<runedge->count; i++) 
-	{
+        {
           if (runedge->edge[i].full) 
-	    {
+            {
               err=grlibint_findEdge(graph1,runedge->edge[i].entry.data.node_from,
                                     runedge->edge[i].entry.data.node_to,&edgeentry);
               if (err==GRL_OK)
-		{
+                {
       /*widths must be combined*/
                   runedge->edge[i].entry.data.attr.width += edgeentry->entry.data.attr.width;
-		}
+                }
               err=graphlib_addDirectedEdge(graph1,runedge->edge[i].entry.data.node_from,
                                            runedge->edge[i].entry.data.node_to,
                                            &((runedge->edge[i]).entry.data.attr));
               if (GRL_IS_FATALERROR(err))
-		return err;
-	    }
-	}
+                return err;
+            }
+        }
       runedge=runedge->next;
     }  
   
@@ -2981,7 +3035,7 @@ graphlib_error_t graphlib_mergeGraphsWeighted(graphlib_graph_p graph1,
 #ifndef NOSET
 
 graphlib_error_t graphlib_mergeGraphsRanked(graphlib_graph_p graph1, 
-					    graphlib_graph_p graph2)
+                                            graphlib_graph_p graph2)
 {
   int  err,i,directed;
   graphlib_nodefragment_p runnode;
@@ -3003,53 +3057,54 @@ graphlib_error_t graphlib_mergeGraphsRanked(graphlib_graph_p graph1,
   while (runnode!=NULL) 
     {
       for (i=0; i<runnode->count; i++) 
-	{
-	  if (runnode->node[i].full) 
-	    {
-	      err=grlibint_findNode(graph1,runnode->node[i].entry.data.id, &nodeentry);
+        {
+          if (runnode->node[i].full) 
+            {
+              err=grlibint_findNode(graph1,runnode->node[i].entry.data.id, &nodeentry);
               if (err == GRL_OK ) 
-		{
-		  /*widths must be combined*/
+                {
+                  /* widths must be combined */
                   runnode->node[i].entry.data.attr.width += nodeentry->entry.data.attr.width;
-		}
-              err=graphlib_addNode(graph1,runnode->node[i].entry.data.id,
-                                   &((runnode->node[i]).entry.data.attr));
-              if (GRL_IS_FATALERROR(err))
-		return err;
-	    }
-	}
+                }
+              else
+                {
+                  err=graphlib_addNode(graph1,runnode->node[i].entry.data.id,
+                                       &((runnode->node[i]).entry.data.attr));
+                  if (GRL_IS_FATALERROR(err))
+                    return err;
+                }
+            }
+        }
       runnode=runnode->next;
     }
   
   while (runedge!=NULL) 
     {
       for (i=0; i<runedge->count; i++) 
-	{
+        {
           if (runedge->edge[i].full) 
-	    {
-              err=grlibint_findEdge(graph1,runedge->edge[i].entry.data.node_from,
-                                    runedge->edge[i].entry.data.node_to,&edgeentry);
+            {
+              err=grlibint_findEdge(graph1,runedge->edge[i].entry.data.node_from, runedge->edge[i].entry.data.node_to,&edgeentry);
               if (err==GRL_OK)
-		{
-      /*names must be combined*/
+                {
+                  /* names must be combined */
 #ifdef STAT_BITVECTOR
-		  bitvec_merge(runedge->edge[i].entry.data.attr.edgelist, edgeentry->entry.data.attr.edgelist);
+                  bitvec_merge(runedge->edge[i].entry.data.attr.edgelist, edgeentry->entry.data.attr.edgelist);
 #else
                   IntegerSet rank_set;
                   rank_set.insert(runedge->edge[i].entry.data.attr.name);
                   rank_set.insert(edgeentry->entry.data.attr.name);
                   strncpy(runedge->edge[i].entry.data.attr.name,
-                           rank_set.c_str(), GRL_MAX_NAME_LENGTH-1);
-                  runedge->edge[i].entry.data.attr.name[GRL_MAX_NAME_LENGTH-1]=(char)0;
-#endif			   
-		}
+                          rank_set.c_str(), GRL_MAX_NAME_LENGTH);
+#endif               
+                }
               err=graphlib_addDirectedEdge(graph1,runedge->edge[i].entry.data.node_from,
                                            runedge->edge[i].entry.data.node_to,
                                            &((runedge->edge[i]).entry.data.attr));
               if (GRL_IS_FATALERROR(err))
-		return err;
-	    }
-	}
+                return err;
+            }
+        }
       runedge=runedge->next;
     }  
 
@@ -3064,7 +3119,7 @@ graphlib_error_t graphlib_mergeGraphsRanked(graphlib_graph_p graph1,
 /* graph merge by with empty edge sets */
 
 graphlib_error_t graphlib_mergeGraphsEmptyEdges(graphlib_graph_p graph1, 
-					        graphlib_graph_p graph2)
+                                                graphlib_graph_p graph2)
 {
   int  err,i,directed;
   graphlib_nodefragment_p runnode;
@@ -3085,38 +3140,41 @@ graphlib_error_t graphlib_mergeGraphsEmptyEdges(graphlib_graph_p graph1,
   while (runnode!=NULL) 
     {
       for (i=0; i<runnode->count; i++) 
-	{
-	  if (runnode->node[i].full) 
-	    {
-	      err=grlibint_findNode(graph1,runnode->node[i].entry.data.id, &nodeentry);
+        {
+          if (runnode->node[i].full) 
+            {
+              err=grlibint_findNode(graph1,runnode->node[i].entry.data.id, &nodeentry);
               if (err == GRL_OK ) 
-		{
-		  /*widths must be combined*/
+                {
+                  /* widths must be combined */
                   runnode->node[i].entry.data.attr.width += nodeentry->entry.data.attr.width;
-		}
-              err=graphlib_addNode(graph1,runnode->node[i].entry.data.id,
-                                   &((runnode->node[i]).entry.data.attr));
-              if (GRL_IS_FATALERROR(err))
-		return err;
-	    }
-	}
+                }
+              else
+                {
+                  err=graphlib_addNode(graph1,runnode->node[i].entry.data.id,
+                                       &((runnode->node[i]).entry.data.attr));
+                  if (GRL_IS_FATALERROR(err))
+                    return err;
+                }
+            }
+        }
       runnode=runnode->next;
     }
   
   while (runedge!=NULL) 
     {
       for (i=0; i<runedge->count; i++) 
-	{
+        {
           if (runedge->edge[i].full) 
-	    {
+            {
               /* Add directed edge with NULL attr. This will get us the default empty edge */
               err=graphlib_addDirectedEdge(graph1,runedge->edge[i].entry.data.node_from,
                                            runedge->edge[i].entry.data.node_to,
                                            NULL);
               if (GRL_IS_FATALERROR(err))
-		return err;
-	    }
-	}
+                return err;
+            }
+        }
       runedge=runedge->next;
     }  
 
@@ -3130,10 +3188,10 @@ graphlib_error_t graphlib_mergeGraphsEmptyEdges(graphlib_graph_p graph1,
 /* graph merge by adding widths and fill edge sets */
 
 graphlib_error_t graphlib_mergeGraphsFillEdges(graphlib_graph_p graph1, 
-					       graphlib_graph_p graph2,
-					       int *ranks,
-					       int ranks_size,
-					       int offset)
+                                               graphlib_graph_p graph2,
+                                               int *ranks,
+                                               int ranks_size,
+                                               int offset)
 {
   int  err,i,j,directed;
 #ifdef STAT_BITVECTOR
@@ -3164,47 +3222,50 @@ graphlib_error_t graphlib_mergeGraphsFillEdges(graphlib_graph_p graph1,
   while (runnode!=NULL) 
     {
       for (i=0; i<runnode->count; i++) 
-	{
-	  if (runnode->node[i].full) 
-	    {
-	      err=grlibint_findNode(graph1,runnode->node[i].entry.data.id, &nodeentry);
+        {
+          if (runnode->node[i].full) 
+            {
+              err=grlibint_findNode(graph1,runnode->node[i].entry.data.id, &nodeentry);
               if (err == GRL_OK ) 
-		{
-		  /*widths must be combined*/
+                {
+                  /*widths must be combined*/
                   runnode->node[i].entry.data.attr.width += nodeentry->entry.data.attr.width;
-		}
-              err=graphlib_addNode(graph1,runnode->node[i].entry.data.id,
-                                   &((runnode->node[i]).entry.data.attr));
-              if (GRL_IS_FATALERROR(err))
-		return err;
-	    }
-	}
+                }
+              else
+                {
+                    err=graphlib_addNode(graph1,runnode->node[i].entry.data.id,
+                                         &((runnode->node[i]).entry.data.attr));
+                    if (GRL_IS_FATALERROR(err))
+                      return err;
+                }
+            }
+        }
       runnode=runnode->next;
     }
   
   while (runedge!=NULL) 
     {
       for (i=0; i<runedge->count; i++) 
-	{
+        {
           if (runedge->edge[i].full) 
-	    {
+            {
               err=grlibint_findEdge(graph1,runedge->edge[i].entry.data.node_from,
                                     runedge->edge[i].entry.data.node_to,&edgeentry);
               if (err==GRL_OK)
-		{
+                {
 #ifdef STAT_BITVECTOR
                   /* Check for bits set in graph2 and map by rank into bit vector of graph 1 */
                   for (j=0; j<ranks_size; j++)
-    	            {
-    	              if (bitvec_contains(runedge->edge[i].entry.data.attr.edgelist, j+start) == 1)
-    		        bitvec_insert(edgeentry->entry.data.attr.edgelist, ranks[j]);
-    	            }
-#endif			   
-		}
+                    {
+                      if (bitvec_contains(runedge->edge[i].entry.data.attr.edgelist, j+start) == 1)
+                        bitvec_insert(edgeentry->entry.data.attr.edgelist, ranks[j]);
+                    }
+#endif                           
+                }
               if (GRL_IS_FATALERROR(err))
-		return err;
-	    }
-	}
+                return err;
+            }
+        }
       runedge=runedge->next;
     }  
 
@@ -3270,7 +3331,7 @@ graphlib_error_t graphlib_setDefEdgeAttr(graphlib_edgeattr_p attr)
     {
       attr->edgelist=bitvec_allocate();
       if (attr->edgelist==NULL)
-	return GRL_NOMEM;
+        return GRL_NOMEM;
     }
   else
     {
@@ -3291,8 +3352,8 @@ graphlib_error_t graphlib_setDefEdgeAttr(graphlib_edgeattr_p attr)
 /*............................................................*/
 
 graphlib_error_t graphlib_scaleNodeWidth(graphlib_graph_p graph, 
-					 graphlib_width_t minval,
-					 graphlib_width_t maxval)
+                                         graphlib_width_t minval,
+                                         graphlib_width_t maxval)
 {
   int                     i,first;
   graphlib_width_t        searchmin=0,searchmax=0;
@@ -3304,20 +3365,20 @@ graphlib_error_t graphlib_scaleNodeWidth(graphlib_graph_p graph,
   while (nodefrag!=NULL)
     {
       for (i=0; i<nodefrag->count; i++)
-	{
-	  if (nodefrag->node[i].full)
-	    {
-	      if ((nodefrag->node[i].entry.data.attr.width<searchmin)||(first))
-		{
-		  searchmin=nodefrag->node[i].entry.data.attr.width;
-		}
-	      if ((nodefrag->node[i].entry.data.attr.width>searchmax)||(first))
-		{
-		  searchmax=nodefrag->node[i].entry.data.attr.width;
-		}
-	      first=0;
-	    }
-	}
+        {
+          if (nodefrag->node[i].full)
+            {
+              if ((nodefrag->node[i].entry.data.attr.width<searchmin)||(first))
+                {
+                  searchmin=nodefrag->node[i].entry.data.attr.width;
+                }
+              if ((nodefrag->node[i].entry.data.attr.width>searchmax)||(first))
+                {
+                  searchmax=nodefrag->node[i].entry.data.attr.width;
+                }
+              first=0;
+            }
+        }
       nodefrag=nodefrag->next;
     }
   
@@ -3325,17 +3386,17 @@ graphlib_error_t graphlib_scaleNodeWidth(graphlib_graph_p graph,
   while (nodefrag!=NULL)
     {
       for (i=0; i<nodefrag->count; i++)
-	{
-	  if (nodefrag->node[i].full)
-	    {
-	      if (searchmin==searchmax)
-		nodefrag->node[i].entry.data.attr.w=(maxval+minval)/2.0;
-	      else
-		nodefrag->node[i].entry.data.attr.w=
-		  ((nodefrag->node[i].entry.data.attr.width-searchmin)/
-		   (searchmax-searchmin))*(maxval-minval)+minval;
-	    }
-	}
+        {
+          if (nodefrag->node[i].full)
+            {
+              if (searchmin==searchmax)
+                nodefrag->node[i].entry.data.attr.w=(maxval+minval)/2.0;
+              else
+                nodefrag->node[i].entry.data.attr.w=
+                  ((nodefrag->node[i].entry.data.attr.width-searchmin)/
+                   (searchmax-searchmin))*(maxval-minval)+minval;
+            }
+        }
       nodefrag=nodefrag->next;
     }
   
@@ -3346,8 +3407,8 @@ graphlib_error_t graphlib_scaleNodeWidth(graphlib_graph_p graph,
 /*............................................................*/
 
 graphlib_error_t graphlib_scaleEdgeWidth(graphlib_graph_p graph, 
-					 graphlib_width_t minval,
-					 graphlib_width_t maxval)
+                                         graphlib_width_t minval,
+                                         graphlib_width_t maxval)
 {
   int                     i,first;
   graphlib_width_t        searchmin=0,searchmax=0;
@@ -3359,20 +3420,20 @@ graphlib_error_t graphlib_scaleEdgeWidth(graphlib_graph_p graph,
   while (edgefrag!=NULL)
     {
       for (i=0; i<edgefrag->count; i++)
-	{
-	  if (edgefrag->edge[i].full)
-	    {
-	      if ((edgefrag->edge[i].entry.data.attr.width<searchmin)||(first))
-		{
-		  searchmin=edgefrag->edge[i].entry.data.attr.width;
-		}
-	      if ((edgefrag->edge[i].entry.data.attr.width>searchmax)||(first))
-		{
-		  searchmax=edgefrag->edge[i].entry.data.attr.width;
-		}
-	      first=0;
-	    }
-	}
+        {
+          if (edgefrag->edge[i].full)
+            {
+              if ((edgefrag->edge[i].entry.data.attr.width<searchmin)||(first))
+                {
+                  searchmin=edgefrag->edge[i].entry.data.attr.width;
+                }
+              if ((edgefrag->edge[i].entry.data.attr.width>searchmax)||(first))
+                {
+                  searchmax=edgefrag->edge[i].entry.data.attr.width;
+                }
+              first=0;
+            }
+        }
       edgefrag=edgefrag->next;
     }
   
@@ -3380,17 +3441,17 @@ graphlib_error_t graphlib_scaleEdgeWidth(graphlib_graph_p graph,
   while (edgefrag!=NULL)
     {
       for (i=0; i<edgefrag->count; i++)
-	{
-	  if (edgefrag->edge[i].full)
-	    {
-	      if (searchmin==searchmax)
-		edgefrag->edge[i].entry.data.attr.width=(maxval+minval)/2.0;
-	      else
-		edgefrag->edge[i].entry.data.attr.width=
-		  ((edgefrag->edge[i].entry.data.attr.width-searchmin)/
-		   (searchmax-searchmin))*(maxval-minval)+minval;
-	    }
-	}
+        {
+          if (edgefrag->edge[i].full)
+            {
+              if (searchmin==searchmax)
+                edgefrag->edge[i].entry.data.attr.width=(maxval+minval)/2.0;
+              else
+                edgefrag->edge[i].entry.data.attr.width=
+                  ((edgefrag->edge[i].entry.data.attr.width-searchmin)/
+                   (searchmax-searchmin))*(maxval-minval)+minval;
+            }
+        }
       edgefrag=edgefrag->next;
     }
   
@@ -3406,11 +3467,11 @@ graphlib_error_t graphlib_AnnotationKey (graphlib_graph_p graph, int num, char *
   if ((0<=num) && (num<graph->numannotation))
     {
       if (graph->annotations[num]!=NULL)
-	free(graph->annotations[num]);
+        free(graph->annotations[num]);
       if (name==NULL)
-	graph->annotations[num]=NULL;
+        graph->annotations[num]=NULL;
       else
-	graph->annotations[num]=strdup(name);
+        graph->annotations[num]=strdup(name);
       return GRL_OK;
     }
   else
@@ -3422,7 +3483,7 @@ graphlib_error_t graphlib_AnnotationKey (graphlib_graph_p graph, int num, char *
 /* Set annotation value for a node */
 
 graphlib_error_t graphlib_AnnotationSet(graphlib_graph_p graph, graphlib_node_t node, 
-					int num, graphlib_annotation_t val)
+                                        int num, graphlib_annotation_t val)
 {
   graphlib_error_t err;
   graphlib_nodeentry_p noderef;
@@ -3433,7 +3494,7 @@ graphlib_error_t graphlib_AnnotationSet(graphlib_graph_p graph, graphlib_node_t 
     {
       err=grlibint_findNodeIndex(graph,node,&noderef,&nodefrag,&index);
       if (GRL_IS_NOTOK(err))
-	return err;
+        return err;
       nodefrag->grannot[index*graph->numannotation+num]=val;
       return GRL_OK;
     }
@@ -3446,7 +3507,7 @@ graphlib_error_t graphlib_AnnotationSet(graphlib_graph_p graph, graphlib_node_t 
 /* Get annotation name from a node */
 
 graphlib_error_t graphlib_AnnotationGet(graphlib_graph_p graph, graphlib_node_t node, 
-					int num, graphlib_annotation_t* val)
+                                        int num, graphlib_annotation_t* val)
 {
   graphlib_error_t err;
   graphlib_nodeentry_p noderef;
@@ -3457,7 +3518,7 @@ graphlib_error_t graphlib_AnnotationGet(graphlib_graph_p graph, graphlib_node_t 
     {
       err=grlibint_findNodeIndex(graph,node,&noderef,&nodefrag,&index);
       if (GRL_IS_NOTOK(err))
-	return err;
+        return err;
       *val=nodefrag->grannot[index*graph->numannotation+num];
       return GRL_OK;
     }
@@ -3481,26 +3542,26 @@ graphlib_error_t graphlib_colorInvertedPath(graphlib_graph_p gr, graphlib_color_
     {
       err=grlibint_findNode(gr,node,&noderef);
       if GRL_IS_NOTOK(err)
-	{
-	  return err;
-	}
+        {
+          return err;
+        }
 
       if ((noderef->entry.data.attr.color)==color)
-	{
-	  /* circle */
-	  return GRL_OK;
-	}
+        {
+          /* circle */
+          return GRL_OK;
+        }
       
       noderef->entry.data.attr.color=color;
 
       err=grlibint_findIncomingEdgeColor(gr,node,color,&edgeref);
       if GRL_IS_NOTOK(err)
-	{
-	  if (err==GRL_NOEDGE)
-	    return GRL_OK;
-	  else
-	    return err;
-	}      
+        {
+          if (err==GRL_NOEDGE)
+            return GRL_OK;
+          else
+            return err;
+        }      
 
       node=edgeref->entry.data.node_from;
     }
@@ -3517,53 +3578,53 @@ graphlib_error_t graphlib_colorInvertedPathDeleteRest(graphlib_graph_p gr, graph
 
   int                     i,lastnode;
   graphlib_edgefragment_p edgefrag;
-	  
+          
 
   lastnode=-1;
   while (1)
     {
       err=grlibint_findNode(gr,node,&noderef);
       if GRL_IS_NOTOK(err)
-	{
-	  return err;
-	}
+        {
+          return err;
+        }
 
       if ((noderef->entry.data.attr.color)==color)
-	{
-	  /* circle */
-	  return GRL_OK;
-	}
+        {
+          /* circle */
+          return GRL_OK;
+        }
       
       noderef->entry.data.attr.color=color;
 
       edgefrag=gr->edges;
       while (edgefrag!=NULL)
-	{
-	  for (i=0; i<edgefrag->count; i++)
-	    {
-	      if (edgefrag->edge[i].full)
-		{
-		  if ((edgefrag->edge[i].entry.data.node_from==node) &&
-		      (edgefrag->edge[i].entry.data.node_to!=lastnode))
-		    {
-		      edgefrag->edge[i].entry.data.attr.color=color_off;
-		      err=graphlib_deleteTreeNotRootColor(gr,edgefrag->edge[i].entry.data.node_to,color);
-		      if (err!=GRL_OK)
-			return err;
-		    }
-		}
-	    }
-	  edgefrag=edgefrag->next;
-	}
+        {
+          for (i=0; i<edgefrag->count; i++)
+            {
+              if (edgefrag->edge[i].full)
+                {
+                  if ((edgefrag->edge[i].entry.data.node_from==node) &&
+                      (edgefrag->edge[i].entry.data.node_to!=lastnode))
+                    {
+                      edgefrag->edge[i].entry.data.attr.color=color_off;
+                      err=graphlib_deleteTreeNotRootColor(gr,edgefrag->edge[i].entry.data.node_to,color);
+                      if (err!=GRL_OK)
+                        return err;
+                    }
+                }
+            }
+          edgefrag=edgefrag->next;
+        }
 
       err=grlibint_findIncomingEdgeColor(gr,node,color,&edgeref);
       if GRL_IS_NOTOK(err)
-	{
-	  if (err==GRL_NOEDGE)
-	    return GRL_OK;
-	  else
-	    return err;
-	}      
+        {
+          if (err==GRL_NOEDGE)
+            return GRL_OK;
+          else
+            return err;
+        }      
 
       lastnode=node;
       node=edgeref->entry.data.node_from;
@@ -3574,7 +3635,7 @@ graphlib_error_t graphlib_colorInvertedPathDeleteRest(graphlib_graph_p gr, graph
 /*............................................................*/
 
 graphlib_error_t graphlib_deleteInvertedPath(graphlib_graph_p gr,
-					     graphlib_node_t node,graphlib_node_t *lastnode)
+                                             graphlib_node_t node,graphlib_node_t *lastnode)
 {
   graphlib_error_t     err,res=GRL_OK;
   graphlib_nodeentry_p noderef;
@@ -3594,71 +3655,71 @@ graphlib_error_t graphlib_deleteInvertedPath(graphlib_graph_p gr,
 
       err=grlibint_findNode(gr,node,&noderef);
       if GRL_IS_NOTOK(err)
-	{
-	  return err;
-	}
+        {
+          return err;
+        }
       
       /* find first coming in */
 
       err=grlibint_findIncomingEdge(gr,node,&edgeref);
       if GRL_IS_NOTOK(err)
-	{
-	  if (err==GRL_NOEDGE)
-	    {
-	      if (multiple)
-		res=GRL_MULTIPLEPATHS;
-	      else
-		res=GRL_OK;
-	      done=1;
-	    }
-	  else
-	    return err;
-	}      
+        {
+          if (err==GRL_NOEDGE)
+            {
+              if (multiple)
+                res=GRL_MULTIPLEPATHS;
+              else
+                res=GRL_OK;
+              done=1;
+            }
+          else
+            return err;
+        }      
       else
-	{
-	  /* set next step */
-	  
-	  node=edgeref->entry.data.node_from;
+        {
+          /* set next step */
+          
+          node=edgeref->entry.data.node_from;
 
-	  /* get rid of edge */
-	  
-	  grlibint_delEdge(gr,edgeref);
-	}
+          /* get rid of edge */
+          
+          grlibint_delEdge(gr,edgeref);
+        }
 
       /* see if there are edges going out */
 
       do
-	{
-	  err=grlibint_findOutgoingEdge(gr,*lastnode,&edgeref);
-	  if (err==GRL_OK)
-	    {
-	      err=grlibint_delEdge(gr,edgeref);
-	    }
-	}
+        {
+          err=grlibint_findOutgoingEdge(gr,*lastnode,&edgeref);
+          if (err==GRL_OK)
+            {
+              err=grlibint_delEdge(gr,edgeref);
+            }
+        }
       while (err==GRL_OK);
       if (err!=GRL_NOEDGE)
-	return err;
+        return err;
       
       /* see if there are more coming in */
 
       do
-	{
-	  err=grlibint_findIncomingEdge(gr,*lastnode,&edgeref);
-	  if (err==GRL_OK)
-	    {
-	      err=graphlib_deleteInvertedPath(gr,edgeref->entry.data.node_from,&dummylast);
-	      multiple=1;
-	    }
-	}
+        {
+          err=grlibint_findIncomingEdge(gr,*lastnode,&edgeref);
+          if (err==GRL_OK)
+            {
+              err=graphlib_deleteInvertedPath(gr,edgeref->entry.data.node_from,&dummylast);
+              multiple=1;
+            }
+        }
       while (err==GRL_OK);
       if (err!=GRL_NOEDGE)
-	return err;
+        return err;
 
       /* now, that there are no edges, delete point */
 
       err=grlibint_delNode(gr,noderef);
       if (err!=GRL_OK)
-	return err;
+        return err;
     }  
 
   return res;
@@ -3668,7 +3729,7 @@ graphlib_error_t graphlib_deleteInvertedPath(graphlib_graph_p gr,
 /*............................................................*/
 
 graphlib_error_t graphlib_deleteInvertedLine(graphlib_graph_p gr,
-					     graphlib_node_t node,graphlib_node_t *lastnode)
+                                             graphlib_node_t node,graphlib_node_t *lastnode)
 {
   graphlib_error_t     err,res=GRL_OK;
   graphlib_nodeentry_p noderef;
@@ -3688,63 +3749,63 @@ graphlib_error_t graphlib_deleteInvertedLine(graphlib_graph_p gr,
 
       err=grlibint_findOutgoingEdge(gr,node,&edgeout);
       if (err!=GRL_NOEDGE)
-	return err;
+        return err;
       
       /* find reference */
 
       err=grlibint_findNode(gr,node,&noderef);
       if GRL_IS_NOTOK(err)
-	{
-	  return err;
-	}
+        {
+          return err;
+        }
       
       /* find first coming in */
 
       err=grlibint_findIncomingEdge(gr,node,&edgeref);
       if GRL_IS_NOTOK(err)
-	{
-	  if (err==GRL_NOEDGE)
-	    {
-	      if (multiple)
-		res=GRL_MULTIPLEPATHS;
-	      else
-		res=GRL_OK;
-	      done=1;
-	    }
-	  else
-	    return err;
-	}      
+        {
+          if (err==GRL_NOEDGE)
+            {
+              if (multiple)
+                res=GRL_MULTIPLEPATHS;
+              else
+                res=GRL_OK;
+              done=1;
+            }
+          else
+            return err;
+        }      
       else
-	{
-	  /* set next step */
-	  
-	  node=edgeref->entry.data.node_from;
+        {
+          /* set next step */
+          
+          node=edgeref->entry.data.node_from;
 
-	  /* get rid of edge */
-	  
-	  grlibint_delEdge(gr,edgeref);
-	}
+          /* get rid of edge */
+          
+          grlibint_delEdge(gr,edgeref);
+        }
 
       /* see if there are mode coming in */
 
       do
-	{
-	  err=grlibint_findIncomingEdge(gr,*lastnode,&edgeref);
-	  if (err==GRL_OK)
-	    {
-	      err=graphlib_deleteInvertedPath(gr,edgeref->entry.data.node_from,&dummylast);
-	      multiple=1;
-	    }
-	}
+        {
+          err=grlibint_findIncomingEdge(gr,*lastnode,&edgeref);
+          if (err==GRL_OK)
+            {
+              err=graphlib_deleteInvertedPath(gr,edgeref->entry.data.node_from,&dummylast);
+              multiple=1;
+            }
+        }
       while (err==GRL_OK);
       if (err!=GRL_NOEDGE)
-	return err;
+        return err;
 
       /* now, that there are no edges, delete point */
 
       err=grlibint_delNode(gr,noderef);
       if (err!=GRL_OK)
-      	return err;
+              return err;
     }  
 
   return res;
@@ -3763,18 +3824,18 @@ graphlib_error_t graphlib_deleteTreeNotRoot(graphlib_graph_p gr, graphlib_node_t
   while (edgefrag!=NULL)
     {
       for (i=0; i<edgefrag->count; i++)
-	{
-	  if (edgefrag->edge[i].full)
-	    {
-	      if (edgefrag->edge[i].entry.data.node_from==node)
-		{
-		  grlibint_delEdge(gr,&(edgefrag->edge[i]));
-		  err=graphlib_deleteTree(gr,edgefrag->edge[i].entry.data.node_to);
-		  if (err!=GRL_OK)
-		    return err;
-		}
-	    }
-	}
+        {
+          if (edgefrag->edge[i].full)
+            {
+              if (edgefrag->edge[i].entry.data.node_from==node)
+                {
+                  grlibint_delEdge(gr,&(edgefrag->edge[i]));
+                  err=graphlib_deleteTree(gr,edgefrag->edge[i].entry.data.node_to);
+                  if (err!=GRL_OK)
+                    return err;
+                }
+            }
+        }
       edgefrag=edgefrag->next;
     }
 
@@ -3803,18 +3864,18 @@ graphlib_error_t graphlib_deleteTreeNotRootColor(graphlib_graph_p gr, graphlib_n
   while (edgefrag!=NULL)
     {
       for (i=0; i<edgefrag->count; i++)
-	{
-	  if (edgefrag->edge[i].full)
-	    {
-	      if (edgefrag->edge[i].entry.data.node_from==node)
-		{
-		  grlibint_delEdge(gr,&(edgefrag->edge[i]));
-		  err=graphlib_deleteTreeColor(gr,edgefrag->edge[i].entry.data.node_to,color);
-		  if (err!=GRL_OK)
-		    return err;
-		}
-	    }
-	}
+        {
+          if (edgefrag->edge[i].full)
+            {
+              if (edgefrag->edge[i].entry.data.node_from==node)
+                {
+                  grlibint_delEdge(gr,&(edgefrag->edge[i]));
+                  err=graphlib_deleteTreeColor(gr,edgefrag->edge[i].entry.data.node_to,color);
+                  if (err!=GRL_OK)
+                    return err;
+                }
+            }
+        }
       edgefrag=edgefrag->next;
     }
 
@@ -3876,55 +3937,55 @@ graphlib_error_t graphlib_collapseHor(graphlib_graph_p gr)
   while (nodefrag!=NULL)
     {
       for (i=0; i<nodefrag->count; i++)
-	{
-	  if (nodefrag->node[i].full)
-	    {
-	      c_in=0;
-	      c_out=0;
-	      
-	      edgefrag=gr->edges;
-	  
-	      while (edgefrag!=NULL)
-		{
-		  for (j=0; j<edgefrag->count; j++)
-		    {
-		      if (edgefrag->edge[j].full)
-			{
- 			  if (edgefrag->edge[j].entry.data.node_to==
-			      nodefrag->node[i].entry.data.id)
-			    {
-			      c_in++;
-			      e_in=&(edgefrag->edge[j]);
-			      n_in=edgefrag->edge[j].entry.data.ref_from;
-			      
-			    }
- 			  if (edgefrag->edge[j].entry.data.node_from==
-			      nodefrag->node[i].entry.data.id)
-			    {
-			      c_out++;
-			      e_out=&(edgefrag->edge[j]);
-			      n_out=edgefrag->edge[j].entry.data.ref_to;
-			    }
-			}
-		    }
-		  edgefrag=edgefrag->next;
-		}
+        {
+          if (nodefrag->node[i].full)
+            {
+              c_in=0;
+              c_out=0;
+              
+              edgefrag=gr->edges;
+          
+              while (edgefrag!=NULL)
+                {
+                  for (j=0; j<edgefrag->count; j++)
+                    {
+                      if (edgefrag->edge[j].full)
+                        {
+                           if (edgefrag->edge[j].entry.data.node_to==
+                              nodefrag->node[i].entry.data.id)
+                            {
+                              c_in++;
+                              e_in=&(edgefrag->edge[j]);
+                              n_in=edgefrag->edge[j].entry.data.ref_from;
+                              
+                            }
+                           if (edgefrag->edge[j].entry.data.node_from==
+                              nodefrag->node[i].entry.data.id)
+                            {
+                              c_out++;
+                              e_out=&(edgefrag->edge[j]);
+                              n_out=edgefrag->edge[j].entry.data.ref_to;
+                            }
+                        }
+                    }
+                  edgefrag=edgefrag->next;
+                }
 
-	      if ((c_in==1) && (c_out==1))
-		{
-		  if ((n_in->entry.data.attr.x==
-		       nodefrag->node[i].entry.data.attr.x) &&
-		      (n_out->entry.data.attr.x==
-		       nodefrag->node[i].entry.data.attr.x))
-		    {
-		      e_in->entry.data.node_to=e_out->entry.data.node_to;
-		      e_in->entry.data.ref_to=e_out->entry.data.ref_to;
-		      grlibint_delEdge(gr,e_out);
-		      grlibint_delNode(gr,&(nodefrag->node[i]));
-		    }
-		}
-	    }
-	}	  
+              if ((c_in==1) && (c_out==1))
+                {
+                  if ((n_in->entry.data.attr.x==
+                       nodefrag->node[i].entry.data.attr.x) &&
+                      (n_out->entry.data.attr.x==
+                       nodefrag->node[i].entry.data.attr.x))
+                    {
+                      e_in->entry.data.node_to=e_out->entry.data.node_to;
+                      e_in->entry.data.ref_to=e_out->entry.data.ref_to;
+                      grlibint_delEdge(gr,e_out);
+                      grlibint_delNode(gr,&(nodefrag->node[i]));
+                    }
+                }
+            }
+        }          
       nodefrag=nodefrag->next;
     }
 
@@ -3939,30 +4000,35 @@ graphlib_error_t graphlib_collapseHor(graphlib_graph_p gr)
 
 graphlib_error_t graphlib_colorGraphByLeadingEdgeLabel(graphlib_graph_p graph)
 {
+  int i;
   graphlib_nodefragment_p  nf;
   graphlib_edgeentry_p  e;
   graphlib_nodedata_p n;
   graphlib_error_t err;
+
+  for (i = 0; i < grlibint_num_colors; i++)
+    if (node_clusters[i] != NULL)
+      free(node_clusters[i]);
+
   /*color nodes based on name of incoming edge*/
   grlibint_num_colors=0;
   nf=graph->nodes;
   while (nf!=NULL) 
     {
-      int i;
       for (i=0; i<nf->count; i++) 
-	{
-	  if (nf->node[i].full) 
-	    {
-	      n=&(nf->node[i].entry.data);
-	      err = grlibint_findIncomingEdge( graph, n->id, &e );
-	      if( err == GRL_NOEDGE )
-		{
-		  n->attr.color=0;
-		  continue;
+        {
+          if (nf->node[i].full) 
+            {
+              n=&(nf->node[i].entry.data);
+              err = grlibint_findIncomingEdge( graph, n->id, &e );
+              if( err == GRL_NOEDGE )
+                {
+                  n->attr.color=0;
+                  continue;
                 }
-	      
-	      assert( GRL_IS_OK(err) );
-	      n->attr.color = grlibint_getNodeColor( e->entry.data.attr.edgelist );
+              
+              assert( GRL_IS_OK(err) );
+              n->attr.color = grlibint_getNodeColor( e->entry.data.attr.edgelist );
             }
         }
       nf=nf->next;
@@ -3980,7 +4046,7 @@ graphlib_error_t graphlib_setEdgeByTask(void **edgelist, int task)
     {
       *edgelist=bitvec_allocate();
       if (*edgelist==NULL)
-	return GRL_NOMEM;
+        return GRL_NOMEM;
     }
   else
     {
@@ -3991,6 +4057,30 @@ graphlib_error_t graphlib_setEdgeByTask(void **edgelist, int task)
   return GRL_OK;
 }
 
+graphlib_error_t graphlib_modifyEdgeAttr(graphlib_graph_p graph, graphlib_edgeattr_p attr)
+{
+  int                     i;
+  graphlib_edgefragment_p edgefrag;
+  edgefrag=graph->edges;
+  while (edgefrag!=NULL)
+    {
+      for (i=0; i<edgefrag->count; i++)
+        {
+          if (edgefrag->edge[i].full)
+            {
+              if (edgefrag->edge[i].entry.data.attr.edgelist != NULL)
+                bitvec_delete(&(edgefrag->edge[i].entry.data.attr.edgelist));
+              edgefrag->edge[i].entry.data.attr = *attr;
+              edgefrag->edge[i].entry.data.attr.edgelist=bitvec_allocate();
+              if (edgefrag->edge[i].entry.data.attr.edgelist==NULL)
+                return GRL_NOMEM;
+              memcpy(edgefrag->edge[i].entry.data.attr.edgelist, attr->edgelist, grlibint_edgelabelwidth*bv_typesize);
+            }
+        }
+      edgefrag=edgefrag->next;
+    }
+  return GRL_OK;
+}
 int graphlib_getBitVectorSize()
 {
     return bv_typesize;
