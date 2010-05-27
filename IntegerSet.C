@@ -56,7 +56,7 @@ long bithash(const void *bit_vector, int width)
   return ret;
 }
 
-int bit_vec_initialize(int longsize,int edgelabelwidth)
+int bitvec_initialize(int longsize,int edgelabelwidth)
 {
   int i;
   static int init = 0;
@@ -67,7 +67,7 @@ int bit_vec_initialize(int longsize,int edgelabelwidth)
   bv_edgelabelwidth=edgelabelwidth;
   bv_edgelabelbits=edgelabelwidth*bv_typebits;
 
-  if (masks != NULL && init == 0)
+  if (masks != NULL && init != 0)
     free(masks);
   masks=(bv_type*)malloc(bv_typebits*bv_typesize);
   if (masks==NULL) return 1;
@@ -79,6 +79,12 @@ int bit_vec_initialize(int longsize,int edgelabelwidth)
 
   init++;
   return 0;
+}
+
+void bitvec_finalize()
+{
+  if (masks != NULL)
+    free(masks);
 }
 
 void* bitvec_allocate()
@@ -141,10 +147,10 @@ unsigned int bitvec_size(void *vec)
   for (i=0; i<bv_edgelabelwidth; i++)
     {
       for (j=0; j<bv_typebits; j++)
-	{
-	  if (((bv_type *)vec)[i] & masks[j])
-	    ret++;
-	}
+        {
+          if (((bv_type *)vec)[i] & masks[j])
+            ret++;
+        }
     }
   return ret;
 }
@@ -160,50 +166,50 @@ void bitvec_c_str_file(FILE *f, void *vec)
   for (i=0; i<bv_edgelabelwidth; i++)
     {
       for (j=0; j<bv_typebits; j++)
-	{
-	  if (((bv_type *)vec)[i] & masks[j])
-	    {
-	      cur_val = i*bv_typebits+j;
-	      if (in_range == 0)
-		{
-		  snprintf(val, 128, "%d", cur_val);
-		  if (first_iteration == 0)
-		    {
-		      if (cur_val == last_val + 1)
-			{
-			  in_range = 1;
-			  range_start = last_val;
-			  range_end = cur_val;
-			  fprintf(f, "-");
-			}	
-		      else
-			{
-			  fprintf(f, ",");
-			  fprintf(f, "%s", val);
-			}
-		    }
-		  else
-		    {
-		      fprintf(f, "%s", val);
-		    }
-		}
-	      else
-		{
-		  if (cur_val == last_val + 1)
-		    {
-		      range_end = cur_val;
-		    }
-		  else
-		    {
-		      snprintf(val, 128, "%d,%d", last_val, cur_val);
-		      fprintf(f, "%s", val);
-		      in_range = 0;
-		    }
-		}
-	      first_iteration = 0;
-	      last_val = cur_val;
-	    }
-	}
+        {
+          if (((bv_type *)vec)[i] & masks[j])
+            {
+              cur_val = i*bv_typebits+j;
+              if (in_range == 0)
+                {
+                  snprintf(val, 128, "%d", cur_val);
+                  if (first_iteration == 0)
+                    {
+                      if (cur_val == last_val + 1)
+                        {
+                          in_range = 1;
+                          range_start = last_val;
+                          range_end = cur_val;
+                          fprintf(f, "-");
+                        }        
+                      else
+                        {
+                          fprintf(f, ",");
+                          fprintf(f, "%s", val);
+                        }
+                    }
+                  else
+                    {
+                      fprintf(f, "%s", val);
+                    }
+                }
+              else
+                {
+                  if (cur_val == last_val + 1)
+                    {
+                      range_end = cur_val;
+                    }
+                  else
+                    {
+                      snprintf(val, 128, "%d,%d", last_val, cur_val);
+                      fprintf(f, "%s", val);
+                      in_range = 0;
+                    }
+                }
+              first_iteration = 0;
+              last_val = cur_val;
+            }
+        }
     }
   if (in_range == 1)
     {
@@ -222,7 +228,7 @@ IntegerSet::IntegerSet( const char * istr )
 
 void IntegerSet::insert( int ival )
 {
-    //fprintf( stderr, "%d: Merging %d into \"%s\"...\n", getpid(), ival, c_str() );
+    /*fprintf( stderr, "%d: Merging %d into \"%s\"...\n", getpid(), ival, c_str() );*/
     _set.insert( ival );
 }
 
@@ -233,7 +239,7 @@ void IntegerSet::insert( const char * istr  )
     unsigned int cur_int, range_start=0;
     bool in_range=false;
 
-    //fprintf( stderr, "%d: Merging \"%s\" into \"%s\"...\n", getpid(), istr, c_str() );
+    /*fprintf( stderr, "%d: Merging \"%s\" into \"%s\"...\n", getpid(), istr, c_str() );*/
     for( unsigned int i=0; istr[i] != ']'; ) {
         if( istr[i] == '[' ){
             i++;
@@ -248,28 +254,28 @@ void IntegerSet::insert( const char * istr  )
             end_pos = i;
 
             memcpy( int_str, (const void *)(istr+start_pos), end_pos-start_pos);
-            //fprintf( stderr, "\t%d:%d: end: %d, start: %d, end-start:%d",
-                     //getpid(), __LINE__, end_pos, start_pos, end_pos-start_pos );
+            /*fprintf( stderr, "\t%d:%d: end: %d, start: %d, end-start:%d",*/
+                     /*getpid(), __LINE__, end_pos, start_pos, end_pos-start_pos );*/
             int_str[end_pos-start_pos]='\0';
             cur_int = atoi( int_str );
-            //fprintf( stderr, "\t%d:%d: converted: \"%s\" to %d\n",
-                     //getpid(), __LINE__, int_str, cur_int );
+            /*fprintf( stderr, "\t%d:%d: converted: \"%s\" to %d\n",*/
+                     /*getpid(), __LINE__, int_str, cur_int );*/
         }
 
         if( in_range ){
             for( unsigned int j=range_start; j <= cur_int; j++ ){
-                //fprintf( stderr, "\t%d:%d: inserting: %d, istr_pos: %d\n", getpid(), __LINE__, j, i);
+                /*fprintf( stderr, "\t%d:%d: inserting: %d, istr_pos: %d\n", getpid(), __LINE__, j, i);*/
                 _set.insert( j );
                 in_range = false;
             }
         }
         else{
             if( istr[i] == ',' ){
-                //fprintf( stderr, "\t%d:%d: inserting: %d, istr_pos: %d\n", getpid(), __LINE__, cur_int, i);
+                /*fprintf( stderr, "\t%d:%d: inserting: %d, istr_pos: %d\n", getpid(), __LINE__, cur_int, i);*/
                 _set.insert( cur_int );
             }
             else if( istr[i] == ']' ){
-                //fprintf( stderr, "\t%d:%d: inserting: %d, istr_pos: %d\n", getpid(), __LINE__, cur_int, i);
+                /*fprintf( stderr, "\t%d:%d: inserting: %d, istr_pos: %d\n", getpid(), __LINE__, cur_int, i);*/
                 _set.insert( cur_int );
                 break;
             }
@@ -326,7 +332,7 @@ const char * IntegerSet::c_str( )
                 range_end = cur_val;
             }
             else{
-                //range has ended; dump last_val (range_end) and cur_val
+                /*range has ended; dump last_val (range_end) and cur_val*/
                 snprintf( int_str, 256, "%u,%u", last_val, cur_val );
                 _str_set += int_str; 
                 in_range=false;

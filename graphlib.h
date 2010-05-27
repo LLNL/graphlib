@@ -60,7 +60,7 @@ extern "C" {
 /* only used for node attributes when using STAT_BITVECTOR*/
 #define GRL_MAX_NAME_LENGTH 64
 
-  /* only used when using STAT_BITVECTOR*/
+/* only used when using STAT_BITVECTOR*/
 #define GRL_DEFAULT_EDGELABELWIDTH 1024
 
 
@@ -272,8 +272,8 @@ graphlib_error_t graphlib_InitVarEdgeLabels(int edgelabelwidth);
    OUT: final edge label width in number of bits */
 
 graphlib_error_t graphlib_InitVarEdgeLabelsConn(int numconn,
-						int *edgelabelwidth,
-						int *finalwidth);
+                                                int *edgelabelwidth,
+                                                int *finalwidth);
 
 
 /*.......................................................*/
@@ -295,7 +295,8 @@ graphlib_error_t graphlib_newGraph(graphlib_graph_p *newgraph);
 /* IN: pointer to storage for graph handle
        number of annotations per node */
 
-graphlib_error_t graphlib_newAnnotatedGraph(graphlib_graph_p *newgraph, int numattr);
+graphlib_error_t graphlib_newAnnotatedGraph(graphlib_graph_p *newgraph,
+                                            int numattr);
 
 
 /*.......................................................*/
@@ -352,9 +353,9 @@ graphlib_error_t graphlib_edgeCount(graphlib_graph_p igraph, int * num_edges);
 /* Added by Bob Munch in support of STAT, Cray */
 
 graphlib_error_t graphlib_findNextNodeByEdgeRank(graphlib_graph_p graph,
-                                graphlib_node_t inode,
-                                int rank,
-                                graphlib_node_t *onode);
+                                                 graphlib_node_t inode,
+                                                 int rank,
+                                                 graphlib_node_t *onode);
 
 
 /*-----------------------------------------------------------------*/
@@ -366,8 +367,9 @@ graphlib_error_t graphlib_findNextNodeByEdgeRank(graphlib_graph_p graph,
        node ID to be added
        node attributes (if NULL, default attributes are used) */
 
-graphlib_error_t graphlib_addNode(graphlib_graph_p graph, graphlib_node_t node, 
-				  graphlib_nodeattr_p attr);
+graphlib_error_t graphlib_addNode(graphlib_graph_p graph,
+                                  graphlib_node_t node, 
+                                  graphlib_nodeattr_p attr);
 
 
 /*.......................................................*/
@@ -377,8 +379,9 @@ graphlib_error_t graphlib_addNode(graphlib_graph_p graph, graphlib_node_t node,
        node ID to be added
        node attributes (if NULL, default attributes are used) */
 
-graphlib_error_t graphlib_addNodeNoCheck(graphlib_graph_p graph, graphlib_node_t node, 
-					 graphlib_nodeattr_p attr);
+graphlib_error_t graphlib_addNodeNoCheck(graphlib_graph_p graph,
+                                         graphlib_node_t node, 
+                                         graphlib_nodeattr_p attr);
 
 
 /*.......................................................*/
@@ -390,8 +393,10 @@ graphlib_error_t graphlib_addNodeNoCheck(graphlib_graph_p graph, graphlib_node_t
    Comment: in case the graph is directed, this routine will add
    two directional edges, one in each direction */
 
-graphlib_error_t graphlib_addUndirectedEdge(graphlib_graph_p graph, graphlib_node_t node1, 
-					    graphlib_node_t node2, graphlib_edgeattr_p attr);
+graphlib_error_t graphlib_addUndirectedEdge(graphlib_graph_p graph,
+                                            graphlib_node_t node1, 
+                                            graphlib_node_t node2,
+                                            graphlib_edgeattr_p attr);
 
 
 /*.......................................................*/
@@ -404,8 +409,10 @@ graphlib_error_t graphlib_addUndirectedEdge(graphlib_graph_p graph, graphlib_nod
    Comment: in case the graph is directed, this routine will add
    two directional edges, one in each direction */
 
-graphlib_error_t graphlib_addUndirectedEdgeNoCheck(graphlib_graph_p graph, graphlib_node_t node1, 
-						   graphlib_node_t node2, graphlib_edgeattr_p attr);
+graphlib_error_t graphlib_addUndirectedEdgeNoCheck(graphlib_graph_p graph,
+                                                   graphlib_node_t node1, 
+                                                   graphlib_node_t node2,
+                                                   graphlib_edgeattr_p attr);
 
 
 /*.......................................................*/
@@ -417,8 +424,10 @@ graphlib_error_t graphlib_addUndirectedEdgeNoCheck(graphlib_graph_p graph, graph
    Comment: in case the graph is undirected, this routine will change
    the graph into a directed graph */
 
-graphlib_error_t graphlib_addDirectedEdge(graphlib_graph_p graph, graphlib_node_t node1, 
-					  graphlib_node_t node2, graphlib_edgeattr_p attr);
+graphlib_error_t graphlib_addDirectedEdge(graphlib_graph_p graph,
+                                          graphlib_node_t node1, 
+                                          graphlib_node_t node2,
+                                          graphlib_edgeattr_p attr);
 
 
 /*.......................................................*/
@@ -431,8 +440,10 @@ graphlib_error_t graphlib_addDirectedEdge(graphlib_graph_p graph, graphlib_node_
    Comment: in case the graph is undirected, this routine will change
    the graph into a directed graph */
 
-graphlib_error_t graphlib_addDirectedEdgeNoCheck(graphlib_graph_p graph, graphlib_node_t node1, 
-						 graphlib_node_t node2, graphlib_edgeattr_p attr);
+graphlib_error_t graphlib_addDirectedEdgeNoCheck(graphlib_graph_p graph,
+                                                 graphlib_node_t node1, 
+                                                 graphlib_node_t node2,
+                                                 graphlib_edgeattr_p attr);
 
 
 /*.......................................................*/
@@ -440,7 +451,8 @@ graphlib_error_t graphlib_addDirectedEdgeNoCheck(graphlib_graph_p graph, graphli
 /* IN: graph handle
        node ID */
 
-graphlib_error_t graphlib_deleteConnectedNode(graphlib_graph_p graph, graphlib_node_t node); 
+graphlib_error_t graphlib_deleteConnectedNode(graphlib_graph_p graph,
+graphlib_node_t node); 
 
 
 /*-----------------------------------------------------------------*/
@@ -466,8 +478,8 @@ graphlib_error_t graphlib_setDefEdgeAttr(graphlib_edgeattr_p attr);
        minimal value of all widths after the transformation
        maximal value of all widths after the transformation */
 
-graphlib_error_t graphlib_scaleNodeWidth(graphlib_graph_p graph, graphlib_width_t minval,
-					 graphlib_width_t maxval);
+graphlib_error_t graphlib_scaleNodeWidth(graphlib_graph_p graph,                                                         graphlib_width_t minval,
+                                         graphlib_width_t maxval);
 
 
 /*.......................................................*/
@@ -476,8 +488,9 @@ graphlib_error_t graphlib_scaleNodeWidth(graphlib_graph_p graph, graphlib_width_
        minimal value of all widths after the transformation
        maximal value of all widths after the transformation */
 
-graphlib_error_t graphlib_scaleEdgeWidth(graphlib_graph_p graph, graphlib_width_t minval,
-					 graphlib_width_t maxval);
+graphlib_error_t graphlib_scaleEdgeWidth(graphlib_graph_p graph,
+                                         graphlib_width_t minval,
+                                         graphlib_width_t maxval);
 
 
 /*-----------------------------------------------------------------*/
@@ -493,7 +506,9 @@ graphlib_error_t graphlib_scaleEdgeWidth(graphlib_graph_p graph, graphlib_width_
        annotation number to set name for
        name of annotation */
 
-graphlib_error_t graphlib_AnnotationKey(graphlib_graph_p graph, int num, char *name);
+graphlib_error_t graphlib_AnnotationKey(graphlib_graph_p graph,
+                                        int num,
+                                        char *name);
 
 
 /*.......................................................*/
@@ -503,8 +518,9 @@ graphlib_error_t graphlib_AnnotationKey(graphlib_graph_p graph, int num, char *n
        annotation number to set value for
        value to be set */
 
-graphlib_error_t graphlib_AnnotationSet(graphlib_graph_p graph, graphlib_node_t node, 
-					int num, graphlib_annotation_t val);
+graphlib_error_t graphlib_AnnotationSet(graphlib_graph_p graph,
+                                        graphlib_node_t node, 
+                                        int num, graphlib_annotation_t val);
 
 
 /*.......................................................*/
@@ -514,8 +530,9 @@ graphlib_error_t graphlib_AnnotationSet(graphlib_graph_p graph, graphlib_node_t 
        annotation number to get value from
        pointer to value storage */
 
-graphlib_error_t graphlib_AnnotationGet(graphlib_graph_p graph, graphlib_node_t node, 
-					int num, graphlib_annotation_t* val);
+graphlib_error_t graphlib_AnnotationGet(graphlib_graph_p graph,
+                                        graphlib_node_t node, 
+                                        int num, graphlib_annotation_t* val);
 
 
 /*-----------------------------------------------------------------*/
@@ -527,7 +544,8 @@ graphlib_error_t graphlib_AnnotationGet(graphlib_graph_p graph, graphlib_node_t 
        pointer to graph handle storage
    Comment: this routine will allocate a new graph */
 
-graphlib_error_t graphlib_loadGraph(graphlib_filename_t fn, graphlib_graph_p *newgraph);
+graphlib_error_t graphlib_loadGraph(graphlib_filename_t fn,
+                                        graphlib_graph_p *newgraph);
 
 
 /*.......................................................*/
@@ -535,7 +553,8 @@ graphlib_error_t graphlib_loadGraph(graphlib_filename_t fn, graphlib_graph_p *ne
 /* IN: filename
        graph handle */
 
-graphlib_error_t graphlib_saveGraph(graphlib_filename_t fn, graphlib_graph_p graph);
+graphlib_error_t graphlib_saveGraph(graphlib_filename_t fn,
+                                    graphlib_graph_p graph);
 
 
 /*.......................................................*/
@@ -545,7 +564,9 @@ graphlib_error_t graphlib_saveGraph(graphlib_filename_t fn, graphlib_graph_p gra
        graph handle
    Comment: exported graphs can not be loaded again */
 
-graphlib_error_t graphlib_exportGraph(graphlib_filename_t fn, graphlib_format_t format, graphlib_graph_p graph);
+graphlib_error_t graphlib_exportGraph(graphlib_filename_t fn,
+                                      graphlib_format_t format,
+                                      graphlib_graph_p graph);
 
 
 /*.......................................................*/
@@ -555,8 +576,9 @@ graphlib_error_t graphlib_exportGraph(graphlib_filename_t fn, graphlib_format_t 
        graph handle
    Comment: exported graphs can not be loaded again */
 
-graphlib_error_t graphlib_extractAndExportTemporalGraphs(graphlib_filename_t fn, graphlib_format_t format, 
-							 graphlib_graph_p graph);
+graphlib_error_t graphlib_extractAndExportTemporalGraphs(graphlib_filename_t fn,
+                                                         graphlib_format_t format, 
+                                                         graphlib_graph_p graph);
 
 
 /*.......................................................*/
@@ -565,8 +587,9 @@ graphlib_error_t graphlib_extractAndExportTemporalGraphs(graphlib_filename_t fn,
        pointer to byte array
        pointer to return value (length of serialized graph) */
 
-graphlib_error_t graphlib_serializeGraph(graphlib_graph_p igraph,char **obyte_array,
-					 unsigned int *obyte_array_len );
+graphlib_error_t graphlib_serializeGraph(graphlib_graph_p igraph,
+                                         char **obyte_array,
+                                         unsigned int *obyte_array_len );
 
 
 /*.......................................................*/
@@ -576,8 +599,9 @@ graphlib_error_t graphlib_serializeGraph(graphlib_graph_p igraph,char **obyte_ar
        pointer to byte array
        length of serialized graph */
 
-graphlib_error_t graphlib_deserializeGraph(graphlib_graph_p *ograph,char *ibyte_array,
-					   unsigned int ibyte_array_len );
+graphlib_error_t graphlib_deserializeGraph(graphlib_graph_p *ograph,
+                                           char *ibyte_array,
+                                           unsigned int ibyte_array_len );
 
 
 /*.......................................................*/
@@ -590,8 +614,9 @@ graphlib_error_t graphlib_deserializeGraph(graphlib_graph_p *ograph,char *ibyte_
        length of serialized graph */
 
 graphlib_error_t graphlib_deserializeGraphConn(int connection,
-					       graphlib_graph_p *ograph,char *ibyte_array,
-					       unsigned int ibyte_array_len );
+                                               graphlib_graph_p *ograph,
+                                               char *ibyte_array,
+                                               unsigned int ibyte_array_len );
 
 
 /*-----------------------------------------------------------------*/
@@ -604,7 +629,8 @@ graphlib_error_t graphlib_deserializeGraphConn(int connection,
        graph handle to second graph
    Comment: this routine modifies the first graph */
 
-graphlib_error_t graphlib_mergeGraphs(graphlib_graph_p graph1, graphlib_graph_p graph2);
+graphlib_error_t graphlib_mergeGraphs(graphlib_graph_p graph1,
+                                      graphlib_graph_p graph2);
 
 
 /*.......................................................*/
@@ -614,7 +640,8 @@ graphlib_error_t graphlib_mergeGraphs(graphlib_graph_p graph1, graphlib_graph_p 
        graph handle to second graph
    Comment: this routine modifies the first graph */
 
-graphlib_error_t graphlib_mergeGraphsWeighted(graphlib_graph_p graph1, graphlib_graph_p graph2);
+graphlib_error_t graphlib_mergeGraphsWeighted(graphlib_graph_p graph1,
+                                      graphlib_graph_p graph2);
 
 
 /*.......................................................*/
@@ -624,7 +651,8 @@ graphlib_error_t graphlib_mergeGraphsWeighted(graphlib_graph_p graph1, graphlib_
        graph handle to second graph
    Comment: this routine modifies the first graph */
 
-graphlib_error_t graphlib_mergeGraphsRanked(graphlib_graph_p graph1, graphlib_graph_p graph2);
+graphlib_error_t graphlib_mergeGraphsRanked(graphlib_graph_p graph1,
+                                            graphlib_graph_p graph2);
 
 
 /*.......................................................*/
@@ -634,7 +662,8 @@ graphlib_error_t graphlib_mergeGraphsRanked(graphlib_graph_p graph1, graphlib_gr
        graph handle to second graph
    Comment: this routine modifies the first graph */
 
-graphlib_error_t graphlib_mergeGraphsEmptyEdges(graphlib_graph_p graph1, graphlib_graph_p graph2);
+graphlib_error_t graphlib_mergeGraphsEmptyEdges(graphlib_graph_p graph1,
+                                                graphlib_graph_p graph2);
 
 
 /*.......................................................*/
@@ -644,7 +673,8 @@ graphlib_error_t graphlib_mergeGraphsEmptyEdges(graphlib_graph_p graph1, graphli
        graph handle to second graph
    Comment: this routine modifies the first graph */
 
-graphlib_error_t graphlib_mergeGraphsFillEdges(graphlib_graph_p graph1, graphlib_graph_p graph2, int *ranks, int ranks_size, int offset);
+graphlib_error_t graphlib_mergeGraphsFillEdges(graphlib_graph_p graph1,
+                                               graphlib_graph_p graph2, int *ranks, int ranks_size, int offset);
 
 
 /*-----------------------------------------------------------------*/
@@ -660,7 +690,9 @@ graphlib_error_t graphlib_mergeGraphsFillEdges(graphlib_graph_p graph1, graphlib
        node to start at
    Comment: this routine modifies the specified graph */
 
-graphlib_error_t graphlib_colorInvertedPath(graphlib_graph_p gr, graphlib_color_t color, graphlib_node_t node);
+graphlib_error_t graphlib_colorInvertedPath(graphlib_graph_p gr,
+                                            graphlib_color_t color,
+                                            graphlib_node_t node);
 
 
 /*.......................................................*/
@@ -672,19 +704,26 @@ graphlib_error_t graphlib_colorInvertedPath(graphlib_graph_p gr, graphlib_color_
        node to start at
    Comment: this routine modifies the specified graph */
 
-graphlib_error_t graphlib_colorInvertedPathDeleteRest(graphlib_graph_p gr, graphlib_color_t color, graphlib_color_t color_off, graphlib_node_t node);
+graphlib_error_t graphlib_colorInvertedPathDeleteRest(graphlib_graph_p gr,
+                                                      graphlib_color_t color,
+                                                      graphlib_color_t color_off,
+                                                      graphlib_node_t node);
 
 
 /*.......................................................*/
 /* currently undocumented */
 
-graphlib_error_t graphlib_deleteInvertedPath(graphlib_graph_p gr, graphlib_node_t node,graphlib_node_t *lastnode);
+graphlib_error_t graphlib_deleteInvertedPath(graphlib_graph_p gr,
+                                             graphlib_node_t node,
+                                             graphlib_node_t *lastnode);
 
 
 /*.......................................................*/
 /* currently undocumented */
 
-graphlib_error_t graphlib_deleteInvertedLine(graphlib_graph_p gr, graphlib_node_t node,graphlib_node_t *lastnode);
+graphlib_error_t graphlib_deleteInvertedLine(graphlib_graph_p gr,
+                                             graphlib_node_t node,
+                                             graphlib_node_t *lastnode);
 
 
 /*.......................................................*/
@@ -693,7 +732,8 @@ graphlib_error_t graphlib_deleteInvertedLine(graphlib_graph_p gr, graphlib_node_
        root node
    Comment: this routine modifies the specified graph */
 
-graphlib_error_t graphlib_deleteTreeNotRoot(graphlib_graph_p gr, graphlib_node_t node);
+graphlib_error_t graphlib_deleteTreeNotRoot(graphlib_graph_p gr,
+                                            graphlib_node_t node);
 
 
 /*.......................................................*/
@@ -702,7 +742,8 @@ graphlib_error_t graphlib_deleteTreeNotRoot(graphlib_graph_p gr, graphlib_node_t
        root node
    Comment: this routine modifies the specified graph */
 
-graphlib_error_t graphlib_deleteTree(graphlib_graph_p gr, graphlib_node_t node);
+graphlib_error_t graphlib_deleteTree(graphlib_graph_p gr,
+                                     graphlib_node_t node);
 
 
 /*.......................................................*/
@@ -713,7 +754,9 @@ graphlib_error_t graphlib_deleteTree(graphlib_graph_p gr, graphlib_node_t node);
        color node color to stop deleting at
    Comment: this routine modifies the specified graph */
 
-graphlib_error_t graphlib_deleteTreeNotRootColor(graphlib_graph_p gr, graphlib_node_t node, graphlib_color_t color);
+graphlib_error_t graphlib_deleteTreeNotRootColor(graphlib_graph_p gr,
+                                                 graphlib_node_t node,
+                                                 graphlib_color_t color);
 
 
 /*.......................................................*/
@@ -724,7 +767,9 @@ graphlib_error_t graphlib_deleteTreeNotRootColor(graphlib_graph_p gr, graphlib_n
        color node color to stop deleting at
    Comment: this routine modifies the specified graph */
 
-graphlib_error_t graphlib_deleteTreeColor(graphlib_graph_p gr, graphlib_node_t node, graphlib_color_t color);
+graphlib_error_t graphlib_deleteTreeColor(graphlib_graph_p gr,
+                                          graphlib_node_t node,
+                                          graphlib_color_t color);
 
 
 /*.......................................................*/
@@ -751,6 +796,13 @@ graphlib_error_t graphlib_colorGraphByLeadingEdgeLabel(graphlib_graph_p gr);
 /* IN: the bit vector and the integer task rank
    Comment: this routine modifies the input bit vector */
 graphlib_error_t graphlib_setEdgeByTask(void **edgelist, int task);
+
+/*.......................................................*/
+/* modify all edge attributes in a graph */
+/* IN: the graph and the new edge attribute
+   Comment: this routine modifies the input graph */
+graphlib_error_t graphlib_modifyEdgeAttr(graphlib_graph_p graph,
+                                         graphlib_edgeattr_p attr);
 
 int graphlib_getBitVectorSize();
 #endif /*ifdef STAT_BITVECTOR*/
