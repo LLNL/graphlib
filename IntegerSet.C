@@ -84,7 +84,10 @@ int bitvec_initialize(int longsize,int edgelabelwidth)
 void bitvec_finalize()
 {
   if (masks != NULL)
+  {
     free(masks);
+    masks = NULL;
+  }  
 }
 
 void* bitvec_allocate()
