@@ -20,14 +20,16 @@ DEPS     = Makefile
 DEMO     = graphdemo
 DEMO-C   = graphdemo-c
 MERGE    = grmerge
+MERGE-C  = grmerge-c
 
-ALLTARGETS = $(TARGET) $(DEMO) $(MERGE) $(TARGET-C) $(DEMO-C)
+
+ALLTARGETS = $(TARGET) $(DEMO) $(MERGE) $(TARGET-C) $(DEMO-C) $(MERGE-C)
 
 CC=g++
 CCC=gcc
 #CFLAGS += -fPIC -O3 -g
-CFLAGS += -fPIC -O2 -g -DSTAT_BITVECTOR -DGRL_DYNAMIC_NODE_NAME #-DGRL_BV_CHAR
-COFLAGS += -fPIC -O2 -g -DNOSET -DGRL_DYNAMIC_NODE_NAME 
+CFLAGS += -fPIC -O2 -g -DSTAT_BITVECTOR # -DGRL_DYNAMIC_NODE_NAME #-DGRL_BV_CHAR
+COFLAGS += -fPIC -O2 -g -DNOSET # -DGRL_DYNAMIC_NODE_NAME 
 CXXFLAGS += $(CFLAGS)
 
 # default
@@ -61,6 +63,9 @@ $(DEMO-C): graphdemo-c.o
 $(MERGE): grmerge.o
 	$(CC) -o $@ $< $(TARGET)
 
+$(MERGE-C): grmerge.o
+	$(CC) -o $@ $< $(TARGET-C)
+
 $(MERGE2): grmerge2.o
 	$(CC) -o $@ $< $(TARGET)
 
@@ -70,6 +75,7 @@ install: $(ALLTARGETS) $(INCLUDES)
 	cp $(TARGET) $(LIBDIR)
 	cp $(TARGET-C) $(LIBDIR)
 	cp $(MERGE) $(BINDIR)
+	cp $(MERGE-C) $(BINDIR)
 	cp $(INCLUDES) $(INCDIR)
 
 # cleanup
