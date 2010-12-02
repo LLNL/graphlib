@@ -35,12 +35,18 @@ Boston, MA 02111-1307 USA
 
 #include "IntegerSet.h"
 
+#include <errno.h>
+
 #ifdef STAT_BITVECTOR
-static bv_type *masks;
-static int bv_typebits;
-static int bv_edgelabelwidth;
-static int bv_edgelabelbits;
+static const int bv_typebits = bv_typesize * 8;
+static int bv_edgelabelwidth = 1;
+static int bv_edgelabelbits  = 8;
+static int bv_init = 0;
+
 /* This is the length of the bit vector in longs (i.e., length of void *edgelist array) */
+
+/* bitshifting is MUCH faster than ANY memory access */
+#define BIT(i) (1 << (i))
 
 /* Hash the bit vector and create a (fairly) unique long integer id */
 /* There may be collisions, but they should be rare */
@@ -56,54 +62,32 @@ long bithash(const void *bit_vector, int width)
   return ret;
 }
 
-int bitvec_initialize(int longsize,int edgelabelwidth)
+int bitvec_initialize(int longsize, int edgelabelwidth)
 {
-  int i;
-  static int init = 0;
-  bv_type one=1;
-
-  bv_typesize=sizeof(bv_type);
-  bv_typebits=bv_typesize*8;
   bv_edgelabelwidth=edgelabelwidth;
   bv_edgelabelbits=edgelabelwidth*bv_typebits;
 
-  if (masks != NULL && init != 0)
-    free(masks);
-  masks=(bv_type*)malloc(bv_typebits*bv_typesize);
-  if (masks==NULL) return 1;
-
-  for (i=0;i<bv_typebits;i++)
-    {
-      masks[i]= one << i;
-    }
-
-  init++;
+  bv_init++;
   return 0;
 }
 
 void bitvec_finalize()
 {
-  if (masks != NULL)
-  {
-    free(masks);
-    masks = NULL;
-  }  
 }
 
 void* bitvec_allocate()
 {
-  void* newlabel;
-  newlabel=malloc(bv_edgelabelwidth*bv_typesize);
-  if (newlabel)
-    memset(newlabel,0,bv_edgelabelwidth*bv_typesize);
-  else
-    fprintf(stderr, "malloc returned NULL!\n");
+  void *newlabel = calloc(bv_edgelabelwidth, bv_typesize);
+  if (!newlabel)
+    fprintf (stderr, "%s(%i): calloc failed to allocate %d bytes. error = %s\n",
+	     __func__, __LINE__ - 1, bv_edgelabelwidth *bv_typesize, strerror (errno));
+
   return newlabel;
 }
 
 void bitvec_delete(void** edgelist)
 {
-  free((bv_type *)*edgelist);
+  free(*edgelist);
   *edgelist=NULL;
 }
 
@@ -115,11 +99,10 @@ void bitvec_erase(void* edgelist)
 
 void bitvec_insert(void *vec, int val)
 {
-  
   int byte = val / bv_typebits;
   int bit = val % bv_typebits;
 
-  ((bv_type *)vec)[byte] |= masks[bit];
+  ((bv_type *)vec)[byte] |= BIT(bit);
 }
 
 void bitvec_merge(void *inout, void *in)
@@ -137,10 +120,7 @@ int bitvec_contains(void *vec, int val)
   int byte = val / bv_typebits;
   int bit = val % bv_typebits;
 
-  if(((bv_type *)vec)[byte] & masks[bit])
-    return 1;
-  else
-    return 0;
+  return !!(((bv_type *)vec)[byte] & BIT(bit));
 }
 
 unsigned int bitvec_size(void *vec)
@@ -151,8 +131,7 @@ unsigned int bitvec_size(void *vec)
     {
       for (j=0; j<bv_typebits; j++)
         {
-          if (((bv_type *)vec)[i] & masks[j])
-            ret++;
+	  ret += !!(((bv_type *)vec)[i] & BIT(j));
         }
     }
   return ret;
@@ -170,7 +149,7 @@ void bitvec_c_str_file(FILE *f, void *vec)
     {
       for (j=0; j<bv_typebits; j++)
         {
-          if (((bv_type *)vec)[i] & masks[j])
+          if (((bv_type *)vec)[i] & BIT(j))
             {
               cur_val = i*bv_typebits+j;
               if (in_range == 0)

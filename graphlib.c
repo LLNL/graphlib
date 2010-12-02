@@ -753,12 +753,12 @@ void grlibint_exp_dot_color(graphlib_color_t color, FILE *fh)
             /*GLL comment: if there are a small number of colors, use a larger 
               normalizing value to get a better color range*/
             if (grlibint_num_colors < 18)
-              color_val = 16777215 - ((color-GRC_RAINBOW)/18.0)*16777215;
+              color_val = 16777215 - (unsigned int)(((color-GRC_RAINBOW)/18.0)*16777215);
             /* Powers of 2 number of colors create red-only colors */
             else if (grlibint_num_colors % 32 == 0)
-              color_val = 16777215 - ((color-GRC_RAINBOW)/(float)(grlibint_num_colors+1))*16777215;
+              color_val = 16777215 - (unsigned int)(((color-GRC_RAINBOW)/(float)(grlibint_num_colors+1))*16777215);
             else
-              color_val = 16777215 - ((color-GRC_RAINBOW)/(float)grlibint_num_colors)*16777215;
+              color_val = 16777215 - (unsigned int)(((color-GRC_RAINBOW)/(float)grlibint_num_colors)*16777215);
             fprintf(fh,"\"#%06x\"",color_val);
           }
          else
@@ -1135,8 +1135,6 @@ graphlib_error_t graphlibint_extractSubGraphByEdgeRank(graphlib_graph_p igraph,
 
 #ifndef STAT_BITVECTOR
   graphlib_edgeattr_t edge_attr = {1,0,"",0,0,14};
-#else  
-  graphlib_edgeattr_t edge_attr = {1,0,NULL,0,0,14};
 #endif
 
   err=graphlib_newGraph(ograph);
@@ -1204,24 +1202,24 @@ graphlib_error_t graphlib_InitVarEdgeLabelsConn(int numconn,
   int i;
 #endif
 
-#ifndef NOSET
-  *finalwidth = grlibint_edgelabelwidth*bv_typesize*8;
-#endif
-
   allgraphs=NULL;
 
 #ifdef STAT_BITVECTOR
   grlibint_edgelabelwidth=0;
   grlibint_connections=numconn;
-  if (grlibint_connwidths != NULL)
-    free(grlibint_connwidths);
-  grlibint_connwidths=(int*) malloc(sizeof(int)*numconn);
-  if (grlibint_connwidths==NULL)
+
+  grlibint_connwidths = (int *) realloc(grlibint_connwidths, sizeof(int)*numconn);
+  if (!grlibint_connwidths)
     return GRL_NOMEM;
 
   for (i=0; i<numconn; i++)
     {
-      grlibint_connwidths[i]=edgelabelwidth[i] / (bv_typesize*8);
+      if (edgelabelwidth[i] < 0) {
+	fprintf (stderr, "%s(%i): edgelabelwidth[%d] < 0 (%d)\n", __func__, __LINE__, i, edgelabelwidth[i]);
+
+	return GRL_INVALID;
+      }
+      grlibint_connwidths[i] = edgelabelwidth[i] / (bv_typesize*8);
       if ((edgelabelwidth[i] % (bv_typesize*8))!=0)
         grlibint_connwidths[i]++;
       grlibint_edgelabelwidth += grlibint_connwidths[i];
@@ -1262,7 +1260,7 @@ graphlib_error_t graphlib_Finish()
   bitvec_finalize();
 #endif
 #ifdef STAT_BITVECTOR
-  int i;
+  unsigned int i;
   for (i = 0; i < grlibint_num_colors; i++)
     {
       if (node_clusters[i] != NULL)
@@ -2232,10 +2230,13 @@ graphlib_error_t graphlib_serializeGraph( graphlib_graph_p igraph,
   err = graphlib_edgeCount( igraph, &num_edges);
   
   cur_idx = 0;
+  *obyte_array_len = 0;
   
   /* write header */
   grlibint_copyDataToBuf( &cur_idx, (const char *)&num_nodes, sizeof(int), &temp_array, &temp_array_len );
+  *obyte_array_len += sizeof(int);
   grlibint_copyDataToBuf( &cur_idx, (const char *)&num_edges, sizeof(int), &temp_array, &temp_array_len );
+  *obyte_array_len += sizeof(int);
   
   
   /* write nodes */
@@ -2252,12 +2253,14 @@ graphlib_error_t graphlib_serializeGraph( graphlib_graph_p igraph,
               /* id */
               grlibint_copyDataToBuf( &cur_idx,(const char *)&(node->id),sizeof(graphlib_node_t),
                                    &temp_array,&temp_array_len );
+              *obyte_array_len += sizeof(graphlib_node_t);
                     
               /* name */
               name_len = strlen( node->attr.name );
               name_len++; /* for null terminator */
               grlibint_copyDataToBuf( &cur_idx,(const char *)&(name_len),sizeof(int),
                                       &temp_array,&temp_array_len );
+              *obyte_array_len += sizeof(int);
 
 #ifdef GRL_DYNAMIC_NODE_NAME
               grlibint_copyDataToBuf( &cur_idx,(const char *)(node->attr.name),name_len,
@@ -2266,10 +2269,12 @@ graphlib_error_t graphlib_serializeGraph( graphlib_graph_p igraph,
               grlibint_copyDataToBuf( &cur_idx,(const char *)&(node->attr.name),name_len,
                                       &temp_array,&temp_array_len );
 #endif
+              *obyte_array_len += name_len;
               
               /* width */
               grlibint_copyDataToBuf( &cur_idx,(const char *)&(node->attr.width),sizeof(graphlib_width_t),
                                       &temp_array,&temp_array_len );
+              *obyte_array_len += sizeof(graphlib_width_t);
             }
         }
       nodefrag=nodefrag->next;
@@ -2289,10 +2294,12 @@ graphlib_error_t graphlib_serializeGraph( graphlib_graph_p igraph,
               /* from_id */
               grlibint_copyDataToBuf( &cur_idx,(const char *)&(edge->node_from),sizeof(graphlib_node_t),
                                    &temp_array,&temp_array_len );
+              *obyte_array_len += sizeof(graphlib_node_t);
                
               /* to_id */
               grlibint_copyDataToBuf( &cur_idx,(const char *)&(edge->node_to),sizeof(graphlib_node_t),
                                       &temp_array,&temp_array_len );
+              *obyte_array_len += sizeof(graphlib_node_t);
 
               /* name */
 #ifdef STAT_BITVECTOR
@@ -2303,22 +2310,25 @@ graphlib_error_t graphlib_serializeGraph( graphlib_graph_p igraph,
 #endif              
               grlibint_copyDataToBuf( &cur_idx,(const char *)&(name_len),sizeof(int),
                                       &temp_array,&temp_array_len );
+              *obyte_array_len += sizeof(int);
 
 #ifdef STAT_BITVECTOR
               grlibint_copyDataToBuf( &cur_idx,(const char *)(edge->attr.edgelist),name_len,
                                       &temp_array,&temp_array_len );
+              *obyte_array_len += name_len;
 #endif
 
               /* width */
               grlibint_copyDataToBuf( &cur_idx,(const char *)&(edge->attr.width),sizeof(graphlib_width_t),
                                       &temp_array,&temp_array_len );
+              *obyte_array_len += sizeof(graphlib_width_t);
             }
         }
       edgefrag=edgefrag->next;
     }
   
   *obyte_array = temp_array;
-  *obyte_array_len = temp_array_len;
+/*  *obyte_array_len = temp_array_len;*/
   return GRL_OK;
 }
 
@@ -2403,7 +2413,9 @@ graphlib_error_t graphlib_deserializeGraphConn(int conn,
       node_attr.width = width;
       
       graphlib_addNode( *ograph, id, &node_attr );
+#ifdef GRL_DYNAMIC_NODE_NAME
       free(nodename);
+#endif
     }
 
   /* read edges */
@@ -4006,7 +4018,7 @@ graphlib_error_t graphlib_colorGraphByLeadingEdgeLabel(graphlib_graph_p graph)
   graphlib_nodedata_p n;
   graphlib_error_t err;
 
-  for (i = 0; i < grlibint_num_colors; i++)
+  for (i = 0; i < (int)grlibint_num_colors; i++)
     if (node_clusters[i] != NULL)
       free(node_clusters[i]);
 

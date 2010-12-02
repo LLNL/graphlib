@@ -160,6 +160,7 @@ extern "C" {
 #define GRL_UNKNOWNFORMAT -3
 #define GRL_MEMORYERROR   -4
 #define GRL_NOATTRIBUTE   -5
+#define GRL_INVALID       -6 /* invalid argument */
 
 
 /*-----------------------------------------------------------------*/
