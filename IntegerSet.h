@@ -42,6 +42,10 @@ Boston, MA 02111-1307 USA
 #include <stdlib.h>
 #include <stdio.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifdef GRL_BV_CHAR
 typedef char bv_type;
 #elif GRL_BV_INT
@@ -71,7 +75,15 @@ char *bitvec_c_str(void *vec, int size);*/
 
 void bitvec_c_str_file(FILE* f, void *vec);
 
+#ifdef __cplusplus
+}
+#endif
+
 #else /*!STAT_BITVECTOR*/
+
+#ifndef __cplusplus
+struct IntegerSet;
+#else  // __cplusplus
 
 #include <set>
 #include <string>
@@ -93,6 +105,7 @@ class IntegerSet{
     void print( );
 };
 
+#endif // __cplusplus
 #endif /*STAT_BIT_VECTOR*/
 
 #endif /* __integer_set_h */
