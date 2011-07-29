@@ -102,13 +102,13 @@ int main(int argc, char **argv)
     }
 
   printf("Loading %s\n",argv[ac]);
-  err=graphlib_loadGraph(argv[ac],&gr);
+  err=graphlib_loadGraph(argv[ac],&gr,NULL); 
   CHECKERROR(err,"Load initial graph");  
 
   for (i=ac+1; i<argc-1; i++)
     {
       printf("Loading %s\n",argv[i]);
-      err=graphlib_loadGraph(argv[i],&gradd);
+      err=graphlib_loadGraph(argv[i],&gradd,NULL); 
       CHECKERROR(err,"Load additional graph");
 
       err=graphlib_mergeGraphs(gr,gradd);

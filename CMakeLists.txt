@@ -4,29 +4,33 @@
 project(graphlib)
 cmake_minimum_required(VERSION 2.6)
 
-set(GRAPHLIB_SOURCES graphlib.c IntegerSet.C)
+set(GRAPHLIB_SOURCES graphlib.c)
 
 # Libraries and special compile flags.
 add_library(lnlgraph ${GRAPHLIB_SOURCES})
 set_target_properties(lnlgraph PROPERTIES
-  COMPILE_FLAGS "-DSTAT_BITVECTOR  -DGRL_DYNAMIC_NODE_NAME")
-
-add_library(lnlgraph-c ${GRAPHLIB_SOURCES})
-set_target_properties(lnlgraph-c PROPERTIES COMPILE_FLAGS "-DNOSET")
+  COMPILE_FLAGS "-g")
+#
+#add_library(lnlgraph-c ${GRAPHLIB_SOURCES})
+#set_target_properties(lnlgraph-c PROPERTIES COMPILE_FLAGS "-DNOSET")
 
 # Executables
 add_executable(graphdemo graphdemo.c)
 target_link_libraries(graphdemo lnlgraph)
+set_target_properties(graphdemo PROPERTIES
+  COMPILE_FLAGS "-g")
 
 add_executable(grmerge grmerge.c)
 target_link_libraries(grmerge lnlgraph)
+set_target_properties(grmerge PROPERTIES
+  COMPILE_FLAGS "-g")
 
-add_executable(grmerge-c grmerge.c)
-target_link_libraries(grmerge-c lnlgraph-c)
+#add_executable(grmerge-c grmerge.c)
+#target_link_libraries(grmerge-c lnlgraph-c)
 
 # Installation
-install(TARGETS graphdemo grmerge grmerge-c DESTINATION bin)
-install(TARGETS lnlgraph lnlgraph-c         DESTINATION lib EXPORT graphlib-libs)
+install(TARGETS graphdemo grmerge           DESTINATION bin)
+install(TARGETS lnlgraph                    DESTINATION lib EXPORT graphlib-libs)
 install(FILES   graphlib.h                  DESTINATION include)
 install(EXPORT  graphlib-libs               DESTINATION lib/cmake/graphlib)
 
