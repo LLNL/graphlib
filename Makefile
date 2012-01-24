@@ -73,7 +73,9 @@ $(MERGE2): grmerge2.o
 
 install: $(ALLTARGETS) $(INCLUDES)
 	cp $(TARGET) $(LIBDIR)
+	ranlib $(LIBDIR)/$(TARGET)
 	cp $(TARGET-C) $(LIBDIR)
+	ranlib $(LIBDIR)/$(TARGET-C)
 	cp $(MERGE) $(BINDIR)
 	cp $(MERGE-C) $(BINDIR)
 	cp $(INCLUDES) $(INCDIR)

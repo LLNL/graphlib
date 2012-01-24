@@ -51,7 +51,8 @@ typedef short bv_type;
 #else
 typedef long bv_type;
 #endif
-static int bv_typesize=sizeof(bv_type); 
+
+const int bv_typesize = sizeof (bv_type);
 
 long bithash(const void *bit_vector, int width);
 void* bitvec_allocate();

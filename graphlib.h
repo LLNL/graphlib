@@ -160,6 +160,7 @@ extern "C" {
 #define GRL_UNKNOWNFORMAT -3
 #define GRL_MEMORYERROR   -4
 #define GRL_NOATTRIBUTE   -5
+#define GRL_INVALID       -6 /* invalid argument */
 
 
 /*-----------------------------------------------------------------*/
@@ -589,7 +590,7 @@ graphlib_error_t graphlib_extractAndExportTemporalGraphs(graphlib_filename_t fn,
 
 graphlib_error_t graphlib_serializeGraph(graphlib_graph_p igraph,
                                          char **obyte_array,
-                                         unsigned int *obyte_array_len );
+                                         unsigned long *obyte_array_len );
 
 
 /*.......................................................*/
@@ -601,7 +602,7 @@ graphlib_error_t graphlib_serializeGraph(graphlib_graph_p igraph,
 
 graphlib_error_t graphlib_deserializeGraph(graphlib_graph_p *ograph,
                                            char *ibyte_array,
-                                           unsigned int ibyte_array_len );
+                                           unsigned long ibyte_array_len );
 
 
 /*.......................................................*/
@@ -616,7 +617,7 @@ graphlib_error_t graphlib_deserializeGraph(graphlib_graph_p *ograph,
 graphlib_error_t graphlib_deserializeGraphConn(int connection,
                                                graphlib_graph_p *ograph,
                                                char *ibyte_array,
-                                               unsigned int ibyte_array_len );
+                                               unsigned long ibyte_array_len );
 
 
 /*-----------------------------------------------------------------*/
