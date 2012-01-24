@@ -1,0 +1,11 @@
+# -*- cmake -*-
+# CMake configuration file for graphlib.
+#
+
+set(GRAPHLIB_INCLUDE_DIR @CMAKE_INSTALL_PREFIX@/include)
+set(GRAPHLIB_LIBRARY_DIR @CMAKE_INSTALL_PREFIX@/lib)
+set(GRAPHLIB_CMAKE_DIR @CMAKE_INSTALL_PREFIX@/lib/cmake/graphlib)
+
+set(GRAPHLIB_INCLUDE_PATH ${GRAPHLIB_INCLUDE_DIR})
+
+include(${GRAPHLIB_CMAKE_DIR}/graphlib-libs.cmake)
