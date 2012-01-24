@@ -263,7 +263,7 @@ void testE()
   graphlib_graph_p gr=NULL, gr2=NULL;
   graphlib_error_t err;
   char * ba=0;
-  unsigned int ba_len=0;
+  unsigned long ba_len=0;
   
   err=graphlib_loadGraph("demo-c.grl",&gr);
   CHECKERROR(err,TESTNO,"Step 1");  
