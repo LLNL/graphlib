@@ -1204,9 +1204,11 @@ unsigned int grlibint_serialize_node_length(const void *label)
   else
     return 0;
 }
-void grlibint_deserialize_node(char *label, const void *buf)
+void grlibint_deserialize_node(void **label, const char *buf,
+                               unsigned int label_len)
 {
-  strcpy(label,buf);
+  *label = malloc(strlen(buf) + 1);
+  strcpy((char *)*label,buf);
 }
 char *grlibint_node_to_text(const void *label)
 {
@@ -2297,8 +2299,9 @@ graphlib_error_t grlibint_serializeGraph(graphlib_graph_p igraph,
 {
   graphlib_error_t err;
   char                    *temp_array=NULL,*temp=NULL;
-  int                     cur_idx,num_nodes,num_edges,label_len;
+  int                     cur_idx,num_nodes,num_edges;
   int                     temp_array_len=0,i;
+  unsigned int            label_len;
   graphlib_nodefragment_p nodefrag;
   graphlib_edgefragment_p edgefrag;
   graphlib_nodedata_p     node;
@@ -2330,8 +2333,9 @@ graphlib_error_t grlibint_serializeGraph(graphlib_graph_p igraph,
             label_len=strlen(igraph->annotations[i])+1;
           else
             label_len=0;
-          grlibint_copyDataToBuf(&cur_idx,(const char *)&label_len,sizeof(int),
-                                 &temp_array,&temp_array_len);
+          grlibint_copyDataToBuf(&cur_idx,(const char *)&label_len,
+                                 sizeof(unsigned int),&temp_array,
+                                 &temp_array_len);
           *obyte_array_len+=sizeof(int);
           if (label_len>0)
             {
@@ -2363,8 +2367,9 @@ graphlib_error_t grlibint_serializeGraph(graphlib_graph_p igraph,
               label_len=igraph->functions->
                 serialize_node_length(node->attr.label);
               grlibint_copyDataToBuf(&cur_idx,(const char *)&(label_len),
-                                     sizeof(int),&temp_array,&temp_array_len);
-              *obyte_array_len+=sizeof(int);
+                                     sizeof(unsigned int),&temp_array,
+                                     &temp_array_len);
+              *obyte_array_len+=sizeof(unsigned int);
 
               if (label_len!=0)
                 {
@@ -2448,15 +2453,16 @@ graphlib_error_t grlibint_serializeGraph(graphlib_graph_p igraph,
               /* to_id */
               grlibint_copyDataToBuf(&cur_idx,(const char *)&(edge->node_to),
                                      sizeof(graphlib_node_t),&temp_array,
-                                     &temp_array_len );
+                                     &temp_array_len);
               *obyte_array_len+=sizeof(graphlib_node_t);
 
               /* name */
               label_len=igraph->functions->serialize_edge_length(edge->attr.
                                                                    label);
               grlibint_copyDataToBuf(&cur_idx,(const char *)&(label_len),
-                                     sizeof(int),&temp_array,&temp_array_len);
-              *obyte_array_len+=sizeof(int);
+                                     sizeof(unsigned int),&temp_array,
+                                     &temp_array_len);
+              *obyte_array_len+=sizeof(unsigned int);
 
               if (label_len!=0)
                 {
@@ -2541,8 +2547,9 @@ graphlib_error_t grlibint_deserializeGraphConn(int conn,
   graphlib_error_t    err;
   graphlib_nodeattr_t node_attr = {0,0,0,0,0,0,NULL,14};
   graphlib_edgeattr_t edge_attr = {1,0,NULL,0,0,14};
-  int                 num_nodes,num_edges,i,id=0,from_id=0,to_id=0,label_len;
+  int                 num_nodes,num_edges,i,id=0,from_id=0,to_id=0;
   int                 cur_idx;
+  unsigned int        label_len;
 
   err=graphlib_newGraph(ograph,functions);
   if (GRL_IS_FATALERROR(err))
@@ -2569,8 +2576,9 @@ graphlib_error_t grlibint_deserializeGraphConn(int conn,
         }
       for (i=0;i<(*ograph)->numannotation;i++)
         {
-          grlibint_copyDataFromBuf((char*)&(label_len),&cur_idx,sizeof(int),
-                                   ibyte_array,ibyte_array_len);
+          grlibint_copyDataFromBuf((char*)&(label_len),&cur_idx,
+                                   sizeof(unsigned int),ibyte_array,
+                                   ibyte_array_len);
           if (label_len>0)
             {
               (*ograph)->annotations[i]=(char*)malloc(label_len);
@@ -2592,16 +2600,14 @@ graphlib_error_t grlibint_deserializeGraphConn(int conn,
                                ibyte_array,ibyte_array_len);
       
       /* name */
-      grlibint_copyDataFromBuf((char*)&label_len,&cur_idx,sizeof(int),
-                                ibyte_array,ibyte_array_len);
+      grlibint_copyDataFromBuf((char*)&label_len,&cur_idx,sizeof(unsigned int),
+                               ibyte_array,ibyte_array_len);
 
       if (label_len!=0)
         {
-          node_attr.label=malloc(label_len);
-          if (node_attr.label==NULL)
-            return GRL_NOMEM;
-          grlibint_copyDataFromBuf((char*)node_attr.label,&cur_idx,label_len,
-                                   ibyte_array,ibyte_array_len);
+          (*ograph)->functions->deserialize_node(&(node_attr.label),
+                                                 ibyte_array+cur_idx,label_len);
+          cur_idx+=label_len;
         }
       else
         node_attr.label=NULL;
@@ -2651,16 +2657,14 @@ graphlib_error_t grlibint_deserializeGraphConn(int conn,
                                ibyte_array,ibyte_array_len );
       
       /* name */
-      grlibint_copyDataFromBuf((char*)&label_len,&cur_idx,sizeof(int),
+      grlibint_copyDataFromBuf((char*)&label_len,&cur_idx,sizeof(unsigned int),
                                ibyte_array,ibyte_array_len);
                     
       if (label_len!=0)
         {
-          edge_attr.label=malloc(label_len);
-          if (edge_attr.label==NULL)
-            return GRL_NOMEM;
-          grlibint_copyDataFromBuf((char*)edge_attr.label,&cur_idx,label_len,
-                                   ibyte_array,ibyte_array_len);
+          (*ograph)->functions->deserialize_edge(&(edge_attr.label),
+                                                 ibyte_array+cur_idx,label_len);
+          cur_idx+=label_len;
         }
       else
         edge_attr.label=NULL;
