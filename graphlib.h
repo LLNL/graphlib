@@ -615,46 +615,6 @@ graphlib_error_t graphlib_deserializeBasicGraph(graphlib_graph_p *ograph,
                                                 unsigned long ibyte_array_len );
 
 
-/*.......................................................*/
-/* deserialize a graph from a byte array for transfer */
-/* Assumes that graphlib was initialized using graphlib_InitVarEdgeLabelsConn
-   and that the edge label width of the input graph matches the values
-   passed at initialization (for the specified connection number) */
-/* IN: connection number
-       graph handle
-       function pointer
-       pointer to byte array
-       length of serialized graph */
-
-graphlib_error_t graphlib_deserializeGraphConn(int connection,
-                                               graphlib_graph_p *ograph,
-                                               graphlib_functiontable_p
-                                                 functions,
-                                               char *ibyte_array,
-                                               unsigned long ibyte_array_len );
-
-
-/*.......................................................*/
-/* deserialize a graph from a byte array for transfer */
-/* Assumes that graphlib was initialized using graphlib_InitVarEdgeLabelsConn
-   and that the edge label width of the input graph matches the values
-   passed at initialization (for the specified connection number).
-   Does not copy annotations and only copies the label attribute */
-/* IN: connection number
-       graph handle
-       function pointer
-       pointer to byte array
-       length of serialized graph */
-
-graphlib_error_t graphlib_deserializeBasicGraphConn(int connection,
-                                                    graphlib_graph_p *ograph,
-                                                    graphlib_functiontable_p 
-                                                      functions,
-                                                    char *ibyte_array,
-                                                    unsigned long 
-                                                      ibyte_array_len );
-
-
 /*-----------------------------------------------------------------*/
 /* Graph Merge Routines */
 

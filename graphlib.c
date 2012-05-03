@@ -1233,7 +1233,10 @@ graphlib_error_t graphlib_newAnnotatedGraph(graphlib_graph_p *newgraph,
 graphlib_error_t graphlib_delEdgeAttr(graphlib_edgeattr_t deledgeattr,
                                       void (*free_edge)(void *))
 {
-  free_edge(deledgeattr.label);
+  if (free_edge == NULL)
+    grlibint_free_node(deledgeattr.label);
+  else
+    free_edge(deledgeattr.label);
   return GRL_OK;
 }
 
@@ -1407,7 +1410,7 @@ graphlib_error_t graphlib_loadGraph(graphlib_filename_t fn,
   int              fh;
   graphlib_error_t err;
   char             *serialized_graph;
-  unsigned int     size;
+  unsigned long     size;
 
   fh=open(fn,O_RDONLY);
   if (fh<0)
@@ -1417,7 +1420,7 @@ graphlib_error_t graphlib_loadGraph(graphlib_filename_t fn,
   if (GRL_IS_FATALERROR(err))
     return err;
 
-  err=grlibint_read(fh,(char*)(&size), sizeof(unsigned int));
+  err=grlibint_read(fh,(char*)(&size), sizeof(unsigned long));
   if (GRL_IS_FATALERROR(err))
     return err;
 
@@ -2083,13 +2086,11 @@ graphlib_error_t graphlib_serializeBasicGraph(graphlib_graph_p igraph,
 /*............................................................*/
 /* copy graph from a serialized buffer */
 
-graphlib_error_t grlibint_deserializeGraphConn(int conn, 
-                                               graphlib_graph_p *ograph,
-                                               graphlib_functiontable_p 
-                                                 functions,
-                                               char *ibyte_array,
-                                               unsigned long ibyte_array_len,
-                                               int full_graph)
+graphlib_error_t grlibint_deserializeGraph(graphlib_graph_p *ograph,
+                                           graphlib_functiontable_p functions,
+                                           char *ibyte_array,
+                                           unsigned long ibyte_array_len,
+                                           int full_graph)
 {
   graphlib_error_t    err;
   graphlib_nodeattr_t node_attr = {0,0,0,0,0,0,NULL,14};
@@ -2246,45 +2247,24 @@ graphlib_error_t grlibint_deserializeGraphConn(int conn,
 }
 
 
-graphlib_error_t graphlib_deserializeGraphConn(int conn, 
-                                               graphlib_graph_p *ograph,
-                                               graphlib_functiontable_p 
-                                                 functions,
-                                               char *ibyte_array,
-                                               unsigned long ibyte_array_len)
-{
-  return grlibint_deserializeGraphConn(conn,ograph,functions,ibyte_array,
-                                       ibyte_array_len,1);
-}
-
-graphlib_error_t graphlib_deserializeBasicGraphConn(int conn, 
-                                                    graphlib_graph_p *ograph,
-                                                    graphlib_functiontable_p 
-                                                      functions,
-                                                    char *ibyte_array,
-                                                    unsigned long 
-                                                      ibyte_array_len)
-{
-  return grlibint_deserializeGraphConn(conn,ograph,functions,ibyte_array,
-                                       ibyte_array_len,0);
-}
-
 graphlib_error_t graphlib_deserializeGraph(graphlib_graph_p *ograph,
                                            graphlib_functiontable_p functions,
                                            char *ibyte_array,
                                            unsigned long ibyte_array_len)
 {
-  return graphlib_deserializeGraphConn(0,ograph,functions,ibyte_array, 
-                                       ibyte_array_len);
+  return grlibint_deserializeGraph(ograph,functions,ibyte_array,
+                                   ibyte_array_len,1);
 }
 
 graphlib_error_t graphlib_deserializeBasicGraph(graphlib_graph_p *ograph,
-                                           graphlib_functiontable_p functions,
-                                           char *ibyte_array,
-                                           unsigned long ibyte_array_len)
+                                                graphlib_functiontable_p 
+                                                  functions,
+                                                char *ibyte_array,
+                                                unsigned long 
+                                                  ibyte_array_len)
 {
-  return graphlib_deserializeBasicGraphConn(0,ograph,functions,ibyte_array, 
-                                            ibyte_array_len);
+  return grlibint_deserializeGraph(ograph,functions,ibyte_array,
+                                   ibyte_array_len,0);
 }
 
 /*-----------------------------------------------------------------*/
