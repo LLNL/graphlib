@@ -351,17 +351,6 @@ graphlib_error_t graphlib_nodeCount(graphlib_graph_p igraph, int *num_nodes);
 graphlib_error_t graphlib_edgeCount(graphlib_graph_p igraph, int *num_edges);
 
 
-/*............................................................*/
-/* find a node by edge rank, starting at inode */
-/* Added by Bob Munch in support of STAT, Cray */
-
-/* TODO:
-graphlib_error_t graphlib_findNextNodeByEdgeRank(graphlib_graph_p graph,
-                                                 graphlib_node_t inode,
-                                                 int rank,
-                                                 graphlib_node_t *onode);*/
-
-
 /*-----------------------------------------------------------------*/
 /* Basic Manipulation routines */
 
@@ -574,19 +563,6 @@ graphlib_error_t graphlib_exportGraph(graphlib_filename_t fn,
                                       graphlib_format_t format,
                                       graphlib_graph_p graph);
 
-
-/*.......................................................*/
-/* export a series graphs based on rank sets */
-/* IN: filename
-       format (use GRF_ constants)
-       graph handle
-   Comment: exported graphs can not be loaded again */
-
-//graphlib_error_t graphlib_extractAndExportTemporalGraphs(graphlib_filename_t fn,
-//                                                         graphlib_format_t format, 
-//                                                         graphlib_graph_p graph);
-
-
 /*.......................................................*/
 /* serialize a graph into a byte array for transfer */
 /* IN: graph handle
@@ -595,7 +571,7 @@ graphlib_error_t graphlib_exportGraph(graphlib_filename_t fn,
 
 graphlib_error_t graphlib_serializeGraph(graphlib_graph_p igraph,
                                          char **obyte_array,
-                                         unsigned int *obyte_array_len );
+                                         unsigned long *obyte_array_len );
 
 /*.......................................................*/
 /* serialize a graph into a byte array for transfer.
@@ -606,7 +582,7 @@ graphlib_error_t graphlib_serializeGraph(graphlib_graph_p igraph,
 
 graphlib_error_t graphlib_serializeBasicGraph(graphlib_graph_p igraph,
                                               char **obyte_array,
-                                              unsigned int *obyte_array_len );
+                                              unsigned long *obyte_array_len );
 
 
 /*.......................................................*/
@@ -620,7 +596,7 @@ graphlib_error_t graphlib_serializeBasicGraph(graphlib_graph_p igraph,
 graphlib_error_t graphlib_deserializeGraph(graphlib_graph_p *ograph,
                                            graphlib_functiontable_p functions,
                                            char *ibyte_array,
-                                           unsigned int ibyte_array_len );
+                                           unsigned long ibyte_array_len );
 
 
 /*.......................................................*/
@@ -636,7 +612,7 @@ graphlib_error_t graphlib_deserializeBasicGraph(graphlib_graph_p *ograph,
                                                 graphlib_functiontable_p
                                                   functions,
                                                 char *ibyte_array,
-                                                unsigned int ibyte_array_len );
+                                                unsigned long ibyte_array_len );
 
 
 /*.......................................................*/
@@ -655,7 +631,7 @@ graphlib_error_t graphlib_deserializeGraphConn(int connection,
                                                graphlib_functiontable_p
                                                  functions,
                                                char *ibyte_array,
-                                               unsigned int ibyte_array_len );
+                                               unsigned long ibyte_array_len );
 
 
 /*.......................................................*/
@@ -675,7 +651,7 @@ graphlib_error_t graphlib_deserializeBasicGraphConn(int connection,
                                                     graphlib_functiontable_p 
                                                       functions,
                                                     char *ibyte_array,
-                                                    unsigned int 
+                                                    unsigned long 
                                                       ibyte_array_len );
 
 
@@ -702,39 +678,6 @@ graphlib_error_t graphlib_mergeGraphs(graphlib_graph_p graph1,
 
 graphlib_error_t graphlib_mergeGraphsWeighted(graphlib_graph_p graph1,
                                               graphlib_graph_p graph2);
-
-
-/*.......................................................*/
-/* Merge two graphs, keep ranks of graphs in node names
-   resulting graph will be stored in first graph handle */
-/* IN: graph handle to first graph
-       graph handle to second graph
-   Comment: this routine modifies the first graph */
-
-//graphlib_error_t graphlib_mergeGraphsRanked(graphlib_graph_p graph1,
-//                                            graphlib_graph_p graph2);
-
-
-/*.......................................................*/
-/* Merge two graphs, but set empty edge labels 
-   resulting graph will be stored in first graph handle */
-/* IN: graph handle to first graph
-       graph handle to second graph
-   Comment: this routine modifies the first graph */
-
-//graphlib_error_t graphlib_mergeGraphsEmptyEdges(graphlib_graph_p graph1,
-//                                                graphlib_graph_p graph2);
-
-
-/*.......................................................*/
-/* Merge two graphs, and fill in the edge labels 
-   resulting graph will be stored in first graph handle */
-/* IN: graph handle to first graph
-       graph handle to second graph
-   Comment: this routine modifies the first graph */
-
-//graphlib_error_t graphlib_mergeGraphsFillEdges(graphlib_graph_p graph1,
-//                                               graphlib_graph_p graph2, int *ranks, int ranks_size, int offset);
 
 
 /*-----------------------------------------------------------------*/
@@ -849,23 +792,6 @@ graphlib_error_t graphlib_colorGraphByLeadingEdgeLabel(graphlib_graph_p gr);
 
 
 /*-----------------------------------------------------------------*/
-
-//#ifdef STAT_BITVECTOR
-///*.......................................................*/
-///* add a task to a bit vector by its rank */
-///* IN: the bit vector and the integer task rank
-//   Comment: this routine modifies the input bit vector */
-//graphlib_error_t graphlib_setEdgeByTask(void **edgelist, int task);
-//
-///*.......................................................*/
-///* modify all edge attributes in a graph */
-///* IN: the graph and the new edge attribute
-//   Comment: this routine modifies the input graph */
-//graphlib_error_t graphlib_modifyEdgeAttr(graphlib_graph_p graph,
-//                                         graphlib_edgeattr_p attr);
-//
-//int graphlib_getBitVectorSize();
-//#endif /*ifdef STAT_BITVECTOR*/
 
 #if defined(__cplusplus)
 }

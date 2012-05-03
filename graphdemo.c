@@ -264,7 +264,7 @@ void testE()
   graphlib_graph_p gr=NULL,gr2=NULL;
   graphlib_error_t err;
   char *ba=0;
-  unsigned int ba_len=0;
+  unsigned long ba_len=0;
   
   err=graphlib_loadGraph("demo-c.grl",&gr,NULL);
   CHECKERROR(err,TESTNO,"Step 1");  
@@ -371,7 +371,7 @@ void testG()
   graphlib_nodeattr_p nattr;
   graphlib_edgeattr_p eattr;
   char                *ba=0;
-  unsigned int        ba_len=0;
+  unsigned long        ba_len=0;
 
   err=graphlib_newGraph(&gr, NULL); 
   CHECKERROR(err,TESTNO,"Step 0");
