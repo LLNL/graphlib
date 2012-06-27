@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 2.6)
 set(GRAPHLIB_SOURCES graphlib.c)
 
 # Libraries and special compile flags.
-add_library(lnlgraph ${GRAPHLIB_SOURCES})
+add_library(lnlgraph SHARED ${GRAPHLIB_SOURCES})
 set_target_properties(lnlgraph PROPERTIES
   COMPILE_FLAGS "-g")
 #

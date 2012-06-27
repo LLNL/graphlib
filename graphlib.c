@@ -1476,6 +1476,7 @@ graphlib_error_t graphlib_exportGraph(graphlib_filename_t fn,
                                       graphlib_format_t format, 
                                       graphlib_graph_p graph)
 {
+  char *tmp;
   switch (format)
     {
 
@@ -1550,8 +1551,9 @@ graphlib_error_t graphlib_exportGraph(graphlib_filename_t fn,
                     {
                       /* write one edge */
                       fprintf(fh,"\t%i -> %i [",edge->node_from,edge->node_to);
-                      fprintf(fh,"label=\"%s\"",
-                              graph->functions->edge_to_text(edge->attr.label));
+                      tmp = graph->functions->edge_to_text(edge->attr.label);
+                      fprintf(fh,"label=\"%s\"", tmp);
+                      free(tmp);
                       fprintf(fh,"]\n");                  
                     }
                   }
@@ -1782,16 +1784,18 @@ graphlib_error_t graphlib_exportGraph(graphlib_filename_t fn,
 
                       if (graph->edgeset)
                         {
-                          fprintf(fh,"\t\t\ttext \"%s\"\n",
-                                  graph->functions->
-                                    edge_to_text(edge->attr.label));
+                          tmp = graph->functions->edge_to_text(edge->attr.label);
+                          fprintf(fh,"\t\t\ttext \"%s\"\n", tmp);
+                          free(tmp);
                         }
                       else
                         {
                           if (edge->attr.label!=NULL)
-                            fprintf(fh,"\t\t\ttext \"%s\"\n",
-                                    graph->functions->
-                                      edge_to_text(edge->attr.label));                        
+                            {
+                              tmp = graph->functions->edge_to_text(edge->attr.label);
+                              fprintf(fh,"\t\t\ttext \"%s\"\n", tmp);
+                              free(tmp);
+                            }
                         }
 
                       fprintf(fh,"\t\t\tmodel   \"centered\"\n");
@@ -2192,6 +2196,8 @@ graphlib_error_t grlibint_deserializeGraph(graphlib_graph_p *ograph,
                                    ibyte_array,ibyte_array_len);
         }
       graphlib_addNode(*ograph,id,&node_attr);
+      if (node_attr.label != NULL)
+        (*ograph)->functions->free_node(node_attr.label);
     }
 
   /* read edges */
@@ -2241,6 +2247,8 @@ graphlib_error_t grlibint_deserializeGraph(graphlib_graph_p *ograph,
                                    ibyte_array_len );
         }
       graphlib_addDirectedEdge(*ograph,from_id,to_id,&edge_attr);
+      if (edge_attr.label != NULL)
+        (*ograph)->functions->free_edge(edge_attr.label);
     }
 
     return GRL_OK;
