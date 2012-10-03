@@ -1410,7 +1410,7 @@ graphlib_error_t graphlib_loadGraph(graphlib_filename_t fn,
   int              fh;
   graphlib_error_t err;
   char             *serialized_graph;
-  unsigned long     size;
+  uint64_t         size;
 
   fh=open(fn,O_RDONLY);
   if (fh<0)
@@ -1420,7 +1420,7 @@ graphlib_error_t graphlib_loadGraph(graphlib_filename_t fn,
   if (GRL_IS_FATALERROR(err))
     return err;
 
-  err=grlibint_read(fh,(char*)(&size), sizeof(unsigned long));
+  err=grlibint_read(fh,(char*)(&size), sizeof(uint64_t));
   if (GRL_IS_FATALERROR(err))
     return err;
 
@@ -1448,7 +1448,7 @@ graphlib_error_t graphlib_saveGraph(graphlib_filename_t fn,
 {
   int              fh,i;
   char             *serialized_graph;
-  unsigned long     size;
+  uint64_t         size;
   graphlib_error_t err;
   
   fh=open(fn,O_WRONLY|O_CREAT|O_TRUNC,S_IREAD|S_IWRITE|S_IRGRP|S_IROTH);
@@ -1458,7 +1458,7 @@ graphlib_error_t graphlib_saveGraph(graphlib_filename_t fn,
   err = graphlib_serializeGraph(graph,&serialized_graph,&size);
   if (GRL_IS_FATALERROR(err))
     return err;
-  err=grlibint_write(fh,(char*) &size, sizeof(unsigned long));
+  err=grlibint_write(fh,(char*) &size, sizeof(uint64_t));
   if (GRL_IS_FATALERROR(err))
     return err;
   err=grlibint_write(fh, serialized_graph,size);
@@ -1848,7 +1848,7 @@ graphlib_error_t graphlib_exportGraph(graphlib_filename_t fn,
 
 graphlib_error_t grlibint_serializeGraph(graphlib_graph_p igraph,
                                          char **obyte_array,
-                                         unsigned long *obyte_array_len,
+                                         uint64_t *obyte_array_len,
                                          int full_graph)
 {
   graphlib_error_t err;
@@ -2075,14 +2075,14 @@ graphlib_error_t grlibint_serializeGraph(graphlib_graph_p igraph,
 
 graphlib_error_t graphlib_serializeGraph(graphlib_graph_p igraph,
                                          char **obyte_array,
-                                         unsigned long *obyte_array_len)
+                                         uint64_t *obyte_array_len)
 {
   return grlibint_serializeGraph(igraph, obyte_array, obyte_array_len, 1);
 }
 
 graphlib_error_t graphlib_serializeBasicGraph(graphlib_graph_p igraph,
                                               char **obyte_array,
-                                              unsigned long *obyte_array_len)
+                                              uint64_t *obyte_array_len)
 {
   return grlibint_serializeGraph(igraph, obyte_array, obyte_array_len, 0);
 }
@@ -2093,7 +2093,7 @@ graphlib_error_t graphlib_serializeBasicGraph(graphlib_graph_p igraph,
 graphlib_error_t grlibint_deserializeGraph(graphlib_graph_p *ograph,
                                            graphlib_functiontable_p functions,
                                            char *ibyte_array,
-                                           unsigned long ibyte_array_len,
+                                           uint64_t ibyte_array_len,
                                            int full_graph)
 {
   graphlib_error_t    err;
@@ -2258,7 +2258,7 @@ graphlib_error_t grlibint_deserializeGraph(graphlib_graph_p *ograph,
 graphlib_error_t graphlib_deserializeGraph(graphlib_graph_p *ograph,
                                            graphlib_functiontable_p functions,
                                            char *ibyte_array,
-                                           unsigned long ibyte_array_len)
+                                           uint64_t ibyte_array_len)
 {
   return grlibint_deserializeGraph(ograph,functions,ibyte_array,
                                    ibyte_array_len,1);
@@ -2268,8 +2268,7 @@ graphlib_error_t graphlib_deserializeBasicGraph(graphlib_graph_p *ograph,
                                                 graphlib_functiontable_p 
                                                   functions,
                                                 char *ibyte_array,
-                                                unsigned long 
-                                                  ibyte_array_len)
+                                                uint64_t ibyte_array_len)
 {
   return grlibint_deserializeGraph(ograph,functions,ibyte_array,
                                    ibyte_array_len,0);

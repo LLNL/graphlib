@@ -44,6 +44,10 @@ Boston, MA 02111-1307 USA
 #if !defined( __graphlib_h )
 #define __graphlib_h 1
 
+#include <stdint.h>
+#include <stdlib.h>
+#include <stdio.h>
+
 #if defined(__cplusplus)
 extern "C" {
 #endif /* defined(__cplusplus) */
@@ -571,7 +575,7 @@ graphlib_error_t graphlib_exportGraph(graphlib_filename_t fn,
 
 graphlib_error_t graphlib_serializeGraph(graphlib_graph_p igraph,
                                          char **obyte_array,
-                                         unsigned long *obyte_array_len );
+                                         uint64_t *obyte_array_len );
 
 /*.......................................................*/
 /* serialize a graph into a byte array for transfer.
@@ -582,7 +586,7 @@ graphlib_error_t graphlib_serializeGraph(graphlib_graph_p igraph,
 
 graphlib_error_t graphlib_serializeBasicGraph(graphlib_graph_p igraph,
                                               char **obyte_array,
-                                              unsigned long *obyte_array_len );
+                                              uint64_t *obyte_array_len );
 
 
 /*.......................................................*/
@@ -596,7 +600,7 @@ graphlib_error_t graphlib_serializeBasicGraph(graphlib_graph_p igraph,
 graphlib_error_t graphlib_deserializeGraph(graphlib_graph_p *ograph,
                                            graphlib_functiontable_p functions,
                                            char *ibyte_array,
-                                           unsigned long ibyte_array_len );
+                                           uint64_t ibyte_array_len );
 
 
 /*.......................................................*/
@@ -612,7 +616,7 @@ graphlib_error_t graphlib_deserializeBasicGraph(graphlib_graph_p *ograph,
                                                 graphlib_functiontable_p
                                                   functions,
                                                 char *ibyte_array,
-                                                unsigned long ibyte_array_len );
+                                                uint64_t ibyte_array_len );
 
 
 /*-----------------------------------------------------------------*/
