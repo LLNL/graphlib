@@ -37,8 +37,8 @@ Boston, MA 02111-1307 USA
 /* Library to create, manipulate, and export graphs                */
 /* Martin Schulz, LLNL, 2005-2007                                  */
 /* Additions made by Dorian Arnold (summer 2006)                   */
-/* Modifications made by Gregory L. Lee 2006-2007                  */
-/* Version 1.0                                                     */
+/* Modifications made by Gregory L. Lee 2006-2012                  */
+/* Version 2.0                                                     */
 /*-----------------------------------------------------------------*/
 
 #if !defined( __graphlib_h )
