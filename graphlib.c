@@ -183,7 +183,7 @@ typedef struct graphlib_graphlist_d
 /*-----------------------------------------------------------------*/
 /* Variables */
 
-graphlib_graphlist_t *allgraphs;
+graphlib_graphlist_t *allgraphs=NULL;
 
 static unsigned int grlibint_num_colors=0;
 static long node_clusters[GRC_RAINBOWCOLORS];
@@ -1156,6 +1156,8 @@ graphlib_error_t graphlib_Init()
 graphlib_error_t graphlib_Finish()
 {
   return graphlib_delAll();
+  if (default_functions != NULL)
+    free(default_functions);
 }
 
 
