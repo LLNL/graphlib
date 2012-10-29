@@ -221,14 +221,14 @@ typedef struct graphlib_functiontable_d
   unsigned int (*serialize_node_length)(const void *);
   void (*deserialize_node)(void **, const char *, unsigned int);
   char *(*node_to_text)(const void *);
-  void (*merge_node)(void *, const void *);
+  void *(*merge_node)(void *, const void *);
   void *(*copy_node)(const void *);
   void (*free_node)(void *);
   void (*serialize_edge)(char *, const void *);
   unsigned int (*serialize_edge_length)(const void *);
   void (*deserialize_edge)(void **, const char *, unsigned int);
   char *(*edge_to_text)(const void *);
-  void (*merge_edge)(void *, const void*);
+  void *(*merge_edge)(void *, const void*);
   void *(*copy_edge)(const void *);
   void (*free_edge)(void *);
   long (*edge_checksum)(const void *); /* For coloring */

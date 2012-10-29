@@ -451,7 +451,7 @@ graphlib_error_t grlibint_addGraph(graphlib_graph_p *newgraph)
   if (newitem==NULL)
     return GRL_NOMEM;
 
-  *newgraph=(graphlib_graph_p)malloc(sizeof(graphlib_graph_t));
+  *newgraph=(graphlib_graph_p)calloc(1, sizeof(graphlib_graph_t));
   if (*newgraph==NULL)
     {
       free(newitem);
@@ -475,7 +475,7 @@ graphlib_error_t grlibint_newNodeFragment(graphlib_nodefragment_p *newnodefrag,
   int i;
 
   *newnodefrag=(graphlib_nodefragment_t*)
-                 malloc(sizeof(graphlib_nodefragment_t));
+                 calloc(1, sizeof(graphlib_nodefragment_t));
   if (*newnodefrag==NULL)
       return GRL_NOMEM;
 
@@ -510,7 +510,7 @@ graphlib_error_t grlibint_newNodeFragment(graphlib_nodefragment_p *newnodefrag,
 graphlib_error_t grlibint_newEdgeFragment(graphlib_edgefragment_p *newedgefrag)
 {
   *newedgefrag=(graphlib_edgefragment_t*)
-                  malloc(sizeof(graphlib_edgefragment_t));
+                  calloc(1, sizeof(graphlib_edgefragment_t));
   if (*newedgefrag==NULL)
       return GRL_NOMEM;
 
@@ -1081,18 +1081,22 @@ void grlibint_deserialize_node(void **label, const char *buf,
 }
 char *grlibint_node_to_text(const void *label)
 {
-  return (char*)label;
+  if (label != NULL)
+    return strdup((char*)label);
+  else
+    return NULL;
 }
-void grlibint_merge_node(void *label1, const void *label2)
+void *grlibint_merge_node(void *label1, const void *label2)
 {
   if (label1==NULL || label2==NULL)
-    return;
+    return NULL;
   if (strcmp((char*)label1,(char*)label2) == 0)
-    return;
+    return label1;
   label1 = realloc(label1,strlen((char *)label1)+strlen((char *)label2)+1);
   if (label1==NULL)
-    return;
+    return NULL;
   strcat((char*)label1,(char*)label2);
+  return label1;
 }
 void *grlibint_copy_node(const void *label)
 {
@@ -1128,7 +1132,7 @@ graphlib_error_t graphlib_Init()
   if (default_functions==NULL)
   {
     default_functions=(graphlib_functiontable_p)
-                         malloc(sizeof(graphlib_functiontable_t));
+                         calloc(1, sizeof(graphlib_functiontable_t));
     if (default_functions==NULL)
       return GRL_NOMEM;
     default_functions->serialize_node = grlibint_serialize_node;
@@ -1155,9 +1159,10 @@ graphlib_error_t graphlib_Init()
 
 graphlib_error_t graphlib_Finish()
 {
-  return graphlib_delAll();
+  graphlib_error_t ret = graphlib_delAll();
   if (default_functions != NULL)
     free(default_functions);
+  return ret;
 }
 
 
@@ -1280,6 +1285,14 @@ graphlib_error_t graphlib_delGraph(graphlib_graph_p delgraph)
         }
       edgefrag=edgefrag->next;
     }
+
+  for (i=0;i<delgraph->numannotation;i++)
+    {
+      if (delgraph->annotations[i]!=NULL)
+        free(delgraph->annotations[i]);
+    }
+  if (delgraph->annotations!=NULL)
+    free(delgraph->annotations);
 
   graphs=allgraphs;
   oldgraphs=NULL;
@@ -1437,6 +1450,9 @@ graphlib_error_t graphlib_loadGraph(graphlib_filename_t fn,
   err=graphlib_deserializeGraph(newgraph,functions,serialized_graph,size);
   if (GRL_IS_FATALERROR(err))
     return err;
+  
+  if (serialized_graph!=NULL)
+    free(serialized_graph);
 
   return GRL_OK;
 }
@@ -1464,6 +1480,8 @@ graphlib_error_t graphlib_saveGraph(graphlib_filename_t fn,
   if (GRL_IS_FATALERROR(err))
     return err;
   err=grlibint_write(fh, serialized_graph,size);
+  if (serialized_graph!=NULL)
+    free(serialized_graph);
   if (GRL_IS_FATALERROR(err))
     return err;
 
@@ -1521,8 +1539,9 @@ graphlib_error_t graphlib_exportGraph(graphlib_filename_t fn,
                       fprintf(fh,"\t%i [",node->id);
                       
                       fprintf(fh,"pos=\"%i,%i\", ",node->attr.x,node->attr.y);
-                      fprintf(fh,"label=\"%s\", ",
-                              graph->functions->node_to_text(node->attr.label));
+                      tmp = graph->functions->node_to_text(node->attr.label);
+                      fprintf(fh,"label=\"%s\", ", tmp);
+                      free(tmp);
                       fprintf(fh,"fillcolor=");
                       if (format==GRF_PLAINDOT)
                         grlibint_exp_plaindot_color(node->attr.color,fh);
@@ -1630,9 +1649,11 @@ graphlib_error_t graphlib_exportGraph(graphlib_filename_t fn,
                             fprintf(fh,"\t\tlabel \"\"\n");
                         }
                       else
-                        fprintf(fh,"\t\tlabel \"%s\"\n",
-                                graph->functions->
-                                         node_to_text(node->attr.label));                        
+                        {
+                          tmp = graph->functions->node_to_text(node->attr.label);
+                          fprintf(fh,"\t\tlabel \"%s\"\n", tmp);
+                          free(tmp);
+                        }
 
                       for (j=0;j<graph->numannotation;j++)
                         {
@@ -1680,9 +1701,11 @@ graphlib_error_t graphlib_exportGraph(graphlib_filename_t fn,
                                 fprintf(fh,"\t\t\ttext \"\"\n");
                             }
                           else
-                            fprintf(fh,"\t\t\ttext \"%s\"\n",
-                                    graph->functions->node_to_text(
-                                                        node->attr.label));
+                            {
+                              tmp = graph->functions->node_to_text(node->attr.label);
+                              fprintf(fh,"\t\t\ttext \"%s\"\n", tmp);
+                              free(tmp);
+                            }
 
                           fprintf(fh,"\t\t\tcolor ");
                           grlibint_exp_gml_fontcolor(node->attr.color,fh);
@@ -2735,10 +2758,10 @@ graphlib_error_t graphlib_mergeGraphs(graphlib_graph_p graph1,
               if (err == GRL_OK ) 
                 {
                   if (graph1->functions->merge_node != NULL)
-                    graph1->functions->merge_node(nodeentry->entry.data.attr.
-                                                    label,
-                                                  runnode->node[i].entry.data.
-                                                    attr.label);
+                    nodeentry->entry.data.attr.label = 
+                               graph1->functions->merge_node(
+                                       nodeentry->entry.data.attr.label,
+                                       runnode->node[i].entry.data.attr.label);
                 }
               else
                 {
@@ -2765,10 +2788,10 @@ graphlib_error_t graphlib_mergeGraphs(graphlib_graph_p graph1,
               if (err == GRL_OK ) /*merge the edge labels*/
                 {
                   if (graph1->functions->merge_edge != NULL)
-                    graph1->functions->merge_edge(edgeentry->entry.data.attr.
-                                                    label,
-                                                  runedge->edge[i].entry.data.
-                                                    attr.label);
+                    edgeentry->entry.data.attr.label = 
+                               graph1->functions->merge_edge(
+                                       edgeentry->entry.data.attr.label,
+                                       runedge->edge[i].entry.data.attr.label);
                 }
               else /*add the edge from graph2 into graph1*/
                 {
@@ -2829,10 +2852,10 @@ graphlib_error_t graphlib_mergeGraphsWeighted(graphlib_graph_p graph1,
                   runnode->node[i].entry.data.attr.width+=nodeentry->entry.data.
                                                             attr.width;
                   if (graph1->functions->merge_node != NULL)
-                    graph1->functions->merge_node(nodeentry->entry.data.attr.
-                                                    label, 
-                                                  runnode->node[i].entry.data.
-                                                    attr.label);
+                    nodeentry->entry.data.attr.label = 
+                               graph1->functions->merge_node(
+                                       nodeentry->entry.data.attr.label, 
+                                       runnode->node[i].entry.data.attr.label);
                 }
               else
                 {
@@ -2862,10 +2885,10 @@ graphlib_error_t graphlib_mergeGraphsWeighted(graphlib_graph_p graph1,
                   runedge->edge[i].entry.data.attr.width+=edgeentry->entry.data.
                                                             attr.width;
                   if (graph1->functions->merge_edge!=NULL)
-                    graph1->functions->merge_edge(edgeentry->entry.data.attr.
-                                                    label,
-                                                  runedge->edge[i].entry.data.
-                                                    attr.label);
+                    edgeentry->entry.data.attr.label = 
+                               graph1->functions->merge_edge(
+                                       edgeentry->entry.data.attr.label,
+                                       runedge->edge[i].entry.data.attr.label);
                 }
               else
                 {

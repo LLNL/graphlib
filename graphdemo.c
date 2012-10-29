@@ -274,6 +274,8 @@ void testE()
   
   err=graphlib_deserializeGraph(&gr2,NULL,ba,ba_len);
   CHECKERROR(err,TESTNO,"Step 3");  
+  if (ba!=NULL)
+    free(ba);
   
   /*err=graphlib_exportGraph("demo-e.gml",GRF_GML,gr2);*/
   err=graphlib_exportGraph("demo-e.dot",GRF_DOT,gr2);
@@ -380,62 +382,74 @@ void testG()
   graphlib_setDefNodeAttr(nattr);
   nattr->label="node1";
   err=graphlib_addNode(gr,10000,nattr);
+  free(nattr);
   CHECKERROR(err,TESTNO,"Step 1");
   nattr=(graphlib_nodeattr_p)malloc(sizeof(graphlib_nodeattr_t));
   graphlib_setDefNodeAttr(nattr);
   nattr->label="node2";
   err=graphlib_addNode(gr,11,nattr);
+  free(nattr);
   CHECKERROR(err,TESTNO,"Step 2");
   nattr=(graphlib_nodeattr_p)malloc(sizeof(graphlib_nodeattr_t));
   graphlib_setDefNodeAttr(nattr);
   nattr->label="node3";
   err=graphlib_addNode(gr,2,nattr);
+  free(nattr);
   CHECKERROR(err,TESTNO,"Step 3");
   nattr=(graphlib_nodeattr_p)malloc(sizeof(graphlib_nodeattr_t));
   graphlib_setDefNodeAttr(nattr);
   nattr->label="node4";
   err=graphlib_addNode(gr,13,nattr);
+  free(nattr);
   CHECKERROR(err,TESTNO,"Step 4");
   nattr=(graphlib_nodeattr_p)malloc(sizeof(graphlib_nodeattr_t));
   graphlib_setDefNodeAttr(nattr);
   nattr->label="node5";
   err=graphlib_addNode(gr,14,nattr);
+  free(nattr);
   CHECKERROR(err,TESTNO,"Step 5");
   nattr=(graphlib_nodeattr_p)malloc(sizeof(graphlib_nodeattr_t));
   graphlib_setDefNodeAttr(nattr);
   nattr->label="node6";
   err=graphlib_addNode(gr,5,nattr);
+  free(nattr);
   CHECKERROR(err,TESTNO,"Step 6");
 
   eattr=(graphlib_edgeattr_p)malloc(sizeof(graphlib_edgeattr_t));
   graphlib_setDefEdgeAttr(eattr);
   eattr->label="edge1";
   err=graphlib_addDirectedEdge(gr,10000,11,eattr);
+  free(eattr);
   CHECKERROR(err,TESTNO,"Step 7");
   eattr=(graphlib_edgeattr_p)malloc(sizeof(graphlib_edgeattr_t));
   graphlib_setDefEdgeAttr(eattr);
   eattr->label="edge2";
   err=graphlib_addDirectedEdge(gr,11,2,eattr);
+  free(eattr);
   CHECKERROR(err,TESTNO,"Step 8");
   eattr=(graphlib_edgeattr_p)malloc(sizeof(graphlib_edgeattr_t));
   graphlib_setDefEdgeAttr(eattr);
   eattr->label="edge3";
   err=graphlib_addDirectedEdge(gr,2,14,eattr);
+  free(eattr);
   CHECKERROR(err,TESTNO,"Step 9");
   eattr=(graphlib_edgeattr_p)malloc(sizeof(graphlib_edgeattr_t));
   graphlib_setDefEdgeAttr(eattr);
   eattr->label="edge4";
   err=graphlib_addDirectedEdge(gr,11,13,eattr);
+  free(eattr);
   CHECKERROR(err,TESTNO,"Step 10");
   eattr=(graphlib_edgeattr_p)malloc(sizeof(graphlib_edgeattr_t));
   graphlib_setDefEdgeAttr(eattr);
   eattr->label="edge5";
   err=graphlib_addDirectedEdge(gr,13,14,eattr);
+  free(eattr);
   CHECKERROR(err,TESTNO,"Step 11");
   eattr=(graphlib_edgeattr_p)malloc(sizeof(graphlib_edgeattr_t));
   graphlib_setDefEdgeAttr(eattr);
   eattr->label="edge6";
   err=graphlib_addDirectedEdge(gr,14,5,eattr);
+  free(eattr);
   CHECKERROR(err,TESTNO,"Step 12");
   
   err=graphlib_saveGraph("demo-g.grl",gr);
@@ -447,42 +461,50 @@ void testG()
   graphlib_setDefNodeAttr(nattr);
   nattr->label="node7";
   err=graphlib_addNode(gr2,6,nattr);
+  free(nattr);
   CHECKERROR(err,TESTNO,"Step 15");
   eattr=(graphlib_edgeattr_p)malloc(sizeof(graphlib_edgeattr_t));
   graphlib_setDefEdgeAttr(eattr);
   eattr->label="edge7";
   err=graphlib_addDirectedEdge(gr2,10000,6,eattr);
+  free(eattr);
   CHECKERROR(err,TESTNO,"Step 16");
   nattr=(graphlib_nodeattr_p)malloc(sizeof(graphlib_nodeattr_t));
   graphlib_setDefNodeAttr(nattr);
   nattr->label="node8";
   err=graphlib_addNode(gr2,96,nattr);
+  free(nattr);
   CHECKERROR(err,TESTNO,"Step 17");
   eattr=(graphlib_edgeattr_p)malloc(sizeof(graphlib_edgeattr_t));
   graphlib_setDefEdgeAttr(eattr);
   eattr->label="edge8";
   err=graphlib_addDirectedEdge(gr2,10000,96,eattr);
+  free(eattr);
   CHECKERROR(err,TESTNO,"Step 18");
 
   nattr=(graphlib_nodeattr_p)malloc(sizeof(graphlib_nodeattr_t));
   graphlib_setDefNodeAttr(nattr);
   nattr->label="node9";
   err=graphlib_addNode(gr,66,nattr);
+  free(nattr);
   CHECKERROR(err,TESTNO,"Step 19");
   eattr=(graphlib_edgeattr_p)malloc(sizeof(graphlib_edgeattr_t));
   graphlib_setDefEdgeAttr(eattr);
   eattr->label="edge9";
   err=graphlib_addDirectedEdge(gr,10000,66,eattr);
+  free(eattr);
   CHECKERROR(err,TESTNO,"Step 20");
   nattr=(graphlib_nodeattr_p)malloc(sizeof(graphlib_nodeattr_t));
   graphlib_setDefNodeAttr(nattr);
   nattr->label="node10";
   err=graphlib_addNode(gr,96,nattr);
+  free(nattr);
   CHECKERROR(err,TESTNO,"Step 21");
   eattr=(graphlib_edgeattr_p)malloc(sizeof(graphlib_edgeattr_t));
   graphlib_setDefEdgeAttr(eattr);
   eattr->label="edge10";
   err=graphlib_addDirectedEdge(gr,10000,96,eattr);
+  free(eattr);
   CHECKERROR(err,TESTNO,"Step 22");
 
   err=graphlib_exportGraph("demo-g1.dot",GRF_DOT,gr);
@@ -500,6 +522,8 @@ void testG()
   CHECKERROR(err,TESTNO,"Step 27");  
   err=graphlib_deserializeBasicGraph(&gr3,NULL,ba,ba_len);
   CHECKERROR(err,TESTNO,"Step 28");  
+  if (ba!=NULL)
+    free(ba);
   err=graphlib_exportGraph("demo-g4.dot",GRF_DOT,gr3);
   CHECKERROR(err,TESTNO,"Step 29");  
 
@@ -540,6 +564,9 @@ int main(int argc, char **argv)
   printf("Completed test F\n");
   testG();
   printf("Completed test G\n");
+
+  err=graphlib_Finish();
+  CHECKERROR(err,TESTNO,"Step 0");
 
   return 0;
 }
