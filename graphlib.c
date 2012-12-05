@@ -489,7 +489,7 @@ graphlib_error_t grlibint_newNodeFragment(graphlib_nodefragment_p *newnodefrag,
       (*newnodefrag)->grannot=
         (graphlib_annotation_t*)malloc(sizeof(graphlib_annotation_t)
                                          *NODEFRAGSIZE*numannotation);
-      if (*newnodefrag==NULL)
+      if ((*newnodefrag)->grannot==NULL)
         {
           free(*newnodefrag);
           return GRL_NOMEM;
@@ -1162,6 +1162,7 @@ graphlib_error_t graphlib_Finish()
   graphlib_error_t ret = graphlib_delAll();
   if (default_functions != NULL)
     free(default_functions);
+  default_functions = NULL;
   return ret;
 }
 
