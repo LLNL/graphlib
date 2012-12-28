@@ -2599,6 +2599,8 @@ graphlib_error_t graphlib_addDirectedEdge(graphlib_graph_p graph,
     {
       if (GRL_IS_FATALERROR(err))
         return err;
+      entry->entry.data.attr.label = graph->functions->merge_edge(attr->label, entry->entry.data.attr.label);
+//      graph->functions->free_edge(entry->entry.data.attr.label);
     }
 
   if (attr!=NULL)
