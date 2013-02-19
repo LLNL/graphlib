@@ -3,7 +3,7 @@ Copyright (c) 2007
 Lawrence Livermore National Security, LLC. 
 
 Produced at the Lawrence Livermore National Laboratory. 
-Written by Martin Schulz and Dorian Arnold
+Written by Martin Schulz, Dorian Arnold, and Gregory L. Lee
 Contact email: schulzm@llnl.gov
 UCRL-CODE-231600
 All rights reserved.
@@ -37,12 +37,16 @@ Boston, MA 02111-1307 USA
 /* Library to create, manipulate, and export graphs                */
 /* Martin Schulz, LLNL, 2005-2007                                  */
 /* Additions made by Dorian Arnold (summer 2006)                   */
-/* Modifications made by Gregory L. Lee 2006-2007                  */
-/* Version 1.0                                                     */
+/* Modifications made by Gregory L. Lee 2006-2012                  */
+/* Version 2.0                                                     */
 /*-----------------------------------------------------------------*/
 
 #if !defined( __graphlib_h )
 #define __graphlib_h 1
+
+#include <stdint.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 #if defined(__cplusplus)
 extern "C" {
@@ -56,13 +60,6 @@ extern "C" {
 /* limits of text strings used in attributes */
 
 #define GRL_MAX_FN_LENGTH   200
-
-/* only used for node attributes when using STAT_BITVECTOR*/
-#define GRL_MAX_NAME_LENGTH 64
-
-/* only used when using STAT_BITVECTOR*/
-#define GRL_DEFAULT_EDGELABELWIDTH 1024
-
 
 /*.......................................................*/
 /* Attributes */
@@ -163,6 +160,14 @@ extern "C" {
 #define GRL_INVALID       -6 /* invalid argument */
 
 
+/*.......................................................*/
+/* Edge and Node label types */
+#define GRL_NODE_CHAR_ARRAY 0
+#define GRL_EDGE_CHAR_ARRAY 0
+#define GRL_DEFAULT_NODE_LABEL GRL_NODE_CHAR_ARRAY
+#define GRL_DEFAULT_EDGE_LABEL GRL_EDGE_CHAR_ARRAY
+
+
 /*-----------------------------------------------------------------*/
 /* Types */
 
@@ -186,11 +191,7 @@ typedef struct graphlib_nodeattr_d
   graphlib_width_t width,w,height;
   graphlib_color_t color; 
   graphlib_coor_t  x,y;
-#ifdef GRL_DYNAMIC_NODE_NAME
-  char *name;
-#else
-  char             name[GRL_MAX_NAME_LENGTH];
-#endif
+  void             *label;
   graphlib_fontsize_t fontsize;
 } graphlib_nodeattr_t;
 
@@ -203,15 +204,35 @@ typedef struct graphlib_edgeattr_d
 {
   graphlib_width_t    width;
   graphlib_color_t    color; 
-#ifdef STAT_BITVECTOR
-  void                *edgelist;
-#else
-  char                name[GRL_MAX_NAME_LENGTH];
-#endif
+  void                *label;
   graphlib_arc_t      arcstyle;
   graphlib_block_t    block;
   graphlib_fontsize_t fontsize;
 } graphlib_edgeattr_t;
+
+
+/*.......................................................*/
+/* Structure of routines required for generic node and edge labels */
+
+typedef struct graphlib_functiontable_d *graphlib_functiontable_p;
+typedef struct graphlib_functiontable_d
+{
+  void (*serialize_node)(char *, const void *);
+  unsigned int (*serialize_node_length)(const void *);
+  void (*deserialize_node)(void **, const char *, unsigned int);
+  char *(*node_to_text)(const void *);
+  void *(*merge_node)(void *, const void *);
+  void *(*copy_node)(const void *);
+  void (*free_node)(void *);
+  void (*serialize_edge)(char *, const void *);
+  unsigned int (*serialize_edge_length)(const void *);
+  void (*deserialize_edge)(void **, const char *, unsigned int);
+  char *(*edge_to_text)(const void *);
+  void *(*merge_edge)(void *, const void*);
+  void *(*copy_edge)(const void *);
+  void (*free_edge)(void *);
+  long (*edge_checksum)(const void *); /* For coloring */
+} graphlib_functiontable_t;
 
 
 /*.......................................................*/
@@ -257,27 +278,6 @@ graphlib_error_t graphlib_Init(void);
 
 
 /*.......................................................*/
-/* Initialize GraphLib (variable edge label width)
-   One of the Init functions must be called before any other call */
-/* IN: width of edgelabels in number of bits */
-
-graphlib_error_t graphlib_InitVarEdgeLabels(int edgelabelwidth);
-
-
-/*.......................................................*/
-/* Initialize GraphLib (variable edge label width and
-   using an array to specify incoming bit widths
-   One of the Init functions must be called before any other call */
-/* IN: number of incoming connections
-       array of widths of edgelabels in number of bits
-   OUT: final edge label width in number of bits */
-
-graphlib_error_t graphlib_InitVarEdgeLabelsConn(int numconn,
-                                                int *edgelabelwidth,
-                                                int *finalwidth);
-
-
-/*.......................................................*/
 /* Cleanup GraphLib
    No Graphlib routine can be called after this routine */
 
@@ -286,25 +286,31 @@ graphlib_error_t graphlib_Finish(void);
 
 /*.......................................................*/
 /* Create a new graph without node annotations */
-/* IN: pointer to storage for graph handle */
+/* IN: pointer to storage for graph handle 
+       function table */
 
-graphlib_error_t graphlib_newGraph(graphlib_graph_p *newgraph);
+graphlib_error_t graphlib_newGraph(graphlib_graph_p *newgraph,
+                                   graphlib_functiontable_p functions);
 
 
 /*.......................................................*/
-/* Create a new graph without node annotations */
+/* Create a new graph with node annotations */
 /* IN: pointer to storage for graph handle
+       function table 
        number of annotations per node */
 
 graphlib_error_t graphlib_newAnnotatedGraph(graphlib_graph_p *newgraph,
+                                            graphlib_functiontable_p functions,
                                             int numattr);
 
 
 /*.......................................................*/
 /* Delete an edge attribute */
-/* IN: edge attribute handle */
+/* IN: edge attribute handle 
+       edge free routine */
 
-graphlib_error_t graphlib_delEdgeAttr(graphlib_edgeattr_t deledgeattr);
+graphlib_error_t graphlib_delEdgeAttr(graphlib_edgeattr_t deledgeattr,
+                                      void (*free_edge)(void *));
 
 /*............................................................*/
 /* get the attributes of a node */
@@ -338,7 +344,7 @@ graphlib_error_t graphlib_delAll(void);
 /* IN: graph handle
        pointer to return value */
 
-graphlib_error_t graphlib_nodeCount(graphlib_graph_p igraph, int * num_nodes);
+graphlib_error_t graphlib_nodeCount(graphlib_graph_p igraph, int *num_nodes);
 
 
 /*.......................................................*/
@@ -346,17 +352,7 @@ graphlib_error_t graphlib_nodeCount(graphlib_graph_p igraph, int * num_nodes);
 /* IN: graph handle
        pointer to return value */
 
-graphlib_error_t graphlib_edgeCount(graphlib_graph_p igraph, int * num_edges);
-
-
-/*............................................................*/
-/* find a node by edge rank, starting at inode */
-/* Added by Bob Munch in support of STAT, Cray */
-
-graphlib_error_t graphlib_findNextNodeByEdgeRank(graphlib_graph_p graph,
-                                                 graphlib_node_t inode,
-                                                 int rank,
-                                                 graphlib_node_t *onode);
+graphlib_error_t graphlib_edgeCount(graphlib_graph_p igraph, int *num_edges);
 
 
 /*-----------------------------------------------------------------*/
@@ -450,10 +446,10 @@ graphlib_error_t graphlib_addDirectedEdgeNoCheck(graphlib_graph_p graph,
 /*.......................................................*/
 /* delete a node and all edges leading to and from it */
 /* IN: graph handle
-       node ID */
+       node */
 
 graphlib_error_t graphlib_deleteConnectedNode(graphlib_graph_p graph,
-graphlib_node_t node); 
+                                              graphlib_node_t node); 
 
 
 /*-----------------------------------------------------------------*/
@@ -533,7 +529,7 @@ graphlib_error_t graphlib_AnnotationSet(graphlib_graph_p graph,
 
 graphlib_error_t graphlib_AnnotationGet(graphlib_graph_p graph,
                                         graphlib_node_t node, 
-                                        int num, graphlib_annotation_t* val);
+                                        int num, graphlib_annotation_t *val);
 
 
 /*-----------------------------------------------------------------*/
@@ -543,10 +539,12 @@ graphlib_error_t graphlib_AnnotationGet(graphlib_graph_p graph,
 /* load a graph stored in GraphLib's internal format */
 /* IN: filename
        pointer to graph handle storage
+       function table
    Comment: this routine will allocate a new graph */
 
 graphlib_error_t graphlib_loadGraph(graphlib_filename_t fn,
-                                        graphlib_graph_p *newgraph);
+                                    graphlib_graph_p *newgraph, 
+                                    graphlib_functiontable_p functions);
 
 
 /*.......................................................*/
@@ -569,19 +567,6 @@ graphlib_error_t graphlib_exportGraph(graphlib_filename_t fn,
                                       graphlib_format_t format,
                                       graphlib_graph_p graph);
 
-
-/*.......................................................*/
-/* export a series graphs based on rank sets */
-/* IN: filename
-       format (use GRF_ constants)
-       graph handle
-   Comment: exported graphs can not be loaded again */
-
-graphlib_error_t graphlib_extractAndExportTemporalGraphs(graphlib_filename_t fn,
-                                                         graphlib_format_t format, 
-                                                         graphlib_graph_p graph);
-
-
 /*.......................................................*/
 /* serialize a graph into a byte array for transfer */
 /* IN: graph handle
@@ -590,34 +575,48 @@ graphlib_error_t graphlib_extractAndExportTemporalGraphs(graphlib_filename_t fn,
 
 graphlib_error_t graphlib_serializeGraph(graphlib_graph_p igraph,
                                          char **obyte_array,
-                                         unsigned long *obyte_array_len );
+                                         uint64_t *obyte_array_len );
+
+/*.......................................................*/
+/* serialize a graph into a byte array for transfer.
+   Does not copy annotations and only copies the label attribute */
+/* IN: graph handle
+       pointer to byte array
+       pointer to return value (length of serialized graph) */
+
+graphlib_error_t graphlib_serializeBasicGraph(graphlib_graph_p igraph,
+                                              char **obyte_array,
+                                              uint64_t *obyte_array_len );
 
 
 /*.......................................................*/
 /* deserialize a graph from a byte array for transfer */
 /* Assumes equal edge label width */
 /* IN: graph handle
+       function table
        pointer to byte array
        length of serialized graph */
 
 graphlib_error_t graphlib_deserializeGraph(graphlib_graph_p *ograph,
+                                           graphlib_functiontable_p functions,
                                            char *ibyte_array,
-                                           unsigned long ibyte_array_len );
+                                           uint64_t ibyte_array_len );
 
 
 /*.......................................................*/
-/* deserialize a graph from a byte array for transfer */
-/* Assumes that graphlib was initialized using graphlib_InitVarEdgeLabelsConn
-   and that the edge label width of the input graph matches the values
-   passed at initialization (for the specified connection number) */
+/* deserialize a graph from a byte array for transfer. 
+   Does not copy annotations and only copies the label attribute */
+/* Assumes equal edge label width */
 /* IN: graph handle
+       function table
        pointer to byte array
        length of serialized graph */
 
-graphlib_error_t graphlib_deserializeGraphConn(int connection,
-                                               graphlib_graph_p *ograph,
-                                               char *ibyte_array,
-                                               unsigned long ibyte_array_len );
+graphlib_error_t graphlib_deserializeBasicGraph(graphlib_graph_p *ograph,
+                                                graphlib_functiontable_p
+                                                  functions,
+                                                char *ibyte_array,
+                                                uint64_t ibyte_array_len );
 
 
 /*-----------------------------------------------------------------*/
@@ -642,40 +641,7 @@ graphlib_error_t graphlib_mergeGraphs(graphlib_graph_p graph1,
    Comment: this routine modifies the first graph */
 
 graphlib_error_t graphlib_mergeGraphsWeighted(graphlib_graph_p graph1,
-                                      graphlib_graph_p graph2);
-
-
-/*.......................................................*/
-/* Merge two graphs, keep ranks of graphs in node names
-   resulting graph will be stored in first graph handle */
-/* IN: graph handle to first graph
-       graph handle to second graph
-   Comment: this routine modifies the first graph */
-
-graphlib_error_t graphlib_mergeGraphsRanked(graphlib_graph_p graph1,
-                                            graphlib_graph_p graph2);
-
-
-/*.......................................................*/
-/* Merge two graphs, but set empty edge labels 
-   resulting graph will be stored in first graph handle */
-/* IN: graph handle to first graph
-       graph handle to second graph
-   Comment: this routine modifies the first graph */
-
-graphlib_error_t graphlib_mergeGraphsEmptyEdges(graphlib_graph_p graph1,
-                                                graphlib_graph_p graph2);
-
-
-/*.......................................................*/
-/* Merge two graphs, and fill in the edge labels 
-   resulting graph will be stored in first graph handle */
-/* IN: graph handle to first graph
-       graph handle to second graph
-   Comment: this routine modifies the first graph */
-
-graphlib_error_t graphlib_mergeGraphsFillEdges(graphlib_graph_p graph1,
-                                               graphlib_graph_p graph2, int *ranks, int ranks_size, int offset);
+                                              graphlib_graph_p graph2);
 
 
 /*-----------------------------------------------------------------*/
@@ -790,23 +756,6 @@ graphlib_error_t graphlib_colorGraphByLeadingEdgeLabel(graphlib_graph_p gr);
 
 
 /*-----------------------------------------------------------------*/
-
-#ifdef STAT_BITVECTOR
-/*.......................................................*/
-/* add a task to a bit vector by its rank */
-/* IN: the bit vector and the integer task rank
-   Comment: this routine modifies the input bit vector */
-graphlib_error_t graphlib_setEdgeByTask(void **edgelist, int task);
-
-/*.......................................................*/
-/* modify all edge attributes in a graph */
-/* IN: the graph and the new edge attribute
-   Comment: this routine modifies the input graph */
-graphlib_error_t graphlib_modifyEdgeAttr(graphlib_graph_p graph,
-                                         graphlib_edgeattr_p attr);
-
-int graphlib_getBitVectorSize();
-#endif /*ifdef STAT_BITVECTOR*/
 
 #if defined(__cplusplus)
 }
