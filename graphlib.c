@@ -1,14 +1,14 @@
 /*
-Copyright (c) 2007
+Copyright (c) 2007-2013
 Lawrence Livermore National Security, LLC. 
 
 Produced at the Lawrence Livermore National Laboratory. 
 Written by Martin Schulz, Dorian Arnold, and Gregory L. Lee
 Contact email: schulzm@llnl.gov
-UCRL-CODE-231600
+LLNL-CODE-624053
 All rights reserved.
 
-This file is part of GraphLib. 
+This file is part of GraphLib. For details see https://github.com/lee218llnl/graphlib.
 
 Please also read the file "LICENSE" included in this package for 
 Our Notice and GNU Lesser General Public License.
