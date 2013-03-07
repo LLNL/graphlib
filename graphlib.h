@@ -1,14 +1,14 @@
 /*
-Copyright (c) 2007
+Copyright (c) 2007-2013
 Lawrence Livermore National Security, LLC. 
 
 Produced at the Lawrence Livermore National Laboratory. 
 Written by Martin Schulz, Dorian Arnold, and Gregory L. Lee
 Contact email: schulzm@llnl.gov
-UCRL-CODE-231600
+LLNL-CODE-624053
 All rights reserved.
 
-This file is part of GraphLib. 
+This file is part of GraphLib. For details see https://github.com/lee218llnl/graphlib.
 
 Please also read the file "LICENSE" included in this package for 
 Our Notice and GNU Lesser General Public License.
@@ -37,7 +37,7 @@ Boston, MA 02111-1307 USA
 /* Library to create, manipulate, and export graphs                */
 /* Martin Schulz, LLNL, 2005-2007                                  */
 /* Additions made by Dorian Arnold (summer 2006)                   */
-/* Modifications made by Gregory L. Lee 2006-2012                  */
+/* Modifications made by Gregory L. Lee                            */
 /* Version 2.0                                                     */
 /*-----------------------------------------------------------------*/
 
