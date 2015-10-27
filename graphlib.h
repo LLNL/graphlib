@@ -672,6 +672,23 @@ graphlib_error_t graphlib_exportGraph(graphlib_filename_t fn,
                                       graphlib_graph_p graph);
 
 /*.......................................................*/
+/* export a graph in external format */
+/* IN: filename
+       format (use GRF_ constants)
+       graph handle
+       number of graph attributes
+       array of graph attribute strings
+       array of graph attribute values
+   Comment: exported graphs can not be loaded again */
+
+graphlib_error_t graphlib_exportAttributedGraph(graphlib_filename_t fn,
+                                      graphlib_format_t format,
+                                      graphlib_graph_p graph,
+                                      int num_attrs,
+                                      char **attr_keys,
+                                      char **attr_values);
+
+/*.......................................................*/
 /* serialize a graph into a byte array for transfer */
 /* IN: graph handle
        pointer to byte array

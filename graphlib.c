@@ -1752,6 +1752,19 @@ graphlib_error_t graphlib_exportGraph(graphlib_filename_t fn,
                                       graphlib_format_t format,
                                       graphlib_graph_p graph)
 {
+  return graphlib_exportAttributedGraph(fn, format, graph, 0, NULL, NULL);
+}
+
+/*............................................................*/
+/* export graph to new format */
+
+graphlib_error_t graphlib_exportAttributedGraph(graphlib_filename_t fn,
+                                      graphlib_format_t format,
+                                      graphlib_graph_p graph,
+                                      int num_attrs,
+                                      char **attr_keys,
+                                      char **attr_values)
+{
   char *tmp;
   switch (format)
     {
@@ -1777,6 +1790,16 @@ graphlib_error_t graphlib_exportGraph(graphlib_filename_t fn,
         /* write header */
 
         fprintf(fh,"digraph G {\n");
+        for (i=0;i<num_attrs;i++)
+          {
+            if (i==0)
+              fprintf(fh,"\tgraph [");
+            else
+              fprintf(fh,",");
+            fprintf(fh,"%s=\"%s\"",attr_keys[i],attr_values[i]);
+            if (i==num_attrs-1)
+              fprintf(fh,"];\n");
+          }
         fprintf(fh,"\tnode [shape=record,style=filled,labeljust=c,height=0.2];\n");
 
         /* write nodes */
