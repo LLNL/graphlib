@@ -1368,7 +1368,7 @@ graphlib_error_t graphlib_getNodeAttrKey(graphlib_graph_p graph,
 {
   if (index<0 || index>=graph->num_node_attrs)
     return GRL_NOATTRIBUTE;
-  *key=strdup(graph->node_attr_keys[index]);
+  *key=graph->node_attr_keys[index];
   return GRL_OK;
 }
 
@@ -1428,7 +1428,7 @@ graphlib_error_t graphlib_getEdgeAttrKey(graphlib_graph_p graph,
 {
   if (index<0 || index>=graph->num_edge_attrs)
     return GRL_NOATTRIBUTE;
-  *key=strdup(graph->edge_attr_keys[index]);
+  *key=graph->edge_attr_keys[index];
   return GRL_OK;
 }
 
