@@ -876,6 +876,14 @@ graphlib_error_t graphlib_collapseHor(graphlib_graph_p gr);
 graphlib_error_t graphlib_colorGraphByLeadingEdgeLabel(graphlib_graph_p gr);
 
 
+/*.......................................................*/
+/* auto-color subtrees according to edge labels */
+/* IN: graph handle
+   Comment: this routine modifies the specified graph */
+
+graphlib_error_t graphlib_colorGraphByLeadingEdgeAttr(graphlib_graph_p gr, const char *key);
+
+
 /*-----------------------------------------------------------------*/
 
 #if defined(__cplusplus)

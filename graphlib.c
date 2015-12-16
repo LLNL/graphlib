@@ -4232,5 +4232,46 @@ graphlib_error_t graphlib_colorGraphByLeadingEdgeLabel(graphlib_graph_p graph)
   return GRL_OK;
 }
 
+
+/*............................................................*/
+/* color graphs by edge sets */
+
+graphlib_error_t graphlib_colorGraphByLeadingEdgeAttr(graphlib_graph_p graph, const char *key)
+{
+  int i, index;
+  graphlib_nodefragment_p  nf;
+  graphlib_edgeentry_p  e;
+  graphlib_nodedata_p n;
+  graphlib_error_t err;
+
+  /*color nodes based on name of incoming edge*/
+  grlibint_num_colors=0;
+  nf=graph->nodes;
+  while (nf!=NULL)
+    {
+      for (i=0; i<nf->count; i++)
+        {
+          if (nf->node[i].full)
+            {
+              n=&(nf->node[i].entry.data);
+              err = grlibint_findIncomingEdge( graph, n->id, &e );
+              if( err == GRL_NOEDGE )
+                {
+                  n->attr.color=0;
+                  continue;
+                }
+
+              assert( GRL_IS_OK(err) );
+              err = graphlib_getEdgeAttrIndex(graph, key, &index);
+              assert( GRL_IS_OK(err) );
+              n->attr.color = grlibint_getNodeColor( e->entry.data.attr.attr_values[index], graph->functions->edge_checksum, graph->functions->copy_edge );
+            }
+        }
+      nf=nf->next;
+    }
+
+  return GRL_OK;
+}
+
 /*-----------------------------------------------------------------*/
 /* The End. */
