@@ -249,7 +249,7 @@ typedef struct graphlib_functiontable_d
   void *(*merge_edge_attr)(const char *, void *, const void*);
   void *(*copy_edge_attr)(const char *, const void *);
   void (*free_edge_attr)(const char *, void *);
-  long (*edge_checksum)(const void *); /* For coloring */
+  long (*edge_checksum)(const char *, const void *); /* For coloring */
 } graphlib_functiontable_t;
 
 

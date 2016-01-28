@@ -1040,13 +1040,13 @@ void grlibint_exp_plaindot_fontcolor(graphlib_color_t color, FILE *fh)
 /* THIS IS A HACK RIGHT NOW USING A GLOBAL TABLE */
 /* WORKS ONLY FOR ONE GRAPH! */
 
-int grlibint_getNodeColor(const void *label, long (*edge_checksum)(const void *), void *(*copy_edge)(const void *))
+int grlibint_getNodeColor(const void *label, long (*edge_checksum)(const char *, const void *), void *(*copy_edge)(const void *))
 {
   unsigned int i=0;
 
   for (i=0;(i<grlibint_num_colors) && (i<GRC_RAINBOWCOLORS); i++)
     {
-      if (node_clusters[i]==edge_checksum(label))
+      if (node_clusters[i]==edge_checksum("NULL", label))
         {
           return GRC_RAINBOW+i+1;
         }
@@ -1055,7 +1055,37 @@ int grlibint_getNodeColor(const void *label, long (*edge_checksum)(const void *)
   if (i<GRC_RAINBOWCOLORS)
     {
       /*need to add new node_cluster*/
-      node_clusters[i]=edge_checksum(label);
+      node_clusters[i]=edge_checksum("NULL", label);
+      grlibint_num_colors++;
+      return GRC_RAINBOW+i+1;
+    }
+
+  return GRC_RAINBOW;
+}
+
+
+
+/*............................................................*/
+/* dynamic color distribution */
+/* THIS IS A HACK RIGHT NOW USING A GLOBAL TABLE */
+/* WORKS ONLY FOR ONE GRAPH! */
+
+int grlibint_getNodeAttrColor(const char *key, const void *label, long (*edge_checksum)(const char *, const void *), void *(*copy_edge)(const char *, const void *))
+{
+  unsigned int i=0;
+
+  for (i=0;(i<grlibint_num_colors) && (i<GRC_RAINBOWCOLORS); i++)
+    {
+      if (node_clusters[i]==edge_checksum(key, label))
+        {
+          return GRC_RAINBOW+i+1;
+        }
+    }
+
+  if (i<GRC_RAINBOWCOLORS)
+    {
+      /*need to add new node_cluster*/
+      node_clusters[i]=edge_checksum(key, label);
       grlibint_num_colors++;
       return GRC_RAINBOW+i+1;
     }
@@ -1194,7 +1224,7 @@ void *grlibint_copy_edge_attr(const void *);
 void grlibint_free_edge_attr(void *);
  */
 
-long grlibint_edge_checksum(const void * label)
+long grlibint_edge_checksum(const char *key, const void * label)
 {
   long sum=0;
   int  i;
@@ -4264,7 +4294,7 @@ graphlib_error_t graphlib_colorGraphByLeadingEdgeAttr(graphlib_graph_p graph, co
               assert( GRL_IS_OK(err) );
               err = graphlib_getEdgeAttrIndex(graph, key, &index);
               assert( GRL_IS_OK(err) );
-              n->attr.color = grlibint_getNodeColor( e->entry.data.attr.attr_values[index], graph->functions->edge_checksum, graph->functions->copy_edge );
+              n->attr.color = grlibint_getNodeAttrColor( key, e->entry.data.attr.attr_values[index], graph->functions->edge_checksum, graph->functions->copy_edge_attr );
             }
         }
       nf=nf->next;
