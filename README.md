@@ -1,11 +1,12 @@
-# Copyright (c) 2007-2016, Lawrence Livermore National Security, LLC.
-# Written by Martin Schulz, Dorian Arnold, and Gregory L. Lee
-# Contact email: schulzm@llnl.gov, LLNL-CODE-624053
-# All rights reserved - please read information in "LICENCSE"
+## GraphLib, Version 3.0.
+
+Copyright (c) 2007-2016, Lawrence Livermore National Security, LLC.
+Written by Martin Schulz, Dorian Arnold, and Gregory L. Lee
+Contact email: schulzm@llnl.gov, LLNL-CODE-624053
+All rights reserved - please read information in [LICENCSE](https://github.com/LLNL/graphlib/blob/master/LICENSE)
 
 
-GraphLib, Version 3.0.
-
+### Overview
 Library to create, manipulate, and export graphs
 
 Martin Schulz, LLNL, 2005-2007
@@ -20,7 +21,7 @@ also be used standalone for creating and manipulating graphs,
 but its API is primarily tuned to support these other
 projects.
 
-A) Compilation
+### Compilation
 
 You will need CMake to build Graphlib.  To build Graphlib on
 BlueGene/P, you will need CMake version 2.8.3 or later.
@@ -62,14 +63,13 @@ internal format and then either saves the merged graph or exports
 it as GML or DOT files. For more information run "grmerge" without
 arguments.
 
-
-B) INSTALLATION (optional)
+### INSTALLATION (optional)
 
 To install graphlib, simply run 'make install' in your build
 directory after you have successfully compiled the binaries.
 
 
-C) Finding graphlib from other CMake projects
+### Finding graphlib from other CMake projects
 
 If graphlib is in a system directory, no environment variables need
 to be set.  If not, set the graphlib_DIR environment variable to the
@@ -91,7 +91,7 @@ Then you can link graphlib with your executable like this:
 That's all!
 
 
-D) General Usage
+### General Usage
 
 - include "graphlib.h" into source code
 - link with -llnlgraph (or as above if using CMake)
