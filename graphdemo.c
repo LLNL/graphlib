@@ -709,7 +709,6 @@ void testH()
       err=graphlib_getNodeAttrIndex(gr3,key,&index);
       CHECKERROR(err,TESTNO,"Step 29.3");
       printf("%d?=%d, key=%s\n", i, index, key);
-      free(key);
     }
 
   err=graphlib_getNumEdgeAttrs(gr3,&num_attrs);
@@ -721,7 +720,6 @@ void testH()
       err=graphlib_getEdgeAttrIndex(gr3,key,&index);
       CHECKERROR(err,TESTNO,"Step 29.3");
       printf("%d?=%d, key=%s\n", i, index, key);
-      free(key);
     }
 
   err=graphlib_delGraph(gr);
