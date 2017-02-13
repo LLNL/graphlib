@@ -1,0 +1,36 @@
+language: c
+
+sudo: required
+dist: trusty
+
+compiler:
+  - gcc
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - cmake
+
+env:
+  global:
+    - export PATH=$HOME/local/bin:$PATH
+    - export LD_LIBRARY_PATH=$HOME/local/lib:$LD_LIBRARY_PATH
+
+script:
+  # build and install
+  - mkdir build && cd build 
+  - cmake -D CMAKE_INSTALL_PREFIX=$HOME/local ..
+  - make && make install
+
+after_script:
+  - $HOME/local/bin/graphdemo
+
+
+#notifications:
+#  email: false
+
+
+
+
