@@ -415,7 +415,8 @@ graphlib_error_t grlibint_delNode(graphlib_graph_p graph,
       return GRL_NONODE;
     }
 
-  graph->functions->free_node(node->entry.data.attr.label);
+  if (graph->functions != NULL)
+    graph->functions->free_node(node->entry.data.attr.label);
 
   for (i=0; i<graph->num_node_attrs; i++)
     {
@@ -451,7 +452,8 @@ graphlib_error_t grlibint_delEdge(graphlib_graph_p graph,
 
   edge->full=0;
   edge->entry.freeptr=graph->freeedges;
-  graph->functions->free_edge(edge->entry.data.attr.label);
+  if (graph->functions != NULL)
+    graph->functions->free_edge(edge->entry.data.attr.label);
   graph->freeedges=edge;
 
   return GRL_OK;
@@ -1848,9 +1850,13 @@ graphlib_error_t graphlib_exportAttributedGraph(graphlib_filename_t fn,
                       fprintf(fh,"\t%i [",node->id);
 
                       fprintf(fh,"pos=\"%i,%i\", ",node->attr.x,node->attr.y);
-                      tmp = graph->functions->node_to_text(node->attr.label);
+                      if (graph->functions != NULL)
+                        tmp = graph->functions->node_to_text(node->attr.label);
+                      else
+                        tmp = strdup("NULL");
                       fprintf(fh,"label=\"%s\", ", tmp);
-                      free(tmp);
+                      if (tmp != NULL)
+                        free(tmp);
                       fprintf(fh,"fillcolor=");
                       if (format==GRF_PLAINDOT)
                         grlibint_exp_plaindot_color(node->attr.color,fh);
@@ -1864,9 +1870,13 @@ graphlib_error_t graphlib_exportAttributedGraph(graphlib_filename_t fn,
                       for (j=0; j<graph->num_node_attrs; j++)
                         {
                           fprintf(fh,", %s=",graph->node_attr_keys[j]);
-                          tmp = graph->functions->node_attr_to_text(graph->node_attr_keys[j], node->attr.attr_values[j]);
+                          if (graph->functions != NULL)
+                            tmp = graph->functions->node_attr_to_text(graph->node_attr_keys[j], node->attr.attr_values[j]);
+                          else
+                            tmp = strdup("NULL");
                           fprintf(fh,"\"%s\"", tmp);
-                          free(tmp);
+                          if (tmp != NULL)
+                            free(tmp);
                         }
                       fprintf(fh,"];\n");
                     }
@@ -1888,13 +1898,19 @@ graphlib_error_t graphlib_exportAttributedGraph(graphlib_filename_t fn,
                     {
                       /* write one edge */
                       fprintf(fh,"\t%i -> %i [",edge->node_from,edge->node_to);
-                      tmp = graph->functions->edge_to_text(edge->attr.label);
+                      if (graph->functions != NULL)
+                        tmp = graph->functions->edge_to_text(edge->attr.label);
+                      else
+                        tmp = strdup("NULL");
                       fprintf(fh,"label=\"%s\"", tmp);
                       free(tmp);
                       for (j=0; j<graph->num_edge_attrs; j++)
                         {
                           fprintf(fh,", %s=",graph->edge_attr_keys[j]);
-                          tmp = graph->functions->edge_attr_to_text(graph->edge_attr_keys[j], edge->attr.attr_values[j]);
+                          if (graph->functions != NULL)
+                            tmp = graph->functions->edge_attr_to_text(graph->edge_attr_keys[j], edge->attr.attr_values[j]);
+                          else
+                            tmp = strdup("NULL");
                           fprintf(fh,"\"%s\"", tmp);
                           free(tmp);
                         }
@@ -2655,9 +2671,12 @@ graphlib_error_t grlibint_deserializeGraph(graphlib_graph_p *ograph,
         node_attr.label=NULL;
 
       /* attrs */
-      node_attr.attr_values=(void **)calloc(1,(*ograph)->num_node_attrs*sizeof(void *));
-      if (node_attr.attr_values==NULL)
-        return GRL_NOMEM;
+      if ((*ograph)->num_node_attrs != 0)
+        {
+          node_attr.attr_values=(void **)calloc(1,(*ograph)->num_node_attrs*sizeof(void *));
+          if (node_attr.attr_values==NULL)
+            return GRL_NOMEM;
+        }
       for (j=0;j<(*ograph)->num_node_attrs;j++)
         {
           grlibint_copyDataFromBuf((char*)&label_len,&cur_idx,sizeof(unsigned int),
@@ -2742,9 +2761,12 @@ graphlib_error_t grlibint_deserializeGraph(graphlib_graph_p *ograph,
         edge_attr.label=NULL;
 
       /* attrs */
-      edge_attr.attr_values=(void **)calloc(1,(*ograph)->num_edge_attrs*sizeof(void *));
-      if (edge_attr.attr_values==NULL)
-        return GRL_NOMEM;
+      if ((*ograph)->num_edge_attrs != 0)
+        {
+          edge_attr.attr_values=(void **)calloc(1,(*ograph)->num_edge_attrs*sizeof(void *));
+          if (edge_attr.attr_values==NULL)
+            return GRL_NOMEM;
+        }
       for (j=0;j<(*ograph)->num_edge_attrs;j++)
         {
           grlibint_copyDataFromBuf((char*)&label_len,&cur_idx,sizeof(unsigned int),
@@ -2905,10 +2927,14 @@ graphlib_error_t graphlib_addNode(graphlib_graph_p graph,graphlib_node_t node,
           if (attr->height>entry->entry.data.attr.height)
             entry->entry.data.attr.height=attr->height;
         }
-      entry->entry.data.attr.label=graph->functions->copy_node(attr->label);
-      entry->entry.data.attr.attr_values=(void **)calloc(1,graph->num_node_attrs*sizeof(void *));
-      if (entry->entry.data.attr.attr_values==NULL)
-        return GRL_NOMEM;
+      if (graph->functions != NULL)
+          entry->entry.data.attr.label=graph->functions->copy_node(attr->label);
+      if (graph->num_node_attrs != 0)
+        {
+          entry->entry.data.attr.attr_values=(void **)calloc(1,graph->num_node_attrs*sizeof(void *));
+          if (entry->entry.data.attr.attr_values==NULL)
+            return GRL_NOMEM;
+        }
       for(i=0;i<graph->num_node_attrs;i++)
         {
           entry->entry.data.attr.attr_values[i]=graph->functions->copy_node_attr(graph->node_attr_keys[i],
@@ -3005,9 +3031,12 @@ graphlib_error_t graphlib_addNodeNoCheck(graphlib_graph_p graph,
             entry->entry.data.attr.height=attr->height;
         }
       entry->entry.data.attr.label=graph->functions->copy_node(attr->label);
-      entry->entry.data.attr.attr_values=(void **)calloc(1,graph->num_node_attrs*sizeof(void *));
-      if (entry->entry.data.attr.attr_values==NULL)
-        return GRL_NOMEM;
+      if (graph->num_node_attrs != 0)
+        {
+          entry->entry.data.attr.attr_values=(void **)calloc(1,graph->num_node_attrs*sizeof(void *));
+          if (entry->entry.data.attr.attr_values==NULL)
+            return GRL_NOMEM;
+        }
       for(i=0;i<graph->num_node_attrs;i++)
         {
           entry->entry.data.attr.attr_values[i]=graph->functions->copy_node_attr(graph->node_attr_keys[i],
@@ -3149,10 +3178,14 @@ graphlib_error_t graphlib_addDirectedEdge(graphlib_graph_p graph,
   if (attr!=NULL)
     {
       entry->entry.data.attr=*attr;
-      entry->entry.data.attr.label=graph->functions->copy_edge(attr->label);
-      entry->entry.data.attr.attr_values=(void **)calloc(1,graph->num_edge_attrs*sizeof(void *));
-      if (entry->entry.data.attr.attr_values==NULL)
-        return GRL_NOMEM;
+      if (graph->functions != NULL)
+        entry->entry.data.attr.label=graph->functions->copy_edge(attr->label);
+      if (graph->num_edge_attrs != 0)
+        {
+          entry->entry.data.attr.attr_values=(void **)calloc(1,graph->num_edge_attrs*sizeof(void *));
+          if (entry->entry.data.attr.attr_values==NULL)
+            return GRL_NOMEM;
+        }
       for(i=0;i<graph->num_edge_attrs;i++)
         {
           entry->entry.data.attr.attr_values[i]=graph->functions->copy_edge_attr(graph->edge_attr_keys[i],
@@ -3237,7 +3270,12 @@ graphlib_error_t graphlib_addDirectedEdgeNoCheck(graphlib_graph_p graph,
     {
       entry->entry.data.attr=*attr;
       entry->entry.data.attr.label=graph->functions->copy_edge(attr->label);
-      entry->entry.data.attr.attr_values=(void **)calloc(1,graph->num_edge_attrs*sizeof(void *));
+      if (graph->num_edge_attrs != 0)
+        {
+          entry->entry.data.attr.attr_values=(void **)calloc(1,graph->num_edge_attrs*sizeof(void *));
+          if (entry->entry.data.attr.attr_values==NULL)
+            return GRL_NOMEM;
+        }
       for(i=0;i<graph->num_edge_attrs;i++)
         {
           entry->entry.data.attr.attr_values[i]=graph->functions->copy_edge_attr(graph->edge_attr_keys[i],
@@ -3318,12 +3356,12 @@ graphlib_error_t graphlib_mergeGraphs(graphlib_graph_p graph1,
                                     &nodeentry);
               if (err == GRL_OK )
                 {
-                  if (graph1->functions->merge_node != NULL)
+                  if (graph1->functions != NULL && graph1->functions->merge_node != NULL)
                     nodeentry->entry.data.attr.label =
                                graph1->functions->merge_node(
                                        nodeentry->entry.data.attr.label,
                                        runnode->node[i].entry.data.attr.label);
-                  if (graph1->functions->merge_node_attr != NULL)
+                  if (graph1->functions != NULL && graph1->functions->merge_node_attr != NULL)
                     for (j=0;j<graph1->num_node_attrs;j++)
                       nodeentry->entry.data.attr.attr_values[j] =
                                  graph1->functions->merge_node_attr(
