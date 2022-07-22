@@ -3592,6 +3592,7 @@ graphlib_error_t graphlib_setDefEdgeAttr(graphlib_edgeattr_p attr)
   attr->arcstyle=DEFAULT_EDGE_STYLE;
   attr->block=DEFAULT_BLOCK;
   attr->fontsize=DEFAULT_FONT_SIZE;
+  attr->attr_values=NULL;
 
   return GRL_OK;
 }
